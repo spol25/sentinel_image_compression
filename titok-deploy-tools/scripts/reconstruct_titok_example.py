@@ -13,6 +13,7 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from titok_deploy_tools.titok_env import add_titok_root_to_path
+from titok_deploy_tools.utils import save_reconstruction, select_device
 
 
 def parse_args():
@@ -51,14 +52,6 @@ def parse_args():
     return parser.parse_args()
 
 
-def select_device():
-    if torch.cuda.is_available():
-        return "cuda"
-    if torch.backends.mps.is_available():
-        return "mps"
-    return "cpu"
-
-
 def load_image(image_path: Path, image_size: int) -> torch.Tensor:
     image = Image.open(image_path).convert("RGB")
     image = image.resize((image_size, image_size), Image.Resampling.BICUBIC)
@@ -95,20 +88,6 @@ def save_tokens(tokens: torch.Tensor, path: Path, repo_id: str, device: str):
 def load_tokens(path: Path) -> torch.Tensor:
     payload = json.loads(path.read_text())
     return torch.tensor(payload["tokens"], dtype=torch.long)
-
-
-def save_reconstruction(image_tensor: torch.Tensor, path: Path):
-    image_tensor = torch.clamp(image_tensor, 0.0, 1.0)
-    image_np = (
-        image_tensor[0]
-        .permute(1, 2, 0)
-        .detach()
-        .to("cpu", dtype=torch.float32)
-        .numpy()
-    )
-    image_np = (image_np * 255.0).astype(np.uint8)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(image_np).save(path)
 
 
 def main():
