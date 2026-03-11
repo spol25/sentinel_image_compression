@@ -13,6 +13,7 @@ This project expects the upstream TiTok repository to be cloned separately. Pass
 - `scripts/validate_titok_s128_wrapper.py`: validate the token-only wrapper against the original TiTok encode path
 - `scripts/decode_titok_tokens.py`: decode transmitted token IDs into an image
 - `scripts/validate_s128_roundtrip.py`: validate wrapper-token round-trip decode
+- `scripts/export_titok_s128_wrapper.py`: export the S-128 token wrapper with `torch.export`
 
 ## Setup
 
@@ -42,6 +43,11 @@ python scripts/decode_titok_tokens.py \
   --titok-root /path/to/1d-tokenizer \
   --repo-id yucornetto/tokenizer_titok_s128_imagenet \
   --tokens-json outputs/standalone_s128_tokens.json
+```
+
+```bash
+python scripts/export_titok_s128_wrapper.py \
+  --titok-root /path/to/1d-tokenizer
 ```
 
 ## Notes
