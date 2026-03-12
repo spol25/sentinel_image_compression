@@ -10,7 +10,6 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.decode import decode_token_ids, load_token_json
 from titok_deploy_tools.titok_env import add_titok_root_to_path
 from titok_deploy_tools.utils import (
     load_image,
@@ -68,6 +67,10 @@ def encode_to_tokens(tokenizer, image: torch.Tensor, device: str) -> torch.Tenso
     raise NotImplementedError(f"Unsupported quantize_mode: {tokenizer.quantize_mode}")
 
 
+def decode_from_tokens(tokenizer, tokens: torch.Tensor, device: str) -> torch.Tensor:
+    return tokenizer.decode_tokens(tokens.to(device))
+
+
 def save_tokens(tokens: torch.Tensor, path: Path, repo_id: str, device: str):
     payload = {
         "repo_id": repo_id,
@@ -77,6 +80,11 @@ def save_tokens(tokens: torch.Tensor, path: Path, repo_id: str, device: str):
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2))
+
+
+def load_tokens(path: Path) -> torch.Tensor:
+    payload = json.loads(path.read_text())
+    return torch.tensor(payload["tokens"], dtype=torch.long)
 
 
 def main():
@@ -109,23 +117,23 @@ def main():
         print(f"Encoded token shape: {tuple(tokens.shape)}")
 
         print("[4/5] Decoding tokens back into pixel space")
-        reconstruction = decode_token_ids(tokenizer, tokens, device)
+        reconstruction = decode_from_tokens(tokenizer, tokens, device)
 
         print(f"[5/5] Saving outputs to {output_path} and {tokens_output_path}")
         save_reconstruction(reconstruction, output_path)
         save_tokens(tokens, tokens_output_path, args.repo_id, device)
 
         print("[extra] Loading stored tokens and decoding again to confirm token-only reconstruction")
-        stored_tokens = load_token_json(tokens_output_path)
-        reconstructed_from_stored_tokens = decode_token_ids(tokenizer, stored_tokens, device)
+        stored_tokens = load_tokens(tokens_output_path)
+        reconstructed_from_stored_tokens = decode_from_tokens(tokenizer, stored_tokens, device)
         decode_only_output_path = output_path.with_name(f"{output_path.stem}_from_tokens{output_path.suffix}")
         save_reconstruction(reconstructed_from_stored_tokens, decode_only_output_path)
     else:
         tokens_input_path = resolve_input_path(args.tokens_input, output_dir)
         print(f"[2/5] Loading stored tokens from {tokens_input_path}")
-        stored_tokens = load_token_json(tokens_input_path)
+        stored_tokens = load_tokens(tokens_input_path)
         print(f"[3/5] Decoding stored tokens with shape {tuple(stored_tokens.shape)}")
-        reconstruction = decode_token_ids(tokenizer, stored_tokens, device)
+        reconstruction = decode_from_tokens(tokenizer, stored_tokens, device)
         print(f"[4/5] Saving decode-only reconstruction to {output_path}")
         save_reconstruction(reconstruction, output_path)
         print("[5/5] Decode-only run complete")

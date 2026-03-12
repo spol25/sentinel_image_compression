@@ -1,4 +1,5 @@
 import argparse
+import json
 from pathlib import Path
 import sys
 
@@ -10,7 +11,13 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.utils import load_image, resolve_input_path, select_device
+from titok_deploy_tools.utils import (
+    load_image,
+    resolve_input_path,
+    resolve_named_output,
+    resolve_output_dir,
+    select_device,
+)
 from titok_deploy_tools.wrappers import TiTokTokenEncoder
 
 
@@ -28,7 +35,28 @@ def parse_args():
         default=None,
         help="Image paths to validate against. Defaults to two sample images inside --titok-root/assets.",
     )
+    parser.add_argument(
+        "--output-dir",
+        default="outputs",
+        help="Directory where validation token JSON files will be written.",
+    )
+    parser.add_argument(
+        "--tokens-output",
+        default="s128_wrapper_tokens.json",
+        help="Filename for serialized wrapper token output inside --output-dir.",
+    )
     return parser.parse_args()
+
+
+def save_tokens(tokens: torch.Tensor, path: Path, repo_id: str, device: str):
+    payload = {
+        "repo_id": repo_id,
+        "device": device,
+        "shape": list(tokens.shape),
+        "tokens": tokens.detach().to("cpu").tolist(),
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2))
 
 
 def main():
@@ -37,10 +65,11 @@ def main():
     from modeling.titok import TiTok
 
     device = select_device()
+    output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
+    tokens_output_path = resolve_named_output(output_dir, args.tokens_output)
     if args.images is None:
         image_paths = [
-            titok_root / "assets" / "ILSVRC2012_val_00008636.png",
-            titok_root / "assets" / "ILSVRC2012_val_00010240.png",
+            titok_root / "assets" / "ILSVRC2012_val_00010240.png"
         ]
     else:
         image_paths = [resolve_input_path(image_arg) for image_arg in args.images]
@@ -72,6 +101,8 @@ def main():
             f"{image_path}: match={matches} "
             f"shape={tuple(wrapper_tokens.shape)} dtype={wrapper_tokens.dtype}"
         )
+        save_tokens(wrapper_tokens, tokens_output_path, args.repo_id, device)
+        print(f"Saved wrapper token JSON to {tokens_output_path}")
 
         if not matches:
             max_abs_diff = (reference_tokens.to(torch.int64) - wrapper_tokens.to(torch.int64)).abs().max().item()

@@ -9,13 +9,12 @@ This project expects the upstream TiTok repository to be cloned separately. Pass
 - `src/titok_deploy_tools/wrappers.py`: deployment-oriented wrapper modules
 - `src/titok_deploy_tools/decode.py`: cloud-side token decode helpers
 - `src/titok_deploy_tools/titok_env.py`: helper to load TiTok from an external checkout
+- `src/titok_deploy_tools/utils.py`: shared utility helpers
 - `scripts/reconstruct_titok_example.py`: reconstruct an image and save tokens
 - `scripts/validate_titok_s128_wrapper.py`: validate the token-only wrapper against the original TiTok encode path
-- `scripts/decode_titok_tokens.py`: decode transmitted token IDs into an image
-- `scripts/validate_s128_roundtrip.py`: validate wrapper-token round-trip decode
-- `scripts/export_titok_s128_wrapper.py`: export the S-128 token wrapper with `torch.export`
-- `scripts/build_calibration_manifest.py`: build a representative PTQ calibration manifest
-- `scripts/run_s128_calibration_baseline.py`: record baseline wrapper tokens for the calibration set
+- `scripts/validate_decode_titok_tokens.py`: validate `decode.py` using saved wrapper tokens
+- `scripts/export/`: export-only scripts
+- `scripts/ptq/`: PTQ preparation scripts
 
 ## Setup
 
@@ -37,29 +36,32 @@ python scripts/reconstruct_titok_example.py \
 
 ```bash
 python scripts/validate_titok_s128_wrapper.py \
-  --titok-root /path/to/1d-tokenizer
+  --titok-root /path/to/1d-tokenizer \
+  --output-dir outputs \
+  --tokens-output s128_wrapper_tokens.json
 ```
 
 ```bash
-python scripts/decode_titok_tokens.py \
+python scripts/validate_decode_titok_tokens.py \
   --titok-root /path/to/1d-tokenizer \
   --repo-id yucornetto/tokenizer_titok_s128_imagenet \
-  --tokens-json outputs/standalone_s128_tokens.json
+  --output-dir outputs \
+  --tokens-json s128_wrapper_tokens.json
 ```
 
 ```bash
-python scripts/export_titok_s128_wrapper.py \
+python scripts/export/export_titok_s128_wrapper.py \
   --titok-root /path/to/1d-tokenizer
 ```
 
 ```bash
-python scripts/build_calibration_manifest.py \
+python scripts/ptq/build_calibration_manifest.py \
   --image-dir /path/to/representative/images \
   --output-dir outputs/ptq
 ```
 
 ```bash
-python scripts/run_s128_calibration_baseline.py \
+python scripts/ptq/run_s128_calibration_baseline.py \
   --titok-root /path/to/1d-tokenizer \
   --manifest outputs/ptq/calibration_manifest.json \
   --output-dir outputs/ptq
