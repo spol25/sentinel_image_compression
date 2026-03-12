@@ -3,17 +3,23 @@ import json
 from pathlib import Path
 import sys
 
-import numpy as np
 import torch
-from PIL import Image
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
+from titok_deploy_tools.decode import decode_token_ids, load_token_json
 from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.utils import save_reconstruction, select_device
+from titok_deploy_tools.utils import (
+    load_image,
+    resolve_input_path,
+    resolve_named_output,
+    resolve_output_dir,
+    save_reconstruction,
+    select_device,
+)
 
 
 def parse_args():
@@ -52,14 +58,6 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_image(image_path: Path, image_size: int) -> torch.Tensor:
-    image = Image.open(image_path).convert("RGB")
-    image = image.resize((image_size, image_size), Image.Resampling.BICUBIC)
-    image_np = np.array(image).astype(np.float32) / 255.0
-    image_tensor = torch.from_numpy(image_np).permute(2, 0, 1).unsqueeze(0)
-    return image_tensor
-
-
 def encode_to_tokens(tokenizer, image: torch.Tensor, device: str) -> torch.Tensor:
     if tokenizer.quantize_mode == "vq":
         encoded = tokenizer.encode(image.to(device))[1]["min_encoding_indices"]
@@ -68,10 +66,6 @@ def encode_to_tokens(tokenizer, image: torch.Tensor, device: str) -> torch.Tenso
         posterior = tokenizer.encode(image.to(device))[1]
         return posterior.sample()
     raise NotImplementedError(f"Unsupported quantize_mode: {tokenizer.quantize_mode}")
-
-
-def decode_from_tokens(tokenizer, tokens: torch.Tensor, device: str) -> torch.Tensor:
-    return tokenizer.decode_tokens(tokens.to(device))
 
 
 def save_tokens(tokens: torch.Tensor, path: Path, repo_id: str, device: str):
@@ -85,26 +79,18 @@ def save_tokens(tokens: torch.Tensor, path: Path, repo_id: str, device: str):
     path.write_text(json.dumps(payload, indent=2))
 
 
-def load_tokens(path: Path) -> torch.Tensor:
-    payload = json.loads(path.read_text())
-    return torch.tensor(payload["tokens"], dtype=torch.long)
-
-
 def main():
     args = parse_args()
     titok_root = add_titok_root_to_path(args.titok_root)
     from modeling.titok import TiTok
 
-    output_dir = Path(args.output_dir)
-    if not output_dir.is_absolute():
-        output_dir = REPO_ROOT / output_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / Path(args.output).name
-    tokens_output_path = output_dir / Path(args.tokens_output).name
+    output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
+    output_path = resolve_named_output(output_dir, args.output)
+    tokens_output_path = resolve_named_output(output_dir, args.tokens_output)
     if args.image is None:
         image_path = titok_root / "assets" / "ILSVRC2012_val_00010240.png"
     else:
-        image_path = Path(args.image)
+        image_path = resolve_input_path(args.image)
 
     device = select_device()
     print(f"[1/5] Loading pretrained tokenizer from {args.repo_id}")
@@ -123,25 +109,23 @@ def main():
         print(f"Encoded token shape: {tuple(tokens.shape)}")
 
         print("[4/5] Decoding tokens back into pixel space")
-        reconstruction = decode_from_tokens(tokenizer, tokens, device)
+        reconstruction = decode_token_ids(tokenizer, tokens, device)
 
         print(f"[5/5] Saving outputs to {output_path} and {tokens_output_path}")
         save_reconstruction(reconstruction, output_path)
         save_tokens(tokens, tokens_output_path, args.repo_id, device)
 
         print("[extra] Loading stored tokens and decoding again to confirm token-only reconstruction")
-        stored_tokens = load_tokens(tokens_output_path)
-        reconstructed_from_stored_tokens = decode_from_tokens(tokenizer, stored_tokens, device)
+        stored_tokens = load_token_json(tokens_output_path)
+        reconstructed_from_stored_tokens = decode_token_ids(tokenizer, stored_tokens, device)
         decode_only_output_path = output_path.with_name(f"{output_path.stem}_from_tokens{output_path.suffix}")
         save_reconstruction(reconstructed_from_stored_tokens, decode_only_output_path)
     else:
-        tokens_input_path = Path(args.tokens_input)
-        if not tokens_input_path.is_absolute():
-            tokens_input_path = output_dir / tokens_input_path
+        tokens_input_path = resolve_input_path(args.tokens_input, output_dir)
         print(f"[2/5] Loading stored tokens from {tokens_input_path}")
-        stored_tokens = load_tokens(tokens_input_path)
+        stored_tokens = load_token_json(tokens_input_path)
         print(f"[3/5] Decoding stored tokens with shape {tuple(stored_tokens.shape)}")
-        reconstruction = decode_from_tokens(tokenizer, stored_tokens, device)
+        reconstruction = decode_token_ids(tokenizer, stored_tokens, device)
         print(f"[4/5] Saving decode-only reconstruction to {output_path}")
         save_reconstruction(reconstruction, output_path)
         print("[5/5] Decode-only run complete")

@@ -11,7 +11,7 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.utils import load_image
+from titok_deploy_tools.utils import load_image, resolve_input_path, resolve_named_output, resolve_output_dir
 from titok_deploy_tools.wrappers import TiTokTokenEncoder
 
 
@@ -49,13 +49,10 @@ def main():
     if args.image is None:
         image_path = titok_root / "assets" / "ILSVRC2012_val_00010240.png"
     else:
-        image_path = Path(args.image)
+        image_path = resolve_input_path(args.image)
 
-    output_dir = Path(args.output_dir)
-    if not output_dir.is_absolute():
-        output_dir = REPO_ROOT / output_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
-    artifact_path = output_dir / Path(args.artifact_name).name
+    output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
+    artifact_path = resolve_named_output(output_dir, args.artifact_name)
     metadata_path = output_dir / "titok_s128_token_encoder_metadata.json"
 
     print(f"[1/5] Loading TiTok model from {args.repo_id} on CPU")

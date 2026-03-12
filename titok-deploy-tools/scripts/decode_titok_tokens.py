@@ -11,7 +11,13 @@ if str(SRC_ROOT) not in sys.path:
 
 from titok_deploy_tools.decode import decode_token_ids, load_token_json
 from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.utils import save_reconstruction, select_device
+from titok_deploy_tools.utils import (
+    resolve_input_path,
+    resolve_named_output,
+    resolve_output_dir,
+    save_reconstruction,
+    select_device,
+)
 
 
 def parse_args():
@@ -42,15 +48,10 @@ def main():
     from modeling.titok import TiTok
 
     device = select_device()
-    output_dir = Path(args.output_dir)
-    if not output_dir.is_absolute():
-        output_dir = REPO_ROOT / output_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / Path(args.output).name
+    output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
+    output_path = resolve_named_output(output_dir, args.output)
 
-    tokens_path = Path(args.tokens_json)
-    if not tokens_path.is_absolute():
-        tokens_path = output_dir / tokens_path
+    tokens_path = resolve_input_path(args.tokens_json, output_dir)
 
     print(f"[1/4] Loading pretrained tokenizer from {args.repo_id}")
     tokenizer = TiTok.from_pretrained(args.repo_id)

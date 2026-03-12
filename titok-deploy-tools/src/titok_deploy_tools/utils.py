@@ -5,6 +5,25 @@ import torch
 from PIL import Image
 
 
+def resolve_output_dir(repo_root: Path, output_dir: str) -> Path:
+    path = Path(output_dir)
+    if not path.is_absolute():
+        path = repo_root / path
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def resolve_named_output(output_dir: Path, name: str) -> Path:
+    return output_dir / Path(name).name
+
+
+def resolve_input_path(path_str: str, base_dir: Path | None = None) -> Path:
+    path = Path(path_str)
+    if not path.is_absolute() and base_dir is not None:
+        path = base_dir / path
+    return path
+
+
 def select_device():
     if torch.cuda.is_available():
         return "cuda"

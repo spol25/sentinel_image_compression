@@ -14,6 +14,8 @@ This project expects the upstream TiTok repository to be cloned separately. Pass
 - `scripts/decode_titok_tokens.py`: decode transmitted token IDs into an image
 - `scripts/validate_s128_roundtrip.py`: validate wrapper-token round-trip decode
 - `scripts/export_titok_s128_wrapper.py`: export the S-128 token wrapper with `torch.export`
+- `scripts/build_calibration_manifest.py`: build a representative PTQ calibration manifest
+- `scripts/run_s128_calibration_baseline.py`: record baseline wrapper tokens for the calibration set
 
 ## Setup
 
@@ -49,6 +51,33 @@ python scripts/decode_titok_tokens.py \
 python scripts/export_titok_s128_wrapper.py \
   --titok-root /path/to/1d-tokenizer
 ```
+
+```bash
+python scripts/build_calibration_manifest.py \
+  --image-dir /path/to/representative/images \
+  --output-dir outputs/ptq
+```
+
+```bash
+python scripts/run_s128_calibration_baseline.py \
+  --titok-root /path/to/1d-tokenizer \
+  --manifest outputs/ptq/calibration_manifest.json \
+  --output-dir outputs/ptq
+```
+
+## PTQ Prep
+
+Before PTQ, prepare three things:
+
+1. A representative calibration image set at the same image distribution you expect on device.
+2. A calibration manifest listing the exact images used.
+3. Baseline wrapper token outputs from the float model on that calibration set.
+
+The acceptance checks for PTQ should be based on:
+
+- token agreement rate between float and PTQ wrappers
+- reconstruction quality after decoding PTQ tokens in the cloud
+- failure-case inspection for images whose token assignments change substantially
 
 ## Notes
 

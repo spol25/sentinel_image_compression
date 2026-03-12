@@ -2,9 +2,7 @@ import argparse
 from pathlib import Path
 import sys
 
-import numpy as np
 import torch
-from PIL import Image
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SRC_ROOT = REPO_ROOT / "src"
@@ -12,6 +10,7 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from titok_deploy_tools.titok_env import add_titok_root_to_path
+from titok_deploy_tools.utils import load_image, resolve_input_path, select_device
 from titok_deploy_tools.wrappers import TiTokTokenEncoder
 
 
@@ -32,21 +31,6 @@ def parse_args():
     return parser.parse_args()
 
 
-def select_device():
-    if torch.cuda.is_available():
-        return "cuda"
-    if torch.backends.mps.is_available():
-        return "mps"
-    return "cpu"
-
-
-def load_image(image_path: Path, image_size: int) -> torch.Tensor:
-    image = Image.open(image_path).convert("RGB")
-    image = image.resize((image_size, image_size), Image.Resampling.BICUBIC)
-    image_np = np.array(image).astype(np.float32) / 255.0
-    return torch.from_numpy(image_np).permute(2, 0, 1).unsqueeze(0)
-
-
 def main():
     args = parse_args()
     titok_root = add_titok_root_to_path(args.titok_root)
@@ -59,7 +43,7 @@ def main():
             titok_root / "assets" / "ILSVRC2012_val_00010240.png",
         ]
     else:
-        image_paths = [Path(image_arg) for image_arg in args.images]
+        image_paths = [resolve_input_path(image_arg) for image_arg in args.images]
 
     print(f"[1/4] Loading TiTok model from {args.repo_id}")
     titok = TiTok.from_pretrained(args.repo_id)

@@ -4,7 +4,6 @@ import sys
 
 import numpy as np
 import torch
-from PIL import Image
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SRC_ROOT = REPO_ROOT / "src"
@@ -13,7 +12,13 @@ if str(SRC_ROOT) not in sys.path:
 
 from titok_deploy_tools.decode import decode_token_ids
 from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.utils import load_image, save_reconstruction, select_device
+from titok_deploy_tools.utils import (
+    load_image,
+    resolve_input_path,
+    resolve_output_dir,
+    save_reconstruction,
+    select_device,
+)
 from titok_deploy_tools.wrappers import TiTokTokenEncoder
 
 
@@ -44,15 +49,12 @@ def main():
     from modeling.titok import TiTok
 
     device = select_device()
-    output_dir = Path(args.output_dir)
-    if not output_dir.is_absolute():
-        output_dir = REPO_ROOT / output_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
 
     if args.image is None:
         image_path = titok_root / "assets" / "ILSVRC2012_val_00010240.png"
     else:
-        image_path = Path(args.image)
+        image_path = resolve_input_path(args.image)
 
     print(f"[1/5] Loading TiTok model from {args.repo_id}")
     tokenizer = TiTok.from_pretrained(args.repo_id)
