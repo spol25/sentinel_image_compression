@@ -36,7 +36,8 @@ def load_image(image_path: Path, image_size: int) -> torch.Tensor:
     image = Image.open(image_path).convert("RGB")
     image = image.resize((image_size, image_size), Image.Resampling.BICUBIC)
     image_np = np.array(image).astype(np.float32) / 255.0
-    return torch.from_numpy(image_np).permute(2, 0, 1).unsqueeze(0)
+    # ExecuTorch runtime kernels expect default/channels-last contiguous inputs.
+    return torch.from_numpy(image_np).permute(2, 0, 1).unsqueeze(0).contiguous()
 
 
 def save_reconstruction(image_tensor: torch.Tensor, path: Path):

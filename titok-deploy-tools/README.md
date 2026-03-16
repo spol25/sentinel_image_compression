@@ -55,6 +55,15 @@ python scripts/export/export_titok_s128_wrapper.py \
 ```
 
 ```bash
+python scripts/export/export_executorch_titok_s128_wrapper.py
+```
+
+```bash
+python scripts/export/validate_pte_titok_s128_wrapper.py \
+  --titok-root /path/to/1d-tokenizer
+```
+
+```bash
 python scripts/ptq/build_calibration_manifest.py \
   --image-dir /path/to/representative/images \
   --output-dir outputs/ptq
