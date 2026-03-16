@@ -64,9 +64,18 @@ python scripts/export/validate_pte_titok_s128_wrapper.py \
 ```
 
 ```bash
-python scripts/ptq/build_calibration_manifest.py \
+python scripts/ptq/prepare_image_manifest.py \
   --image-dir /path/to/representative/images \
   --output-dir outputs/ptq
+```
+
+```bash
+python scripts/ptq/split_calibration_eval_manifests.py \
+  --manifest outputs/ptq/image_manifest.json \
+  --output-dir outputs/ptq \
+  --eval-count 32 \
+  --shuffle \
+  --seed 0
 ```
 
 ```bash
@@ -76,13 +85,46 @@ python scripts/ptq/run_s128_calibration_baseline.py \
   --output-dir outputs/ptq
 ```
 
+```bash
+python scripts/ptq/run_encoder_ptq_experiment.py \
+  --titok-root /path/to/1d-tokenizer \
+  --manifest outputs/ptq/calibration_manifest.json \
+  --output-dir outputs/ptq \
+  --per-channel
+```
+
+```bash
+python scripts/ptq/compare_token_outputs.py \
+  --reference outputs/ptq/s128_calibration_baseline_tokens.json \
+  --candidate outputs/ptq/s128_encoder_ptq_tokens.json \
+  --output-dir outputs/ptq
+```
+
+```bash
+python scripts/ptq/compare_decoded_reconstructions.py \
+  --titok-root /path/to/1d-tokenizer \
+  --reference outputs/ptq/s128_calibration_baseline_tokens.json \
+  --candidate outputs/ptq/s128_encoder_ptq_tokens.json \
+  --output-dir outputs/ptq
+```
+
 ## PTQ Prep
 
 Before PTQ, prepare three things:
 
 1. A representative calibration image set at the same image distribution you expect on device.
-2. A calibration manifest listing the exact images used.
-3. Baseline wrapper token outputs from the float model on that calibration set.
+2. A generic image manifest listing the full candidate image pool.
+3. Separate non-overlapping calibration and eval manifests derived from that pool.
+4. Baseline wrapper token outputs from the float model on the calibration set.
+
+The eval manifest should stay separate from calibration so token-agreement and reconstruction metrics are not measured on the same images used for observer calibration.
+
+The current PTQ path is intentionally split at the TiTok encoder/VQ boundary:
+
+- export the encoder-only boundary with `torch.export`
+- apply PTQ preparation and conversion to that exported encoder graph
+- keep the TiTok VQ quantizer unquantized and run it in float
+- compare final token IDs and decoded reconstructions against the float baseline
 
 The acceptance checks for PTQ should be based on:
 

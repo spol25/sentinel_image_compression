@@ -1,6 +1,5 @@
 import argparse
 import json
-from pathlib import Path
 import sys
 
 import torch
@@ -12,8 +11,13 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from titok_deploy_tools.titok_env import add_titok_root_to_path
+from titok_deploy_tools.ptq import (
+    build_encoder_quantizer_split,
+    load_manifest_records,
+    save_token_records,
+    summarize_token_records,
+)
 from titok_deploy_tools.utils import load_image, resolve_input_path, resolve_output_dir
-from titok_deploy_tools.wrappers import TiTokTokenEncoder
 
 
 def parse_args():
@@ -50,8 +54,7 @@ def main():
     baseline_path = output_dir / "s128_calibration_baseline_tokens.json"
     summary_path = output_dir / "s128_calibration_baseline_summary.json"
 
-    manifest = json.loads(manifest_path.read_text())
-    image_paths = [Path(p) for p in manifest["images"]]
+    image_paths = load_manifest_records(manifest_path)
 
     print(f"[1/4] Loading TiTok model from {args.repo_id} on CPU")
     titok = TiTok.from_pretrained(args.repo_id)
@@ -60,7 +63,7 @@ def main():
     titok = titok.to("cpu")
 
     print("[2/4] Building token-only wrapper on CPU")
-    wrapper = TiTokTokenEncoder(titok)
+    _, _, wrapper = build_encoder_quantizer_split(titok)
     wrapper.eval()
     wrapper.requires_grad_(False)
     wrapper = wrapper.to("cpu")
@@ -68,36 +71,33 @@ def main():
     image_size = int(titok.config.dataset.preprocessing.crop_size)
     print(f"[3/4] Running wrapper over {len(image_paths)} calibration image(s)")
     records = []
-    unique_token_ids = set()
-    token_count = None
+    token_shape = None
     for image_path in image_paths:
         image = load_image(image_path, image_size).to("cpu")
         tokens = wrapper(image).to("cpu", dtype=torch.int64)
         token_list = tokens[0].tolist()
-        unique_token_ids.update(token_list)
-        token_count = len(token_list)
+        token_shape = list(tokens.shape)
         records.append({
             "image": str(image_path),
             "tokens": token_list,
         })
 
     print(f"[4/4] Saving baseline outputs to {baseline_path} and {summary_path}")
-    baseline_payload = {
-        "repo_id": args.repo_id,
-        "image_size": image_size,
-        "token_shape": [1, token_count],
-        "records": records,
-    }
-    baseline_path.write_text(json.dumps(baseline_payload, indent=2))
+    save_token_records(
+        baseline_path,
+        records,
+        repo_id=args.repo_id,
+        image_size=image_size,
+        token_shape=token_shape,
+        metadata={
+            "manifest_path": str(manifest_path),
+            "source": "float_wrapper_baseline",
+        },
+    )
 
-    summary = {
+    summary = summarize_token_records(records) | {
         "repo_id": args.repo_id,
         "manifest_path": str(manifest_path),
-        "num_images": len(records),
-        "token_count_per_image": token_count,
-        "num_unique_token_ids": len(unique_token_ids),
-        "min_token_id": min(unique_token_ids),
-        "max_token_id": max(unique_token_ids),
     }
     summary_path.write_text(json.dumps(summary, indent=2))
     print(f"Saved calibration baseline for {len(records)} image(s)")

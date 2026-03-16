@@ -1,3 +1,5 @@
 titok-deploy-tools/src/titok_deploy_tools/__pycache__/
+titok-deploy-tools/scripts/ptq/__pycache__/
 titok-deploy-tools/titok-deploy-tools/
 titok-deploy-tools/outputs/export/*.pt2
+*.DS_Store

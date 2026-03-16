@@ -16,11 +16,11 @@ VALID_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Build a calibration manifest from a directory of images.")
+    parser = argparse.ArgumentParser(description="Build a generic image manifest from a directory of images.")
     parser.add_argument(
         "--image-dir",
         required=True,
-        help="Directory containing representative calibration images.",
+        help="Directory containing representative images.",
     )
     parser.add_argument(
         "--output-dir",
@@ -29,8 +29,8 @@ def parse_args():
     )
     parser.add_argument(
         "--manifest-name",
-        default="calibration_manifest.json",
-        help="Filename for the generated calibration manifest.",
+        default="image_manifest.json",
+        help="Filename for the generated image manifest.",
     )
     parser.add_argument(
         "--limit",
@@ -49,7 +49,7 @@ def main():
 
     output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
     manifest_path = resolve_named_output(output_dir, args.manifest_name)
-    metadata_path = output_dir / "calibration_manifest_metadata.json"
+    metadata_path = output_dir / "image_manifest_metadata.json"
 
     image_paths = sorted(
         p for p in image_dir.rglob("*")
@@ -59,7 +59,7 @@ def main():
         image_paths = image_paths[:args.limit]
 
     if not image_paths:
-        raise SystemExit(f"No calibration images found in {image_dir}")
+        raise SystemExit(f"No images found in {image_dir}")
 
     manifest = {
         "image_dir": str(image_dir),
@@ -76,7 +76,7 @@ def main():
     }
     metadata_path.write_text(json.dumps(metadata, indent=2))
 
-    print(f"Saved calibration manifest with {len(image_paths)} image(s) to {manifest_path}")
+    print(f"Saved image manifest with {len(image_paths)} image(s) to {manifest_path}")
 
 
 if __name__ == "__main__":
