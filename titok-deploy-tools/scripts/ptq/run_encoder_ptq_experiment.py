@@ -42,6 +42,11 @@ def parse_args():
         help="Calibration manifest listing representative images.",
     )
     parser.add_argument(
+        "--eval-manifest",
+        default=None,
+        help="Optional held-out eval manifest for post-PTQ token generation.",
+    )
+    parser.add_argument(
         "--output-dir",
         default="outputs/ptq",
         help="Directory where PTQ artifacts will be written.",
@@ -75,6 +80,15 @@ def main():
     image_paths = load_manifest_records(manifest_path)
     if not image_paths:
         raise SystemExit("Calibration manifest is empty.")
+    eval_manifest_path = None
+    eval_image_paths = None
+    if args.eval_manifest is not None:
+        eval_manifest_path = resolve_input_path(args.eval_manifest, REPO_ROOT)
+        if not eval_manifest_path.exists():
+            raise FileNotFoundError(f"Eval manifest not found: {eval_manifest_path}")
+        eval_image_paths = load_manifest_records(eval_manifest_path)
+        if not eval_image_paths:
+            raise SystemExit("Eval manifest is empty.")
 
     output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
     encoder_artifact_path = output_dir / Path(args.encoder_artifact_name).name
@@ -82,6 +96,8 @@ def main():
     prepared_summary_path = output_dir / "s128_encoder_ptq_prepare_summary.json"
     converted_tokens_path = output_dir / "s128_encoder_ptq_tokens.json"
     converted_summary_path = output_dir / "s128_encoder_ptq_summary.json"
+    eval_tokens_path = output_dir / "s128_encoder_ptq_eval_tokens.json"
+    eval_summary_path = output_dir / "s128_encoder_ptq_eval_summary.json"
 
     print(f"[1/6] Loading TiTok model from {args.repo_id} on CPU")
     titok = TiTok.from_pretrained(args.repo_id).eval().to("cpu")
@@ -178,6 +194,49 @@ def main():
     }
     converted_summary_path.write_text(json.dumps(converted_summary, indent=2))
     print(f"Saved PTQ token outputs to {converted_tokens_path}")
+
+    if eval_image_paths is None:
+        return
+
+    print(f"[7/7] Running quantized encoder + float VQ on {len(eval_image_paths)} eval image(s)")
+    eval_records = []
+    eval_token_shape = None
+    with torch.no_grad():
+        for image_path in eval_image_paths:
+            image = load_image(image_path, image_size).to("cpu")
+            tokens = run_encoder_with_float_quantizer(quantized_encoder, latents_to_tokens, image)
+            tokens = tokens.to("cpu", dtype=torch.int64)
+            eval_token_shape = list(tokens.shape)
+            eval_records.append(
+                {
+                    "image": str(image_path),
+                    "tokens": tokens[0].tolist(),
+                }
+            )
+
+    save_token_records(
+        eval_tokens_path,
+        eval_records,
+        repo_id=args.repo_id,
+        image_size=image_size,
+        token_shape=eval_token_shape,
+        metadata={
+            "manifest_path": str(eval_manifest_path),
+            "source": "encoder_ptq_float_vq_eval",
+            "per_channel": args.per_channel,
+            "calibration_manifest_path": str(manifest_path),
+        },
+    )
+    eval_summary = summarize_token_records(eval_records) | {
+        "repo_id": args.repo_id,
+        "manifest_path": str(eval_manifest_path),
+        "calibration_manifest_path": str(manifest_path),
+        "prepare_summary_path": str(prepared_summary_path),
+        "quantizer_boundary": "encoder_only_quantized_vq_float",
+        "per_channel": args.per_channel,
+    }
+    eval_summary_path.write_text(json.dumps(eval_summary, indent=2))
+    print(f"Saved PTQ eval token outputs to {eval_tokens_path}")
 
 
 if __name__ == "__main__":
