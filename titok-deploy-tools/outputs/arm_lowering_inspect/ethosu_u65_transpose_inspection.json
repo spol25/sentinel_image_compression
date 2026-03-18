@@ -1,0 +1,6464 @@
+{
+  "repo_id": "yucornetto/tokenizer_titok_s128_imagenet",
+  "manifest_path": "/Volumes/Media/snapshot_serengeti_ptq_quickstart/manifests/calibration_manifest.json",
+  "num_calibration_images": 4,
+  "ethos_target": "ethos-u65-256",
+  "per_channel": true,
+  "lowering_error": {
+    "error_type": "RuntimeError",
+    "error_message": "Non-passthrough operation (Transpose) could not run on NPU"
+  },
+  "export_transpose_count": 67,
+  "export_target_counts": {
+    "aten.permute.default": 27,
+    "aten.transpose.int": 40
+  },
+  "export_transposes": [
+    {
+      "index": 255,
+      "name": "permute",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        256,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_2, [0, 2, 1])",
+      "users": [
+        "quantize_per_tensor_3"
+      ]
+    },
+    {
+      "index": 359,
+      "name": "permute_1",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_42, [1, 0, 2])",
+      "users": [
+        "quantize_per_tensor_34"
+      ]
+    },
+    {
+      "index": 439,
+      "name": "transpose",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        3,
+        385,
+        1,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_72, 0, -2)",
+      "users": [
+        "quantize_per_tensor_58"
+      ]
+    },
+    {
+      "index": 462,
+      "name": "transpose_1",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_81, 0, 1)",
+      "users": [
+        "quantize_per_tensor_65"
+      ]
+    },
+    {
+      "index": 468,
+      "name": "transpose_2",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_83, 0, 1)",
+      "users": [
+        "quantize_per_tensor_67"
+      ]
+    },
+    {
+      "index": 474,
+      "name": "transpose_3",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_85, 0, 1)",
+      "users": [
+        "quantize_per_tensor_69"
+      ]
+    },
+    {
+      "index": 492,
+      "name": "transpose_4",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        1,
+        8,
+        64,
+        385
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_88, -2, -1)",
+      "users": [
+        "quantize_per_tensor_75"
+      ]
+    },
+    {
+      "index": 557,
+      "name": "permute_2",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_114, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_96"
+      ]
+    },
+    {
+      "index": 563,
+      "name": "permute_3",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_116, [1, 2, 0, 3])",
+      "users": [
+        "quantize_per_tensor_98"
+      ]
+    },
+    {
+      "index": 566,
+      "name": "permute_4",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_117, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_99"
+      ]
+    },
+    {
+      "index": 742,
+      "name": "transpose_5",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        3,
+        385,
+        1,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_181, 0, -2)",
+      "users": [
+        "quantize_per_tensor_151"
+      ]
+    },
+    {
+      "index": 765,
+      "name": "transpose_6",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_190, 0, 1)",
+      "users": [
+        "quantize_per_tensor_158"
+      ]
+    },
+    {
+      "index": 771,
+      "name": "transpose_7",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_192, 0, 1)",
+      "users": [
+        "quantize_per_tensor_160"
+      ]
+    },
+    {
+      "index": 777,
+      "name": "transpose_8",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_194, 0, 1)",
+      "users": [
+        "quantize_per_tensor_162"
+      ]
+    },
+    {
+      "index": 795,
+      "name": "transpose_9",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        1,
+        8,
+        64,
+        385
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_197, -2, -1)",
+      "users": [
+        "quantize_per_tensor_168"
+      ]
+    },
+    {
+      "index": 860,
+      "name": "permute_5",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_223, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_189"
+      ]
+    },
+    {
+      "index": 866,
+      "name": "permute_6",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_225, [1, 2, 0, 3])",
+      "users": [
+        "quantize_per_tensor_191"
+      ]
+    },
+    {
+      "index": 869,
+      "name": "permute_7",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_226, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_192"
+      ]
+    },
+    {
+      "index": 1045,
+      "name": "transpose_10",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        3,
+        385,
+        1,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_290, 0, -2)",
+      "users": [
+        "quantize_per_tensor_244"
+      ]
+    },
+    {
+      "index": 1068,
+      "name": "transpose_11",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_299, 0, 1)",
+      "users": [
+        "quantize_per_tensor_251"
+      ]
+    },
+    {
+      "index": 1074,
+      "name": "transpose_12",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_301, 0, 1)",
+      "users": [
+        "quantize_per_tensor_253"
+      ]
+    },
+    {
+      "index": 1080,
+      "name": "transpose_13",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_303, 0, 1)",
+      "users": [
+        "quantize_per_tensor_255"
+      ]
+    },
+    {
+      "index": 1098,
+      "name": "transpose_14",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        1,
+        8,
+        64,
+        385
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_306, -2, -1)",
+      "users": [
+        "quantize_per_tensor_261"
+      ]
+    },
+    {
+      "index": 1163,
+      "name": "permute_8",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_332, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_282"
+      ]
+    },
+    {
+      "index": 1169,
+      "name": "permute_9",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_334, [1, 2, 0, 3])",
+      "users": [
+        "quantize_per_tensor_284"
+      ]
+    },
+    {
+      "index": 1172,
+      "name": "permute_10",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_335, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_285"
+      ]
+    },
+    {
+      "index": 1348,
+      "name": "transpose_15",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        3,
+        385,
+        1,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_399, 0, -2)",
+      "users": [
+        "quantize_per_tensor_337"
+      ]
+    },
+    {
+      "index": 1371,
+      "name": "transpose_16",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_408, 0, 1)",
+      "users": [
+        "quantize_per_tensor_344"
+      ]
+    },
+    {
+      "index": 1377,
+      "name": "transpose_17",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_410, 0, 1)",
+      "users": [
+        "quantize_per_tensor_346"
+      ]
+    },
+    {
+      "index": 1383,
+      "name": "transpose_18",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_412, 0, 1)",
+      "users": [
+        "quantize_per_tensor_348"
+      ]
+    },
+    {
+      "index": 1401,
+      "name": "transpose_19",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        1,
+        8,
+        64,
+        385
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_415, -2, -1)",
+      "users": [
+        "quantize_per_tensor_354"
+      ]
+    },
+    {
+      "index": 1466,
+      "name": "permute_11",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_441, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_375"
+      ]
+    },
+    {
+      "index": 1472,
+      "name": "permute_12",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_443, [1, 2, 0, 3])",
+      "users": [
+        "quantize_per_tensor_377"
+      ]
+    },
+    {
+      "index": 1475,
+      "name": "permute_13",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_444, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_378"
+      ]
+    },
+    {
+      "index": 1651,
+      "name": "transpose_20",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        3,
+        385,
+        1,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_508, 0, -2)",
+      "users": [
+        "quantize_per_tensor_430"
+      ]
+    },
+    {
+      "index": 1674,
+      "name": "transpose_21",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_517, 0, 1)",
+      "users": [
+        "quantize_per_tensor_437"
+      ]
+    },
+    {
+      "index": 1680,
+      "name": "transpose_22",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_519, 0, 1)",
+      "users": [
+        "quantize_per_tensor_439"
+      ]
+    },
+    {
+      "index": 1686,
+      "name": "transpose_23",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_521, 0, 1)",
+      "users": [
+        "quantize_per_tensor_441"
+      ]
+    },
+    {
+      "index": 1704,
+      "name": "transpose_24",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        1,
+        8,
+        64,
+        385
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_524, -2, -1)",
+      "users": [
+        "quantize_per_tensor_447"
+      ]
+    },
+    {
+      "index": 1769,
+      "name": "permute_14",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_550, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_468"
+      ]
+    },
+    {
+      "index": 1775,
+      "name": "permute_15",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_552, [1, 2, 0, 3])",
+      "users": [
+        "quantize_per_tensor_470"
+      ]
+    },
+    {
+      "index": 1778,
+      "name": "permute_16",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_553, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_471"
+      ]
+    },
+    {
+      "index": 1954,
+      "name": "transpose_25",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        3,
+        385,
+        1,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_617, 0, -2)",
+      "users": [
+        "quantize_per_tensor_523"
+      ]
+    },
+    {
+      "index": 1977,
+      "name": "transpose_26",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_626, 0, 1)",
+      "users": [
+        "quantize_per_tensor_530"
+      ]
+    },
+    {
+      "index": 1983,
+      "name": "transpose_27",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_628, 0, 1)",
+      "users": [
+        "quantize_per_tensor_532"
+      ]
+    },
+    {
+      "index": 1989,
+      "name": "transpose_28",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_630, 0, 1)",
+      "users": [
+        "quantize_per_tensor_534"
+      ]
+    },
+    {
+      "index": 2007,
+      "name": "transpose_29",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        1,
+        8,
+        64,
+        385
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_633, -2, -1)",
+      "users": [
+        "quantize_per_tensor_540"
+      ]
+    },
+    {
+      "index": 2072,
+      "name": "permute_17",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_659, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_561"
+      ]
+    },
+    {
+      "index": 2078,
+      "name": "permute_18",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_661, [1, 2, 0, 3])",
+      "users": [
+        "quantize_per_tensor_563"
+      ]
+    },
+    {
+      "index": 2081,
+      "name": "permute_19",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_662, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_564"
+      ]
+    },
+    {
+      "index": 2257,
+      "name": "transpose_30",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        3,
+        385,
+        1,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_726, 0, -2)",
+      "users": [
+        "quantize_per_tensor_616"
+      ]
+    },
+    {
+      "index": 2280,
+      "name": "transpose_31",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_735, 0, 1)",
+      "users": [
+        "quantize_per_tensor_623"
+      ]
+    },
+    {
+      "index": 2286,
+      "name": "transpose_32",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_737, 0, 1)",
+      "users": [
+        "quantize_per_tensor_625"
+      ]
+    },
+    {
+      "index": 2292,
+      "name": "transpose_33",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_739, 0, 1)",
+      "users": [
+        "quantize_per_tensor_627"
+      ]
+    },
+    {
+      "index": 2310,
+      "name": "transpose_34",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        1,
+        8,
+        64,
+        385
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_742, -2, -1)",
+      "users": [
+        "quantize_per_tensor_633"
+      ]
+    },
+    {
+      "index": 2375,
+      "name": "permute_20",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_768, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_654"
+      ]
+    },
+    {
+      "index": 2381,
+      "name": "permute_21",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_770, [1, 2, 0, 3])",
+      "users": [
+        "quantize_per_tensor_656"
+      ]
+    },
+    {
+      "index": 2384,
+      "name": "permute_22",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_771, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_657"
+      ]
+    },
+    {
+      "index": 2560,
+      "name": "transpose_35",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        3,
+        385,
+        1,
+        1,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_835, 0, -2)",
+      "users": [
+        "quantize_per_tensor_709"
+      ]
+    },
+    {
+      "index": 2583,
+      "name": "transpose_36",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_844, 0, 1)",
+      "users": [
+        "quantize_per_tensor_716"
+      ]
+    },
+    {
+      "index": 2589,
+      "name": "transpose_37",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_846, 0, 1)",
+      "users": [
+        "quantize_per_tensor_718"
+      ]
+    },
+    {
+      "index": 2595,
+      "name": "transpose_38",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_848, 0, 1)",
+      "users": [
+        "quantize_per_tensor_720"
+      ]
+    },
+    {
+      "index": 2613,
+      "name": "transpose_39",
+      "op": "call_function",
+      "target": "aten.transpose.int",
+      "shape": [
+        1,
+        8,
+        64,
+        385
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_851, -2, -1)",
+      "users": [
+        "quantize_per_tensor_726"
+      ]
+    },
+    {
+      "index": 2678,
+      "name": "permute_23",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_877, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_747"
+      ]
+    },
+    {
+      "index": 2684,
+      "name": "permute_24",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        8,
+        385,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_879, [1, 2, 0, 3])",
+      "users": [
+        "quantize_per_tensor_749"
+      ]
+    },
+    {
+      "index": 2687,
+      "name": "permute_25",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        385,
+        1,
+        8,
+        64
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_880, [2, 0, 1, 3])",
+      "users": [
+        "quantize_per_tensor_750"
+      ]
+    },
+    {
+      "index": 2786,
+      "name": "permute_26",
+      "op": "call_function",
+      "target": "aten.permute.default",
+      "shape": [
+        1,
+        385,
+        512
+      ],
+      "dtype": "torch.float32",
+      "args": "(dequantize_per_tensor_915, [1, 0, 2])",
+      "users": [
+        "quantize_per_tensor_779"
+      ]
+    }
+  ],
+  "tosa_file": "/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/outputs/arm_lowering_inspect/tosa_debug/out.tosa",
+  "tosa_transpose_count": 173,
+  "tosa_permutation_counts": {
+    "[0, 2, 1]": 1,
+    "[0, 2, 1, 3]": 8,
+    "[0, 2, 3, 1]": 58,
+    "[0, 3, 1, 2]": 50,
+    "[1, 0, 2]": 24,
+    "[1, 3, 2, 0]": 16,
+    "[2, 1, 0, 3, 4]": 8,
+    "[3, 0, 2, 1]": 8
+  },
+  "tosa_transposes": [
+    {
+      "index": 163,
+      "inputs": [
+        "quantized_decomposed_quantize_per_tensor_default"
+      ],
+      "input_shapes": [
+        [
+          1,
+          3,
+          256,
+          256
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default"
+      ],
+      "output_shapes": [
+        [
+          1,
+          256,
+          256,
+          3
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 612,
+      "inputs": [
+        "tosa_rescale_default_54"
+      ],
+      "input_shapes": [
+        [
+          1,
+          16,
+          16,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_1"
+      ],
+      "output_shapes": [
+        [
+          1,
+          512,
+          16,
+          16
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 615,
+      "inputs": [
+        "aten_view_copy_default"
+      ],
+      "input_shapes": [
+        [
+          1,
+          512,
+          256
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default"
+      ],
+      "output_shapes": [
+        [
+          1,
+          256,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 770,
+      "inputs": [
+        "aten_view_copy_default_7"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_2"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 888,
+      "inputs": [
+        "aten_view_copy_default_11"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          3,
+          512,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_1"
+      ],
+      "output_shapes": [
+        [
+          3,
+          385,
+          1,
+          512,
+          1
+        ]
+      ],
+      "perms": [
+        2,
+        1,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "index": 891,
+      "inputs": [
+        "aten_view_copy_default_12"
+      ],
+      "input_shapes": [
+        [
+          3,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_3"
+      ],
+      "output_shapes": [
+        [
+          3,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 895,
+      "inputs": [
+        "aten_slice_copy_tensor"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_4"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 901,
+      "inputs": [
+        "aten_slice_copy_tensor_1"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_5"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 907,
+      "inputs": [
+        "aten_slice_copy_tensor_2"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_6"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 910,
+      "inputs": [
+        "aten_view_copy_default_13"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_2"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 911,
+      "inputs": [
+        "aten_view_copy_default_14"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_3"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 912,
+      "inputs": [
+        "aten_view_copy_default_15"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_4"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 915,
+      "inputs": [
+        "aten_view_copy_default_16"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_7"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 918,
+      "inputs": [
+        "aten_view_copy_default_17"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_8"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 924,
+      "inputs": [
+        "tosa_transpose_default_7"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_5"
+      ],
+      "output_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "index": 948,
+      "inputs": [
+        "tosa_rescale_default_135"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_9"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 951,
+      "inputs": [
+        "tosa_rescale_default_136"
+      ],
+      "input_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_10"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          64,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 964,
+      "inputs": [
+        "aten_view_copy_default_22"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_11"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1012,
+      "inputs": [
+        "tosa_rescale_default_145"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_12"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1025,
+      "inputs": [
+        "aten_view_copy_default_24"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_13"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1026,
+      "inputs": [
+        "tosa_transpose_default_13"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_6"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 1027,
+      "inputs": [
+        "aten_permute_copy_default_6"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_7"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 1028,
+      "inputs": [
+        "aten_permute_copy_default_7"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_8"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 1064,
+      "inputs": [
+        "aten_view_copy_default_27"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_14"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1214,
+      "inputs": [
+        "aten_view_copy_default_32"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_15"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1332,
+      "inputs": [
+        "aten_view_copy_default_36"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          3,
+          512,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_9"
+      ],
+      "output_shapes": [
+        [
+          3,
+          385,
+          1,
+          512,
+          1
+        ]
+      ],
+      "perms": [
+        2,
+        1,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "index": 1335,
+      "inputs": [
+        "aten_view_copy_default_37"
+      ],
+      "input_shapes": [
+        [
+          3,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_16"
+      ],
+      "output_shapes": [
+        [
+          3,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1339,
+      "inputs": [
+        "aten_slice_copy_tensor_3"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_17"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1345,
+      "inputs": [
+        "aten_slice_copy_tensor_4"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_18"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1351,
+      "inputs": [
+        "aten_slice_copy_tensor_5"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_19"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1354,
+      "inputs": [
+        "aten_view_copy_default_38"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_10"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 1355,
+      "inputs": [
+        "aten_view_copy_default_39"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_11"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 1356,
+      "inputs": [
+        "aten_view_copy_default_40"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_12"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 1359,
+      "inputs": [
+        "aten_view_copy_default_41"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_20"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1362,
+      "inputs": [
+        "aten_view_copy_default_42"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_21"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1368,
+      "inputs": [
+        "tosa_transpose_default_20"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_13"
+      ],
+      "output_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "index": 1392,
+      "inputs": [
+        "tosa_rescale_default_195"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_22"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1395,
+      "inputs": [
+        "tosa_rescale_default_196"
+      ],
+      "input_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_23"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          64,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1408,
+      "inputs": [
+        "aten_view_copy_default_47"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_24"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1456,
+      "inputs": [
+        "tosa_rescale_default_205"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_25"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1469,
+      "inputs": [
+        "aten_view_copy_default_49"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_26"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1470,
+      "inputs": [
+        "tosa_transpose_default_26"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_14"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 1471,
+      "inputs": [
+        "aten_permute_copy_default_14"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_15"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 1472,
+      "inputs": [
+        "aten_permute_copy_default_15"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_16"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 1508,
+      "inputs": [
+        "aten_view_copy_default_52"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_27"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1658,
+      "inputs": [
+        "aten_view_copy_default_57"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_28"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1776,
+      "inputs": [
+        "aten_view_copy_default_61"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          3,
+          512,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_17"
+      ],
+      "output_shapes": [
+        [
+          3,
+          385,
+          1,
+          512,
+          1
+        ]
+      ],
+      "perms": [
+        2,
+        1,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "index": 1779,
+      "inputs": [
+        "aten_view_copy_default_62"
+      ],
+      "input_shapes": [
+        [
+          3,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_29"
+      ],
+      "output_shapes": [
+        [
+          3,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1783,
+      "inputs": [
+        "aten_slice_copy_tensor_6"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_30"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1789,
+      "inputs": [
+        "aten_slice_copy_tensor_7"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_31"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1795,
+      "inputs": [
+        "aten_slice_copy_tensor_8"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_32"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1798,
+      "inputs": [
+        "aten_view_copy_default_63"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_18"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 1799,
+      "inputs": [
+        "aten_view_copy_default_64"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_19"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 1800,
+      "inputs": [
+        "aten_view_copy_default_65"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_20"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 1803,
+      "inputs": [
+        "aten_view_copy_default_66"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_33"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1806,
+      "inputs": [
+        "aten_view_copy_default_67"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_34"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1812,
+      "inputs": [
+        "tosa_transpose_default_33"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_21"
+      ],
+      "output_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "index": 1836,
+      "inputs": [
+        "tosa_rescale_default_255"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_35"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1839,
+      "inputs": [
+        "tosa_rescale_default_256"
+      ],
+      "input_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_36"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          64,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1852,
+      "inputs": [
+        "aten_view_copy_default_72"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_37"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1900,
+      "inputs": [
+        "tosa_rescale_default_265"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_38"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 1913,
+      "inputs": [
+        "aten_view_copy_default_74"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_39"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 1914,
+      "inputs": [
+        "tosa_transpose_default_39"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_22"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 1915,
+      "inputs": [
+        "aten_permute_copy_default_22"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_23"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 1916,
+      "inputs": [
+        "aten_permute_copy_default_23"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_24"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 1952,
+      "inputs": [
+        "aten_view_copy_default_77"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_40"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2102,
+      "inputs": [
+        "aten_view_copy_default_82"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_41"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2220,
+      "inputs": [
+        "aten_view_copy_default_86"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          3,
+          512,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_25"
+      ],
+      "output_shapes": [
+        [
+          3,
+          385,
+          1,
+          512,
+          1
+        ]
+      ],
+      "perms": [
+        2,
+        1,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "index": 2223,
+      "inputs": [
+        "aten_view_copy_default_87"
+      ],
+      "input_shapes": [
+        [
+          3,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_42"
+      ],
+      "output_shapes": [
+        [
+          3,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2227,
+      "inputs": [
+        "aten_slice_copy_tensor_9"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_43"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2233,
+      "inputs": [
+        "aten_slice_copy_tensor_10"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_44"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2239,
+      "inputs": [
+        "aten_slice_copy_tensor_11"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_45"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2242,
+      "inputs": [
+        "aten_view_copy_default_88"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_26"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 2243,
+      "inputs": [
+        "aten_view_copy_default_89"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_27"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 2244,
+      "inputs": [
+        "aten_view_copy_default_90"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_28"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 2247,
+      "inputs": [
+        "aten_view_copy_default_91"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_46"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2250,
+      "inputs": [
+        "aten_view_copy_default_92"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_47"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2256,
+      "inputs": [
+        "tosa_transpose_default_46"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_29"
+      ],
+      "output_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "index": 2280,
+      "inputs": [
+        "tosa_rescale_default_315"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_48"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2283,
+      "inputs": [
+        "tosa_rescale_default_316"
+      ],
+      "input_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_49"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          64,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2296,
+      "inputs": [
+        "aten_view_copy_default_97"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_50"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2344,
+      "inputs": [
+        "tosa_rescale_default_325"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_51"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2357,
+      "inputs": [
+        "aten_view_copy_default_99"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_52"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2358,
+      "inputs": [
+        "tosa_transpose_default_52"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_30"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 2359,
+      "inputs": [
+        "aten_permute_copy_default_30"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_31"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 2360,
+      "inputs": [
+        "aten_permute_copy_default_31"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_32"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 2396,
+      "inputs": [
+        "aten_view_copy_default_102"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_53"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2546,
+      "inputs": [
+        "aten_view_copy_default_107"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_54"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2664,
+      "inputs": [
+        "aten_view_copy_default_111"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          3,
+          512,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_33"
+      ],
+      "output_shapes": [
+        [
+          3,
+          385,
+          1,
+          512,
+          1
+        ]
+      ],
+      "perms": [
+        2,
+        1,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "index": 2667,
+      "inputs": [
+        "aten_view_copy_default_112"
+      ],
+      "input_shapes": [
+        [
+          3,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_55"
+      ],
+      "output_shapes": [
+        [
+          3,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2671,
+      "inputs": [
+        "aten_slice_copy_tensor_12"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_56"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2677,
+      "inputs": [
+        "aten_slice_copy_tensor_13"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_57"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2683,
+      "inputs": [
+        "aten_slice_copy_tensor_14"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_58"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2686,
+      "inputs": [
+        "aten_view_copy_default_113"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_34"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 2687,
+      "inputs": [
+        "aten_view_copy_default_114"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_35"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 2688,
+      "inputs": [
+        "aten_view_copy_default_115"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_36"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 2691,
+      "inputs": [
+        "aten_view_copy_default_116"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_59"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2694,
+      "inputs": [
+        "aten_view_copy_default_117"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_60"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2700,
+      "inputs": [
+        "tosa_transpose_default_59"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_37"
+      ],
+      "output_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "index": 2724,
+      "inputs": [
+        "tosa_rescale_default_375"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_61"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2727,
+      "inputs": [
+        "tosa_rescale_default_376"
+      ],
+      "input_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_62"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          64,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2740,
+      "inputs": [
+        "aten_view_copy_default_122"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_63"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2788,
+      "inputs": [
+        "tosa_rescale_default_385"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_64"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 2801,
+      "inputs": [
+        "aten_view_copy_default_124"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_65"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2802,
+      "inputs": [
+        "tosa_transpose_default_65"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_38"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 2803,
+      "inputs": [
+        "aten_permute_copy_default_38"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_39"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 2804,
+      "inputs": [
+        "aten_permute_copy_default_39"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_40"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 2840,
+      "inputs": [
+        "aten_view_copy_default_127"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_66"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 2990,
+      "inputs": [
+        "aten_view_copy_default_132"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_67"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3108,
+      "inputs": [
+        "aten_view_copy_default_136"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          3,
+          512,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_41"
+      ],
+      "output_shapes": [
+        [
+          3,
+          385,
+          1,
+          512,
+          1
+        ]
+      ],
+      "perms": [
+        2,
+        1,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "index": 3111,
+      "inputs": [
+        "aten_view_copy_default_137"
+      ],
+      "input_shapes": [
+        [
+          3,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_68"
+      ],
+      "output_shapes": [
+        [
+          3,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3115,
+      "inputs": [
+        "aten_slice_copy_tensor_15"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_69"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3121,
+      "inputs": [
+        "aten_slice_copy_tensor_16"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_70"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3127,
+      "inputs": [
+        "aten_slice_copy_tensor_17"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_71"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3130,
+      "inputs": [
+        "aten_view_copy_default_138"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_42"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 3131,
+      "inputs": [
+        "aten_view_copy_default_139"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_43"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 3132,
+      "inputs": [
+        "aten_view_copy_default_140"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_44"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 3135,
+      "inputs": [
+        "aten_view_copy_default_141"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_72"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3138,
+      "inputs": [
+        "aten_view_copy_default_142"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_73"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3144,
+      "inputs": [
+        "tosa_transpose_default_72"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_45"
+      ],
+      "output_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "index": 3168,
+      "inputs": [
+        "tosa_rescale_default_435"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_74"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3171,
+      "inputs": [
+        "tosa_rescale_default_436"
+      ],
+      "input_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_75"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          64,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3184,
+      "inputs": [
+        "aten_view_copy_default_147"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_76"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3232,
+      "inputs": [
+        "tosa_rescale_default_445"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_77"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3245,
+      "inputs": [
+        "aten_view_copy_default_149"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_78"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3246,
+      "inputs": [
+        "tosa_transpose_default_78"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_46"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 3247,
+      "inputs": [
+        "aten_permute_copy_default_46"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_47"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 3248,
+      "inputs": [
+        "aten_permute_copy_default_47"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_48"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 3284,
+      "inputs": [
+        "aten_view_copy_default_152"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_79"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3434,
+      "inputs": [
+        "aten_view_copy_default_157"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_80"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3552,
+      "inputs": [
+        "aten_view_copy_default_161"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          3,
+          512,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_49"
+      ],
+      "output_shapes": [
+        [
+          3,
+          385,
+          1,
+          512,
+          1
+        ]
+      ],
+      "perms": [
+        2,
+        1,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "index": 3555,
+      "inputs": [
+        "aten_view_copy_default_162"
+      ],
+      "input_shapes": [
+        [
+          3,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_81"
+      ],
+      "output_shapes": [
+        [
+          3,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3559,
+      "inputs": [
+        "aten_slice_copy_tensor_18"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_82"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3565,
+      "inputs": [
+        "aten_slice_copy_tensor_19"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_83"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3571,
+      "inputs": [
+        "aten_slice_copy_tensor_20"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_84"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3574,
+      "inputs": [
+        "aten_view_copy_default_163"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_50"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 3575,
+      "inputs": [
+        "aten_view_copy_default_164"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_51"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 3576,
+      "inputs": [
+        "aten_view_copy_default_165"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_52"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 3579,
+      "inputs": [
+        "aten_view_copy_default_166"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_85"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3582,
+      "inputs": [
+        "aten_view_copy_default_167"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_86"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3588,
+      "inputs": [
+        "tosa_transpose_default_85"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_53"
+      ],
+      "output_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "index": 3612,
+      "inputs": [
+        "tosa_rescale_default_495"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_87"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3615,
+      "inputs": [
+        "tosa_rescale_default_496"
+      ],
+      "input_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_88"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          64,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3628,
+      "inputs": [
+        "aten_view_copy_default_172"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_89"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3676,
+      "inputs": [
+        "tosa_rescale_default_505"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_90"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 3689,
+      "inputs": [
+        "aten_view_copy_default_174"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_91"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3690,
+      "inputs": [
+        "tosa_transpose_default_91"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_54"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 3691,
+      "inputs": [
+        "aten_permute_copy_default_54"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_55"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 3692,
+      "inputs": [
+        "aten_permute_copy_default_55"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_56"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 3728,
+      "inputs": [
+        "aten_view_copy_default_177"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_92"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3878,
+      "inputs": [
+        "aten_view_copy_default_182"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_93"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 3996,
+      "inputs": [
+        "aten_view_copy_default_186"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          3,
+          512,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_57"
+      ],
+      "output_shapes": [
+        [
+          3,
+          385,
+          1,
+          512,
+          1
+        ]
+      ],
+      "perms": [
+        2,
+        1,
+        0,
+        3,
+        4
+      ]
+    },
+    {
+      "index": 3999,
+      "inputs": [
+        "aten_view_copy_default_187"
+      ],
+      "input_shapes": [
+        [
+          3,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_94"
+      ],
+      "output_shapes": [
+        [
+          3,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 4003,
+      "inputs": [
+        "aten_slice_copy_tensor_21"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_95"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 4009,
+      "inputs": [
+        "aten_slice_copy_tensor_22"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_96"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 4015,
+      "inputs": [
+        "aten_slice_copy_tensor_23"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_97"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 4018,
+      "inputs": [
+        "aten_view_copy_default_188"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_58"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 4019,
+      "inputs": [
+        "aten_view_copy_default_189"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_59"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 4020,
+      "inputs": [
+        "aten_view_copy_default_190"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_60"
+      ],
+      "output_shapes": [
+        [
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 4023,
+      "inputs": [
+        "aten_view_copy_default_191"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_98"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 4026,
+      "inputs": [
+        "aten_view_copy_default_192"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_99"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 4032,
+      "inputs": [
+        "tosa_transpose_default_98"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_61"
+      ],
+      "output_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        1,
+        3
+      ]
+    },
+    {
+      "index": 4056,
+      "inputs": [
+        "tosa_rescale_default_555"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_100"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 4059,
+      "inputs": [
+        "tosa_rescale_default_556"
+      ],
+      "input_shapes": [
+        [
+          1,
+          64,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_101"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          64,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 4072,
+      "inputs": [
+        "aten_view_copy_default_197"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_102"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 4120,
+      "inputs": [
+        "tosa_rescale_default_565"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          385,
+          8
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_103"
+      ],
+      "output_shapes": [
+        [
+          1,
+          8,
+          385,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 4133,
+      "inputs": [
+        "aten_view_copy_default_199"
+      ],
+      "input_shapes": [
+        [
+          1,
+          8,
+          385,
+          64
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_104"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 4134,
+      "inputs": [
+        "tosa_transpose_default_104"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_62"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 4135,
+      "inputs": [
+        "aten_permute_copy_default_62"
+      ],
+      "input_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_63"
+      ],
+      "output_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "perms": [
+        3,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 4136,
+      "inputs": [
+        "aten_permute_copy_default_63"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          64,
+          8
+        ]
+      ],
+      "outputs": [
+        "aten_permute_copy_default_64"
+      ],
+      "output_shapes": [
+        [
+          385,
+          8,
+          64,
+          1
+        ]
+      ],
+      "perms": [
+        1,
+        3,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 4172,
+      "inputs": [
+        "aten_view_copy_default_202"
+      ],
+      "input_shapes": [
+        [
+          1,
+          385,
+          1,
+          512
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_105"
+      ],
+      "output_shapes": [
+        [
+          1,
+          1,
+          512,
+          385
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 4429,
+      "inputs": [
+        "aten_view_copy_default_211"
+      ],
+      "input_shapes": [
+        [
+          1,
+          512,
+          128,
+          1
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_106"
+      ],
+      "output_shapes": [
+        [
+          1,
+          128,
+          1,
+          512
+        ]
+      ],
+      "perms": [
+        0,
+        2,
+        3,
+        1
+      ]
+    },
+    {
+      "index": 4440,
+      "inputs": [
+        "aten_view_copy_default_212"
+      ],
+      "input_shapes": [
+        [
+          1,
+          1,
+          128,
+          12
+        ]
+      ],
+      "outputs": [
+        "tosa_transpose_default_107"
+      ],
+      "output_shapes": [
+        [
+          1,
+          12,
+          1,
+          128
+        ]
+      ],
+      "perms": [
+        0,
+        3,
+        1,
+        2
+      ]
+    }
+  ]
+}

@@ -36,6 +36,11 @@ def parse_args():
         default="decoded_reconstruction_comparison.json",
         help="Filename for the reconstruction comparison summary JSON.",
     )
+    parser.add_argument(
+        "--save-images",
+        action="store_true",
+        help="Write decoded reference/candidate PNGs alongside the summary.",
+    )
     return parser.parse_args()
 
 
@@ -76,19 +81,19 @@ def main():
         mse = torch.mean((ref_image - cand_image) ** 2).item()
         psnr = psnr_from_mse(mse)
 
-        ref_out = resolve_named_output(output_dir, f"reference_decode_{index:03d}.png")
-        cand_out = resolve_named_output(output_dir, f"candidate_decode_{index:03d}.png")
-        save_reconstruction(ref_image, ref_out)
-        save_reconstruction(cand_image, cand_out)
-        results.append(
-            {
-                "image": ref_record["image"],
-                "reference_decode": str(ref_out),
-                "candidate_decode": str(cand_out),
-                "mse": mse,
-                "psnr": psnr,
-            }
-        )
+        result = {
+            "image": ref_record["image"],
+            "mse": mse,
+            "psnr": psnr,
+        }
+        if args.save_images:
+            ref_out = resolve_named_output(output_dir, f"reference_decode_{index:03d}.png")
+            cand_out = resolve_named_output(output_dir, f"candidate_decode_{index:03d}.png")
+            save_reconstruction(ref_image, ref_out)
+            save_reconstruction(cand_image, cand_out)
+            result["reference_decode"] = str(ref_out)
+            result["candidate_decode"] = str(cand_out)
+        results.append(result)
 
     summary = {
         "reference": str(reference_path),

@@ -1,7 +1,13 @@
 titok-deploy-tools/src/titok_deploy_tools/__pycache__/
 titok-deploy-tools/scripts/ptq/__pycache__/
+titok-deploy-tools/scripts/export/__pycache__/
 titok-deploy-tools/scripts/datasets/**/__pycache__/
 titok-deploy-tools/titok-deploy-tools/
 titok-deploy-tools/outputs/export/*.pt2
 titok-deploy-tools/outputs/ptq_snapshot_quickstart/
+titok-deploy-tools/outputs/ptq_snapshot_quickstart_ethosu/
+titok-deploy-tools/outputs/arm_lowering_inspect/tosa_debug/
+titok-deploy-tools/outputs/arm_lowering_test/tosa_debug/
+titok-deploy-tools/outputs/test_s128/*.pt2
+titok-deploy-tools/outputs/test_s128/*.pte
 *.DS_Store

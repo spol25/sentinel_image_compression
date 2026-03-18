@@ -62,6 +62,32 @@ def parse_args():
         help="Use per-channel symmetric quantization for supported weights.",
     )
     parser.add_argument(
+        "--quantizer-backend",
+        choices=("xnnpack", "ethosu"),
+        default="xnnpack",
+        help="PTQ backend to use for prepare/convert.",
+    )
+    parser.add_argument(
+        "--ethos-target",
+        default="ethos-u65-256",
+        help="Ethos-U accelerator target when using the Arm Ethos-U quantizer.",
+    )
+    parser.add_argument(
+        "--ethos-system-config",
+        default=None,
+        help="Optional Vela system_config override for Ethos-U quantization.",
+    )
+    parser.add_argument(
+        "--ethos-memory-mode",
+        default=None,
+        help="Optional Vela memory_mode override for Ethos-U quantization.",
+    )
+    parser.add_argument(
+        "--ethos-config-ini",
+        default="Arm/vela.ini",
+        help="Path to the Vela .ini file used in the Ethos-U compile spec.",
+    )
+    parser.add_argument(
         "--skip-convert",
         action="store_true",
         help="Stop after prepare+calibration without converting the encoder graph.",
@@ -128,9 +154,14 @@ def main():
         "quantizer_boundary": "encoder_only_quantized_vq_float",
     }
     encoder_metadata_path.write_text(json.dumps(encoder_metadata, indent=2))
-    prepared_encoder = prepare_exported_encoder_for_ptq(
+    prepared_encoder, compile_spec = prepare_exported_encoder_for_ptq(
         exported_program,
+        backend=args.quantizer_backend,
         is_per_channel=args.per_channel,
+        ethos_target=args.ethos_target,
+        ethos_system_config=args.ethos_system_config,
+        ethos_memory_mode=args.ethos_memory_mode,
+        ethos_config_ini=args.ethos_config_ini,
     )
 
     print(f"[4/6] Calibrating encoder observers on {len(image_paths)} image(s)")
@@ -143,10 +174,14 @@ def main():
         "num_calibration_images": len(image_paths),
         "image_size": image_size,
         "per_channel": args.per_channel,
+        "quantizer_backend": args.quantizer_backend,
         "skip_convert": args.skip_convert,
         "prepared_encoder_type": type(prepared_encoder).__name__,
         "quantizer_boundary": "encoder_only_quantized_vq_float",
     }
+    if compile_spec is not None:
+        prepare_summary["compile_spec_target"] = compile_spec.target
+        prepare_summary["compile_spec_flags"] = compile_spec.compiler_flags
     prepared_summary_path.write_text(json.dumps(prepare_summary, indent=2))
 
     if args.skip_convert:
@@ -155,7 +190,10 @@ def main():
         return
 
     print("[5/6] Converting calibrated encoder to a quantized graph")
-    quantized_encoder = convert_encoder_after_ptq(prepared_encoder)
+    quantized_encoder = convert_encoder_after_ptq(
+        prepared_encoder,
+        backend=args.quantizer_backend,
+    )
 
     print("[6/6] Running quantized encoder + float VQ on the calibration set")
     records = []
@@ -183,6 +221,7 @@ def main():
             "manifest_path": str(manifest_path),
             "source": "encoder_ptq_float_vq",
             "per_channel": args.per_channel,
+            "quantizer_backend": args.quantizer_backend,
         },
     )
     converted_summary = summarize_token_records(records) | {
@@ -191,6 +230,7 @@ def main():
         "prepare_summary_path": str(prepared_summary_path),
         "quantizer_boundary": "encoder_only_quantized_vq_float",
         "per_channel": args.per_channel,
+        "quantizer_backend": args.quantizer_backend,
     }
     converted_summary_path.write_text(json.dumps(converted_summary, indent=2))
     print(f"Saved PTQ token outputs to {converted_tokens_path}")
@@ -224,6 +264,7 @@ def main():
             "manifest_path": str(eval_manifest_path),
             "source": "encoder_ptq_float_vq_eval",
             "per_channel": args.per_channel,
+            "quantizer_backend": args.quantizer_backend,
             "calibration_manifest_path": str(manifest_path),
         },
     )
@@ -234,6 +275,7 @@ def main():
         "prepare_summary_path": str(prepared_summary_path),
         "quantizer_boundary": "encoder_only_quantized_vq_float",
         "per_channel": args.per_channel,
+        "quantizer_backend": args.quantizer_backend,
     }
     eval_summary_path.write_text(json.dumps(eval_summary, indent=2))
     print(f"Saved PTQ eval token outputs to {eval_tokens_path}")

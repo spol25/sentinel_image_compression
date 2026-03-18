@@ -64,6 +64,13 @@ python scripts/export/validate_pte_titok_s128_wrapper.py \
 ```
 
 ```bash
+python scripts/export/lower_ethosu_titok_s128_encoder.py \
+  --titok-root /path/to/1d-tokenizer \
+  --manifest /path/to/calibration_manifest.json \
+  --per-channel
+```
+
+```bash
 python scripts/ptq/prepare_image_manifest.py \
   --image-dir /path/to/representative/images \
   --output-dir outputs/ptq

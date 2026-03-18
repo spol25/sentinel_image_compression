@@ -3,11 +3,16 @@ from pathlib import Path
 
 import torch
 from torch.ao.quantization.quantize_pt2e import convert_pt2e, prepare_pt2e
+from torchao.quantization.pt2e.quantize_pt2e import (
+    convert_pt2e as convert_pt2e_torchao,
+    prepare_pt2e as prepare_pt2e_torchao,
+)
 from torch.ao.quantization.quantizer.xnnpack_quantizer import (
     XNNPACKQuantizer,
     get_symmetric_quantization_config,
 )
 
+from titok_deploy_tools.ethosu_compat import EthosUCompatCompileSpec
 from titok_deploy_tools.utils import load_image
 from titok_deploy_tools.wrappers import TiTokEncoderOnly, TiTokTokenEncoder, TiTokVectorQuantizerTokens
 
@@ -35,6 +40,34 @@ def build_xnnpack_ptq_quantizer(is_per_channel: bool = True, is_qat: bool = Fals
     return quantizer
 
 
+def build_ethosu_ptq_quantizer(
+    *,
+    target: str = "ethos-u65-256",
+    system_config: str | None = None,
+    memory_mode: str | None = None,
+    config_ini: str | None = "Arm/vela.ini",
+    is_per_channel: bool = True,
+):
+    from executorch.backends.arm.quantizer import (
+        EthosUQuantizer,
+        get_symmetric_quantization_config as get_arm_symmetric_quantization_config,
+    )
+
+    compile_spec = EthosUCompatCompileSpec(
+        target=target,
+        system_config=system_config,
+        memory_mode=memory_mode,
+        config_ini=config_ini,
+    )
+    quantizer = EthosUQuantizer(compile_spec)
+    quantizer.set_global(
+        get_arm_symmetric_quantization_config(
+            is_per_channel=is_per_channel,
+        )
+    )
+    return quantizer, compile_spec
+
+
 def export_encoder_program(encoder_only: torch.nn.Module, example_input: torch.Tensor):
     return torch.export.export(encoder_only, (example_input,))
 
@@ -42,11 +75,34 @@ def export_encoder_program(encoder_only: torch.nn.Module, example_input: torch.T
 def prepare_exported_encoder_for_ptq(
     exported_program,
     *,
+    backend: str = "xnnpack",
     is_per_channel: bool = True,
+    ethos_target: str = "ethos-u65-256",
+    ethos_system_config: str | None = None,
+    ethos_memory_mode: str | None = None,
+    ethos_config_ini: str | None = "Arm/vela.ini",
 ):
-    quantizer = build_xnnpack_ptq_quantizer(is_per_channel=is_per_channel)
-    prepared = prepare_pt2e(exported_program.module(), quantizer)
-    return prepared
+    if backend == "xnnpack":
+        quantizer = build_xnnpack_ptq_quantizer(is_per_channel=is_per_channel)
+        compile_spec = None
+        graph_module = exported_program.module()
+        prepare_fn = prepare_pt2e
+    elif backend == "ethosu":
+        quantizer, compile_spec = build_ethosu_ptq_quantizer(
+            target=ethos_target,
+            system_config=ethos_system_config,
+            memory_mode=ethos_memory_mode,
+            config_ini=ethos_config_ini,
+            is_per_channel=is_per_channel,
+        )
+        # Arm PT2E passes do not tolerate the _guards_fn call_module inserted by
+        # ExportedProgram.module() with default settings.
+        graph_module = exported_program.module(check_guards=False)
+        prepare_fn = prepare_pt2e_torchao
+    else:
+        raise ValueError(f"Unsupported PTQ backend: {backend}")
+    prepared = prepare_fn(graph_module, quantizer)
+    return prepared, compile_spec
 
 
 def calibrate_prepared_encoder(
@@ -60,8 +116,12 @@ def calibrate_prepared_encoder(
             prepared_encoder(image)
 
 
-def convert_encoder_after_ptq(prepared_encoder: torch.nn.Module):
-    return convert_pt2e(prepared_encoder)
+def convert_encoder_after_ptq(prepared_encoder: torch.nn.Module, *, backend: str = "xnnpack"):
+    if backend == "xnnpack":
+        return convert_pt2e(prepared_encoder)
+    if backend == "ethosu":
+        return convert_pt2e_torchao(prepared_encoder)
+    raise ValueError(f"Unsupported PTQ backend: {backend}")
 
 
 def run_encoder_with_float_quantizer(

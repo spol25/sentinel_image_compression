@@ -1,6 +1,6 @@
 {
   "repo_id": "yucornetto/tokenizer_titok_s128_imagenet",
-  "device": "mps",
+  "device": "cpu",
   "shape": [
     1,
     128
