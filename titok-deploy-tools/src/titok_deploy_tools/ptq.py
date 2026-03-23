@@ -72,6 +72,10 @@ def export_encoder_program(encoder_only: torch.nn.Module, example_input: torch.T
     return torch.export.export(encoder_only, (example_input,))
 
 
+def export_quantized_encoder_program(quantized_encoder: torch.nn.Module, example_input: torch.Tensor):
+    return torch.export.export(quantized_encoder, (example_input,))
+
+
 def prepare_exported_encoder_for_ptq(
     exported_program,
     *,
