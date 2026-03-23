@@ -64,7 +64,7 @@ def parse_args():
     parser.add_argument(
         "--quantizer-backend",
         choices=("xnnpack", "ethosu"),
-        default="xnnpack",
+        default="ethosu",
         help="PTQ backend to use for prepare/convert.",
     )
     parser.add_argument(
@@ -119,11 +119,8 @@ def main():
     output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
     encoder_artifact_path = output_dir / Path(args.encoder_artifact_name).name
     encoder_metadata_path = output_dir / "titok_s128_encoder_only_metadata.json"
-    prepared_summary_path = output_dir / "s128_encoder_ptq_prepare_summary.json"
     converted_tokens_path = output_dir / "s128_encoder_ptq_tokens.json"
-    converted_summary_path = output_dir / "s128_encoder_ptq_summary.json"
     eval_tokens_path = output_dir / "s128_encoder_ptq_eval_tokens.json"
-    eval_summary_path = output_dir / "s128_encoder_ptq_eval_summary.json"
 
     print(f"[1/6] Loading TiTok model from {args.repo_id} on CPU")
     titok = TiTok.from_pretrained(args.repo_id).eval().to("cpu")
@@ -182,10 +179,10 @@ def main():
     if compile_spec is not None:
         prepare_summary["compile_spec_target"] = compile_spec.target
         prepare_summary["compile_spec_flags"] = compile_spec.compiler_flags
-    prepared_summary_path.write_text(json.dumps(prepare_summary, indent=2))
 
     if args.skip_convert:
-        print(f"[5/6] Skipping convert; saved prepare summary to {prepared_summary_path}")
+        print(f"[5/6] Skipping convert; prepare summary is available in the terminal output only")
+        print(json.dumps(prepare_summary, indent=2))
         print("[6/6] PTQ prepare stage complete")
         return
 
@@ -211,6 +208,13 @@ def main():
                 }
             )
 
+    converted_summary = summarize_token_records(records) | {
+        "repo_id": args.repo_id,
+        "manifest_path": str(manifest_path),
+        "quantizer_boundary": "encoder_only_quantized_vq_float",
+        "per_channel": args.per_channel,
+        "quantizer_backend": args.quantizer_backend,
+    }
     save_token_records(
         converted_tokens_path,
         records,
@@ -222,17 +226,10 @@ def main():
             "source": "encoder_ptq_float_vq",
             "per_channel": args.per_channel,
             "quantizer_backend": args.quantizer_backend,
+            "prepare": prepare_summary,
         },
+        summary=converted_summary,
     )
-    converted_summary = summarize_token_records(records) | {
-        "repo_id": args.repo_id,
-        "manifest_path": str(manifest_path),
-        "prepare_summary_path": str(prepared_summary_path),
-        "quantizer_boundary": "encoder_only_quantized_vq_float",
-        "per_channel": args.per_channel,
-        "quantizer_backend": args.quantizer_backend,
-    }
-    converted_summary_path.write_text(json.dumps(converted_summary, indent=2))
     print(f"Saved PTQ token outputs to {converted_tokens_path}")
 
     if eval_image_paths is None:
@@ -254,6 +251,14 @@ def main():
                 }
             )
 
+    eval_summary = summarize_token_records(eval_records) | {
+        "repo_id": args.repo_id,
+        "manifest_path": str(eval_manifest_path),
+        "calibration_manifest_path": str(manifest_path),
+        "quantizer_boundary": "encoder_only_quantized_vq_float",
+        "per_channel": args.per_channel,
+        "quantizer_backend": args.quantizer_backend,
+    }
     save_token_records(
         eval_tokens_path,
         eval_records,
@@ -266,18 +271,10 @@ def main():
             "per_channel": args.per_channel,
             "quantizer_backend": args.quantizer_backend,
             "calibration_manifest_path": str(manifest_path),
+            "prepare": prepare_summary,
         },
+        summary=eval_summary,
     )
-    eval_summary = summarize_token_records(eval_records) | {
-        "repo_id": args.repo_id,
-        "manifest_path": str(eval_manifest_path),
-        "calibration_manifest_path": str(manifest_path),
-        "prepare_summary_path": str(prepared_summary_path),
-        "quantizer_boundary": "encoder_only_quantized_vq_float",
-        "per_channel": args.per_channel,
-        "quantizer_backend": args.quantizer_backend,
-    }
-    eval_summary_path.write_text(json.dumps(eval_summary, indent=2))
     print(f"Saved PTQ eval token outputs to {eval_tokens_path}")
 
 

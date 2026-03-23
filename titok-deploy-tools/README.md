@@ -102,7 +102,7 @@ python scripts/ptq/run_encoder_ptq_experiment.py \
 
 ```bash
 python scripts/ptq/compare_token_outputs.py \
-  --reference outputs/ptq/s128_calibration_baseline_tokens.json \
+  --reference outputs/ptq/s128_float_baseline_tokens.json \
   --candidate outputs/ptq/s128_encoder_ptq_tokens.json \
   --output-dir outputs/ptq
 ```
@@ -110,7 +110,7 @@ python scripts/ptq/compare_token_outputs.py \
 ```bash
 python scripts/ptq/compare_decoded_reconstructions.py \
   --titok-root /path/to/1d-tokenizer \
-  --reference outputs/ptq/s128_calibration_baseline_tokens.json \
+  --reference outputs/ptq/s128_float_baseline_tokens.json \
   --candidate outputs/ptq/s128_encoder_ptq_tokens.json \
   --output-dir outputs/ptq
 ```

@@ -18,19 +18,27 @@ def parse_args():
     parser.add_argument("--candidate", required=True, help="Candidate token JSON path.")
     parser.add_argument(
         "--output-dir",
-        default="outputs/ptq",
-        help="Directory where the comparison summary will be written.",
+        default=None,
+        help="Optional directory where a standalone comparison JSON will be written.",
     )
     parser.add_argument(
         "--summary-name",
-        default="token_comparison_summary.json",
-        help="Filename for the comparison summary JSON.",
+        default=None,
+        help="Optional filename for a standalone comparison JSON.",
     )
     return parser.parse_args()
 
 
+def load_payload(path: Path):
+    return json.loads(path.read_text())
+
+
 def load_records(path: Path):
-    payload = json.loads(path.read_text())
+    payload = load_payload(path)
+    return payload, extract_records(payload)
+
+
+def extract_records(payload: dict):
     if "records" in payload:
         return payload["records"]
     if "tokens" in payload:
@@ -43,8 +51,8 @@ def main():
     reference_path = resolve_input_path(args.reference, REPO_ROOT)
     candidate_path = resolve_input_path(args.candidate, REPO_ROOT)
 
-    reference_records = load_records(reference_path)
-    candidate_records = load_records(candidate_path)
+    reference_payload, reference_records = load_records(reference_path)
+    candidate_payload, candidate_records = load_records(candidate_path)
     if len(reference_records) != len(candidate_records):
         raise ValueError("Reference and candidate token files have different record counts.")
 
@@ -80,10 +88,29 @@ def main():
         "changed_images": changed_images,
     }
 
-    output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
-    summary_path = resolve_named_output(output_dir, args.summary_name)
-    summary_path.write_text(json.dumps(summary, indent=2))
-    print(f"Saved token comparison summary to {summary_path}")
+    comparisons = candidate_payload.get("comparisons", [])
+    comparisons = [
+        item
+        for item in comparisons
+        if not (
+            item.get("reference") == str(reference_path)
+            and item.get("candidate") == str(candidate_path)
+        )
+    ]
+    comparisons.append(summary)
+    candidate_payload["comparisons"] = comparisons
+    candidate_path.write_text(json.dumps(candidate_payload, indent=2))
+
+    if args.output_dir and args.summary_name:
+        output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
+        summary_path = resolve_named_output(output_dir, args.summary_name)
+        summary_path.write_text(json.dumps(summary, indent=2))
+        print(f"Saved token comparison summary to {summary_path}")
+    else:
+        print(
+            "Embedded token comparison in "
+            f"{candidate_path} with overall agreement {summary['overall_token_agreement']:.6f}"
+        )
 
 
 if __name__ == "__main__":

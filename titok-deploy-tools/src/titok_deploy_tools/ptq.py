@@ -75,7 +75,7 @@ def export_encoder_program(encoder_only: torch.nn.Module, example_input: torch.T
 def prepare_exported_encoder_for_ptq(
     exported_program,
     *,
-    backend: str = "xnnpack",
+    backend: str = "ethosu",
     is_per_channel: bool = True,
     ethos_target: str = "ethos-u65-256",
     ethos_system_config: str | None = None,
@@ -116,7 +116,7 @@ def calibrate_prepared_encoder(
             prepared_encoder(image)
 
 
-def convert_encoder_after_ptq(prepared_encoder: torch.nn.Module, *, backend: str = "xnnpack"):
+def convert_encoder_after_ptq(prepared_encoder: torch.nn.Module, *, backend: str = "ethosu"):
     if backend == "xnnpack":
         return convert_pt2e(prepared_encoder)
     if backend == "ethosu":
@@ -141,6 +141,7 @@ def save_token_records(
     image_size: int,
     token_shape: list[int] | None = None,
     metadata: dict | None = None,
+    summary: dict | None = None,
 ):
     payload = {
         "repo_id": repo_id,
@@ -150,6 +151,8 @@ def save_token_records(
     }
     if metadata is not None:
         payload["metadata"] = metadata
+    if summary is not None:
+        payload["summary"] = summary
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, indent=2))
 

@@ -1,5 +1,4 @@
 import argparse
-import json
 from pathlib import Path
 import sys
 
@@ -52,8 +51,7 @@ def main():
         raise FileNotFoundError(f"Calibration manifest not found: {manifest_path}")
 
     output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
-    baseline_path = output_dir / "s128_calibration_baseline_tokens.json"
-    summary_path = output_dir / "s128_calibration_baseline_summary.json"
+    baseline_path = output_dir / "s128_float_baseline_tokens.json"
 
     image_paths = load_manifest_records(manifest_path)
 
@@ -83,7 +81,13 @@ def main():
             "tokens": token_list,
         })
 
-    print(f"[4/4] Saving baseline outputs to {baseline_path} and {summary_path}")
+    summary = summarize_token_records(records) | {
+        "repo_id": args.repo_id,
+        "manifest_path": str(manifest_path),
+        "source": "float_wrapper_baseline",
+    }
+
+    print(f"[4/4] Saving baseline outputs to {baseline_path}")
     save_token_records(
         baseline_path,
         records,
@@ -94,13 +98,8 @@ def main():
             "manifest_path": str(manifest_path),
             "source": "float_wrapper_baseline",
         },
+        summary=summary,
     )
-
-    summary = summarize_token_records(records) | {
-        "repo_id": args.repo_id,
-        "manifest_path": str(manifest_path),
-    }
-    summary_path.write_text(json.dumps(summary, indent=2))
     print(f"Saved calibration baseline for {len(records)} image(s)")
 
 
