@@ -13316,7 +13316,7 @@
     "prepare": {
       "repo_id": "yucornetto/tokenizer_titok_s128_imagenet",
       "manifest_path": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/manifests/calibration_manifest.json",
-      "encoder_artifact_path": "/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/outputs/ptq_snapshot_balanced_ethosu_tmp/titok_s128_encoder_only.pt2",
+      "encoder_artifact_path": "/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/outputs/ptq_snapshot_balanced_ethosu_tmp_refresh/titok_s128_encoder_only.pt2",
       "num_calibration_images": 500,
       "image_size": 256,
       "per_channel": true,
@@ -13333,8 +13333,7 @@
         "--system-config=Ethos_U65_High_End",
         "--memory-mode=Sram_Only"
       ]
-    },
-    "split": "eval"
+    }
   },
   "summary": {
     "num_images": 100,
@@ -13345,19 +13344,1457 @@
     "repo_id": "yucornetto/tokenizer_titok_s128_imagenet",
     "manifest_path": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/manifests/eval_manifest.json",
     "calibration_manifest_path": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/manifests/calibration_manifest.json",
-    "split": "eval",
-    "quantizer_backend": "ethosu",
+    "quantizer_boundary": "encoder_only_quantized_vq_float",
     "per_channel": true,
-    "quantizer_boundary": "encoder_only_quantized_vq_float"
+    "quantizer_backend": "ethosu"
   },
   "comparisons": {
-    "tokens": {
+    "latents": {
       "split": "eval",
       "num_images": 100,
+      "metrics": {
+        "cosine_similarity": {
+          "mean": 0.257930578738451,
+          "median": 0.26589567959308624,
+          "min": 0.0627121776342392,
+          "max": 0.5166374444961548
+        },
+        "l2_error": {
+          "mean": 12.949363708496094,
+          "median": 12.952170848846436,
+          "min": 10.749943733215332,
+          "max": 16.278688430786133
+        },
+        "normalized_l2_error": {
+          "mean": 1.3308272255423512,
+          "median": 1.3394215022515448,
+          "min": 1.032263059869269,
+          "max": 1.6689089310078653
+        },
+        "mse": {
+          "mean": 0.11008362829685212,
+          "median": 0.10921872779726982,
+          "min": 0.07523521780967712,
+          "max": 0.17252324521541595
+        },
+        "rmse": {
+          "mean": 0.33040972662487567,
+          "median": 0.3304813238229478,
+          "min": 0.2742903895685686,
+          "max": 0.41535917615410395
+        },
+        "max_abs_error": {
+          "mean": 1.5250164532661439,
+          "median": 1.529236078262329,
+          "min": 1.0904667377471924,
+          "max": 1.8605228662490845
+        }
+      },
+      "per_image": [
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0000_day_far_S1_I02_R1_PICT0417.jpg",
+          "cosine_similarity": 0.40805965662002563,
+          "l2_error": 11.888494491577148,
+          "normalized_l2_error": 1.148774212882611,
+          "mse": 0.09201580286026001,
+          "rmse": 0.3033410668871922,
+          "reference_norm": 10.348852157592773,
+          "candidate_norm": 11.438963890075684,
+          "max_abs_error": 1.5343034267425537
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0001_day_far_S1_I13_R1_PICT1695.jpg",
+          "cosine_similarity": 0.27288001775741577,
+          "l2_error": 12.987712860107422,
+          "normalized_l2_error": 1.2975132163171486,
+          "mse": 0.10981813073158264,
+          "rmse": 0.3313881873748409,
+          "reference_norm": 10.009696006774902,
+          "candidate_norm": 11.446228981018066,
+          "max_abs_error": 1.7227826118469238
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0002_day_far_S1_O10_R2_PICT5046.jpg",
+          "cosine_similarity": 0.35592180490493774,
+          "l2_error": 12.358574867248535,
+          "normalized_l2_error": 1.1997876307552662,
+          "mse": 0.0994364395737648,
+          "rmse": 0.3153354397681377,
+          "reference_norm": 10.30063533782959,
+          "candidate_norm": 11.416864395141602,
+          "max_abs_error": 1.3501534461975098
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0003_day_far_S1_R09_R1_PICT1181.jpg",
+          "cosine_similarity": 0.3047636151313782,
+          "l2_error": 12.749876022338867,
+          "normalized_l2_error": 1.2493904774774547,
+          "mse": 0.10583288222551346,
+          "rmse": 0.3253196616030354,
+          "reference_norm": 10.204876899719238,
+          "candidate_norm": 11.361886978149414,
+          "max_abs_error": 1.5333212614059448
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0004_day_far_S2_B07_R2_PICT0527.jpg",
+          "cosine_similarity": 0.15362396836280823,
+          "l2_error": 14.451704978942871,
+          "normalized_l2_error": 1.4757919824031287,
+          "mse": 0.13597120344638824,
+          "rmse": 0.3687427334150305,
+          "reference_norm": 9.792508125305176,
+          "candidate_norm": 12.23850154876709,
+          "max_abs_error": 1.4992563724517822
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0005_day_far_S2_E13_R1_IMAG0195.jpg",
+          "cosine_similarity": 0.3721887767314911,
+          "l2_error": 11.176398277282715,
+          "normalized_l2_error": 1.1685525987134189,
+          "mse": 0.08132284879684448,
+          "rmse": 0.285171612887476,
+          "reference_norm": 9.564309120178223,
+          "candidate_norm": 10.34998607635498,
+          "max_abs_error": 1.2823307514190674
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0006_day_far_S2_S11_R3_PICT1556.jpg",
+          "cosine_similarity": 0.19449666142463684,
+          "l2_error": 13.462748527526855,
+          "normalized_l2_error": 1.3424227563556685,
+          "mse": 0.1179983988404274,
+          "rmse": 0.3435089501605852,
+          "reference_norm": 10.028695106506348,
+          "candidate_norm": 11.141605377197266,
+          "max_abs_error": 1.5510108470916748
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0007_day_far_S2_S13_R2_PICT2077.jpg",
+          "cosine_similarity": 0.33889031410217285,
+          "l2_error": 12.210647583007812,
+          "normalized_l2_error": 1.215008925298417,
+          "mse": 0.09707029908895493,
+          "rmse": 0.3115610679930259,
+          "reference_norm": 10.04984188079834,
+          "candidate_norm": 11.1323823928833,
+          "max_abs_error": 1.4659382104873657
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0008_day_far_S3_J09_R12_IMAG2032.jpg",
+          "cosine_similarity": 0.29949715733528137,
+          "l2_error": 13.381421089172363,
+          "normalized_l2_error": 1.335552585638179,
+          "mse": 0.11657711863517761,
+          "rmse": 0.3414339154729325,
+          "reference_norm": 10.019389152526855,
+          "candidate_norm": 12.364482879638672,
+          "max_abs_error": 1.6011375188827515
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0009_day_far_S4_O13_R2_IMAG3099.jpg",
+          "cosine_similarity": 0.42536547780036926,
+          "l2_error": 11.255516052246094,
+          "normalized_l2_error": 1.118806072359027,
+          "mse": 0.08247829228639603,
+          "rmse": 0.28719034156182205,
+          "reference_norm": 10.06029224395752,
+          "candidate_norm": 10.896671295166016,
+          "max_abs_error": 1.2274397611618042
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0010_day_far_S5_I01_R3_IMAG0053.jpg",
+          "cosine_similarity": 0.42528653144836426,
+          "l2_error": 11.194605827331543,
+          "normalized_l2_error": 1.103297628535065,
+          "mse": 0.0815880298614502,
+          "rmse": 0.2856361844400149,
+          "reference_norm": 10.146496772766113,
+          "candidate_norm": 10.717397689819336,
+          "max_abs_error": 1.2504401206970215
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0011_day_far_S5_I08_R3_IMAG1149.jpg",
+          "cosine_similarity": 0.1893458366394043,
+          "l2_error": 14.043110847473145,
+          "normalized_l2_error": 1.3870496857082895,
+          "mse": 0.12839128077030182,
+          "rmse": 0.3583172906382021,
+          "reference_norm": 10.124446868896484,
+          "candidate_norm": 11.835668563842773,
+          "max_abs_error": 1.64251708984375
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0012_day_far_S5_I13_R3_IMAG0373.jpg",
+          "cosine_similarity": 0.3989900052547455,
+          "l2_error": 11.521170616149902,
+          "normalized_l2_error": 1.1683880679727285,
+          "mse": 0.086417555809021,
+          "rmse": 0.2939686306547367,
+          "reference_norm": 9.860739707946777,
+          "candidate_norm": 11.074520111083984,
+          "max_abs_error": 1.5651369094848633
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0013_day_far_S5_U09_R2_IMAG0471.jpg",
+          "cosine_similarity": 0.40923675894737244,
+          "l2_error": 11.033391952514648,
+          "normalized_l2_error": 1.1104490487850458,
+          "mse": 0.07925504446029663,
+          "rmse": 0.28152272458950206,
+          "reference_norm": 9.935973167419434,
+          "candidate_norm": 10.354721069335938,
+          "max_abs_error": 1.1085355281829834
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0014_day_far_S5_U10_R2_IMAG0644.jpg",
+          "cosine_similarity": 0.266206294298172,
+          "l2_error": 12.566485404968262,
+          "normalized_l2_error": 1.2437824634319745,
+          "mse": 0.10281028598546982,
+          "rmse": 0.3206404309900263,
+          "reference_norm": 10.103443145751953,
+          "candidate_norm": 10.631328582763672,
+          "max_abs_error": 1.3261209726333618
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0015_day_far_S5_U13_R3_IMAG1561.jpg",
+          "cosine_similarity": 0.4416539669036865,
+          "l2_error": 11.424545288085938,
+          "normalized_l2_error": 1.1425225194980781,
+          "mse": 0.08497411012649536,
+          "rmse": 0.29150319059402313,
+          "reference_norm": 9.999404907226562,
+          "candidate_norm": 11.489867210388184,
+          "max_abs_error": 1.5111178159713745
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0016_day_far_S6_B06_R2_IMAG0715.jpg",
+          "cosine_similarity": 0.5166374444961548,
+          "l2_error": 10.749943733215332,
+          "normalized_l2_error": 1.032263059869269,
+          "mse": 0.07523521780967712,
+          "rmse": 0.2742903895685686,
+          "reference_norm": 10.413957595825195,
+          "candidate_norm": 11.385059356689453,
+          "max_abs_error": 1.4224765300750732
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0017_day_far_S6_C01_R1_IMAG1820.jpg",
+          "cosine_similarity": 0.36213454604148865,
+          "l2_error": 12.534564018249512,
+          "normalized_l2_error": 1.2258951097079915,
+          "mse": 0.10228860378265381,
+          "rmse": 0.3198258960476056,
+          "reference_norm": 10.224825859069824,
+          "candidate_norm": 11.843939781188965,
+          "max_abs_error": 1.559476375579834
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0018_day_far_S6_C04_R1_IMAG0286.jpg",
+          "cosine_similarity": 0.12452518194913864,
+          "l2_error": 14.028716087341309,
+          "normalized_l2_error": 1.4148410929214448,
+          "mse": 0.12812818586826324,
+          "rmse": 0.35794997676807194,
+          "reference_norm": 9.915400505065918,
+          "candidate_norm": 11.235432624816895,
+          "max_abs_error": 1.6158537864685059
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0019_day_far_S6_G10_R2_IMAG0723.jpg",
+          "cosine_similarity": 0.0627121776342392,
+          "l2_error": 14.052042007446289,
+          "normalized_l2_error": 1.5297716954994525,
+          "mse": 0.12855464220046997,
+          "rmse": 0.3585451745602916,
+          "reference_norm": 9.185711860656738,
+          "candidate_norm": 11.22568130493164,
+          "max_abs_error": 1.5569753646850586
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0020_day_far_S6_J13_R2_IMAG0974.jpg",
+          "cosine_similarity": 0.27401089668273926,
+          "l2_error": 12.478026390075684,
+          "normalized_l2_error": 1.2720794590830755,
+          "mse": 0.10136791318655014,
+          "rmse": 0.31838328031878516,
+          "reference_norm": 9.80915641784668,
+          "candidate_norm": 10.855186462402344,
+          "max_abs_error": 1.51554274559021
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0021_day_far_S6_L04_R1_IMAG0060.jpg",
+          "cosine_similarity": 0.14594316482543945,
+          "l2_error": 14.308476448059082,
+          "normalized_l2_error": 1.3853319869838936,
+          "mse": 0.1332893967628479,
+          "rmse": 0.3650882040861467,
+          "reference_norm": 10.328554153442383,
+          "candidate_norm": 11.52365779876709,
+          "max_abs_error": 1.5189543962478638
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0022_day_far_S6_Q12_R1_IMAG3382.jpg",
+          "cosine_similarity": 0.30723828077316284,
+          "l2_error": 13.333106994628906,
+          "normalized_l2_error": 1.336420248147421,
+          "mse": 0.11573684960603714,
+          "rmse": 0.340201189895093,
+          "reference_norm": 9.97673225402832,
+          "candidate_norm": 12.426445960998535,
+          "max_abs_error": 1.6714571714401245
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0023_day_far_S6_Q13_R1_IMAG4043.jpg",
+          "cosine_similarity": 0.38923871517181396,
+          "l2_error": 11.946013450622559,
+          "normalized_l2_error": 1.175007870092261,
+          "mse": 0.09290837496519089,
+          "rmse": 0.3048087514576819,
+          "reference_norm": 10.166751861572266,
+          "candidate_norm": 11.37380313873291,
+          "max_abs_error": 1.3351891040802002
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0024_day_far_S6_T12_R1_IMAG0230.jpg",
+          "cosine_similarity": 0.19195537269115448,
+          "l2_error": 13.794296264648438,
+          "normalized_l2_error": 1.398649830564034,
+          "mse": 0.12388191372156143,
+          "rmse": 0.35196862604721096,
+          "reference_norm": 9.862580299377441,
+          "candidate_norm": 11.721515655517578,
+          "max_abs_error": 1.4306402206420898
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0025_day_near_S2_C03_R2_IMAG0114.jpg",
+          "cosine_similarity": 0.38346096873283386,
+          "l2_error": 10.843737602233887,
+          "normalized_l2_error": 1.1503842443915333,
+          "mse": 0.07655379176139832,
+          "rmse": 0.2766835588924617,
+          "reference_norm": 9.426187515258789,
+          "candidate_norm": 10.079773902893066,
+          "max_abs_error": 1.230085849761963
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0026_day_near_S2_H08_R3_IMAG0666.jpg",
+          "cosine_similarity": 0.3046260178089142,
+          "l2_error": 11.92030143737793,
+          "normalized_l2_error": 1.368968322924428,
+          "mse": 0.09250883013010025,
+          "rmse": 0.30415264281294724,
+          "reference_norm": 8.707507133483887,
+          "candidate_norm": 11.214591979980469,
+          "max_abs_error": 1.354891300201416
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0027_day_near_S2_L09_R1_IMAG0288.jpg",
+          "cosine_similarity": 0.34615957736968994,
+          "l2_error": 11.968280792236328,
+          "normalized_l2_error": 1.2269918712223125,
+          "mse": 0.09325503557920456,
+          "rmse": 0.30537687466343055,
+          "reference_norm": 9.754164695739746,
+          "candidate_norm": 11.089912414550781,
+          "max_abs_error": 1.4473938941955566
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0028_day_near_S2_O08_R3_IMAG0284.jpg",
+          "cosine_similarity": 0.13207581639289856,
+          "l2_error": 13.142130851745605,
+          "normalized_l2_error": 1.4183422986730254,
+          "mse": 0.11244506388902664,
+          "rmse": 0.33532829270585957,
+          "reference_norm": 9.265838623046875,
+          "candidate_norm": 10.623662948608398,
+          "max_abs_error": 1.6355478763580322
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0029_day_near_S3_H13_R12_IMAG0589.jpg",
+          "cosine_similarity": 0.23278993368148804,
+          "l2_error": 13.068180084228516,
+          "normalized_l2_error": 1.3637764211540413,
+          "mse": 0.11118314415216446,
+          "rmse": 0.3334413653885259,
+          "reference_norm": 9.582347869873047,
+          "candidate_norm": 11.392108917236328,
+          "max_abs_error": 1.6301078796386719
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0030_day_near_S3_I08_R12_IMAG0248.jpg",
+          "cosine_similarity": 0.2907414734363556,
+          "l2_error": 12.403383255004883,
+          "normalized_l2_error": 1.2504504390169988,
+          "mse": 0.10015881806612015,
+          "rmse": 0.3164787798038285,
+          "reference_norm": 9.919132232666016,
+          "candidate_norm": 10.869619369506836,
+          "max_abs_error": 1.243391752243042
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0031_day_near_S3_J03_R11_IMAG0363.jpg",
+          "cosine_similarity": 0.24939952790737152,
+          "l2_error": 12.546008110046387,
+          "normalized_l2_error": 1.331568663611635,
+          "mse": 0.10247546434402466,
+          "rmse": 0.3201178913213453,
+          "reference_norm": 9.421976089477539,
+          "candidate_norm": 10.96090316772461,
+          "max_abs_error": 1.5638070106506348
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0032_day_near_S3_N06_R12_IMAG1442.jpg",
+          "cosine_similarity": 0.20033526420593262,
+          "l2_error": 12.437549591064453,
+          "normalized_l2_error": 1.422141198949368,
+          "mse": 0.10071136802434921,
+          "rmse": 0.3173505443895586,
+          "reference_norm": 8.745650291442871,
+          "candidate_norm": 10.767383575439453,
+          "max_abs_error": 1.354311466217041
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0033_day_near_S3_P07_R12_IMAG0980.jpg",
+          "cosine_similarity": 0.14311957359313965,
+          "l2_error": 13.542152404785156,
+          "normalized_l2_error": 1.5107691423817209,
+          "mse": 0.11939450353384018,
+          "rmse": 0.34553509739799254,
+          "reference_norm": 8.963747024536133,
+          "candidate_norm": 11.514555931091309,
+          "max_abs_error": 1.5888864994049072
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0034_day_near_S4_B04_R2_IMAG0082.jpg",
+          "cosine_similarity": 0.2185971438884735,
+          "l2_error": 12.744022369384766,
+          "normalized_l2_error": 1.4202482481614358,
+          "mse": 0.10573574155569077,
+          "rmse": 0.32517032699139503,
+          "reference_norm": 8.973094940185547,
+          "candidate_norm": 11.22114372253418,
+          "max_abs_error": 1.4747109413146973
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0035_day_near_S4_C13_R1_IMAG1667.jpg",
+          "cosine_similarity": 0.23286797106266022,
+          "l2_error": 13.127270698547363,
+          "normalized_l2_error": 1.3252816392008533,
+          "mse": 0.11219089478254318,
+          "rmse": 0.3349490928223917,
+          "reference_norm": 9.905268669128418,
+          "candidate_norm": 11.224658966064453,
+          "max_abs_error": 1.7422813177108765
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0036_day_near_S4_D02_R1_IMAG2351.jpg",
+          "cosine_similarity": 0.2669296860694885,
+          "l2_error": 11.196889877319336,
+          "normalized_l2_error": 1.2532337446025978,
+          "mse": 0.08162132650613785,
+          "rmse": 0.2856944635552776,
+          "reference_norm": 8.934398651123047,
+          "candidate_norm": 9.542678833007812,
+          "max_abs_error": 1.5096606016159058
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0037_day_near_S4_H09_R1_IMAG0120.jpg",
+          "cosine_similarity": 0.27676841616630554,
+          "l2_error": 12.91662883758545,
+          "normalized_l2_error": 1.4270268100387427,
+          "mse": 0.108619324862957,
+          "rmse": 0.3295744602710547,
+          "reference_norm": 9.051426887512207,
+          "candidate_norm": 12.054323196411133,
+          "max_abs_error": 1.4994970560073853
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0038_day_near_S4_I13_R1_IMAG0161.jpg",
+          "cosine_similarity": 0.33813196420669556,
+          "l2_error": 12.156485557556152,
+          "normalized_l2_error": 1.311443126656794,
+          "mse": 0.09621099382638931,
+          "rmse": 0.31017897063854816,
+          "reference_norm": 9.269548416137695,
+          "candidate_norm": 11.600713729858398,
+          "max_abs_error": 1.458361268043518
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0039_day_near_S4_L10_R1_IMAG0250.jpg",
+          "cosine_similarity": 0.29047828912734985,
+          "l2_error": 12.623956680297852,
+          "normalized_l2_error": 1.2736934882490198,
+          "mse": 0.10375279188156128,
+          "rmse": 0.3221068019796559,
+          "reference_norm": 9.911298751831055,
+          "candidate_norm": 11.210836410522461,
+          "max_abs_error": 1.6762893199920654
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0040_day_near_S5_D13_R3_IMAG4437.jpg",
+          "cosine_similarity": 0.1407620906829834,
+          "l2_error": 14.04149341583252,
+          "normalized_l2_error": 1.5249785135854834,
+          "mse": 0.12836165726184845,
+          "rmse": 0.3582759512747799,
+          "reference_norm": 9.207666397094727,
+          "candidate_norm": 11.976085662841797,
+          "max_abs_error": 1.8498221635818481
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0041_day_near_S5_E09_R2_IMAG1689.jpg",
+          "cosine_similarity": 0.24896596372127533,
+          "l2_error": 13.562435150146484,
+          "normalized_l2_error": 1.3847234354261697,
+          "mse": 0.11975240707397461,
+          "rmse": 0.34605260737924604,
+          "reference_norm": 9.794327735900879,
+          "candidate_norm": 12.131592750549316,
+          "max_abs_error": 1.7199387550354004
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0042_day_near_S5_I12_R3_IMAG0739.jpg",
+          "cosine_similarity": 0.276202917098999,
+          "l2_error": 12.516301155090332,
+          "normalized_l2_error": 1.3222852173243707,
+          "mse": 0.10199079662561417,
+          "rmse": 0.3193599796868953,
+          "reference_norm": 9.465659141540527,
+          "candidate_norm": 11.210634231567383,
+          "max_abs_error": 1.505250096321106
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0043_day_near_S5_K03_R1_IMAG0289.jpg",
+          "cosine_similarity": 0.237404003739357,
+          "l2_error": 12.760741233825684,
+          "normalized_l2_error": 1.3541370146377798,
+          "mse": 0.10601335763931274,
+          "rmse": 0.32559692510727545,
+          "reference_norm": 9.42352294921875,
+          "candidate_norm": 11.127557754516602,
+          "max_abs_error": 1.8605228662490845
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0044_day_near_S5_K03_R1_IMAG0290.jpg",
+          "cosine_similarity": 0.27220624685287476,
+          "l2_error": 12.312710762023926,
+          "normalized_l2_error": 1.3021206791175586,
+          "mse": 0.09869977831840515,
+          "rmse": 0.31416520863775665,
+          "reference_norm": 9.455890655517578,
+          "candidate_norm": 10.869388580322266,
+          "max_abs_error": 1.4880484342575073
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0045_day_near_S5_V10_R2_IMAG0133.jpg",
+          "cosine_similarity": 0.3130035996437073,
+          "l2_error": 12.359455108642578,
+          "normalized_l2_error": 1.2547570057227748,
+          "mse": 0.09945058822631836,
+          "rmse": 0.31535787325880793,
+          "reference_norm": 9.850078582763672,
+          "candidate_norm": 11.1600923538208,
+          "max_abs_error": 1.4117883443832397
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0046_day_near_S6_G12_R1_IMAG2383.jpg",
+          "cosine_similarity": 0.18424537777900696,
+          "l2_error": 13.295446395874023,
+          "normalized_l2_error": 1.3505244860246204,
+          "mse": 0.11508393287658691,
+          "rmse": 0.339240228859413,
+          "reference_norm": 9.844654083251953,
+          "candidate_norm": 10.932040214538574,
+          "max_abs_error": 1.5747867822647095
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0047_day_near_S6_I03_R2_IMAG0644.jpg",
+          "cosine_similarity": 0.29346293210983276,
+          "l2_error": 12.781549453735352,
+          "normalized_l2_error": 1.2762435789905102,
+          "mse": 0.10635936260223389,
+          "rmse": 0.3261278316890999,
+          "reference_norm": 10.014976501464844,
+          "candidate_norm": 11.406972885131836,
+          "max_abs_error": 1.6093674898147583
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0048_day_near_S6_T13_R2_IMAG3181.jpg",
+          "cosine_similarity": 0.2956179678440094,
+          "l2_error": 12.188947677612305,
+          "normalized_l2_error": 1.270394537786894,
+          "mse": 0.09672554582357407,
+          "rmse": 0.31100730831215856,
+          "reference_norm": 9.594615936279297,
+          "candidate_norm": 10.871179580688477,
+          "max_abs_error": 1.4942269325256348
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0049_day_near_S6_T13_R2_IMAG3182.jpg",
+          "cosine_similarity": 0.24248184263706207,
+          "l2_error": 13.036437034606934,
+          "normalized_l2_error": 1.3493676733845354,
+          "mse": 0.11064368486404419,
+          "rmse": 0.33263145501296804,
+          "reference_norm": 9.661145210266113,
+          "candidate_norm": 11.4035062789917,
+          "max_abs_error": 1.349399209022522
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0050_night_far_S1_G04_R1_PICT0208.jpg",
+          "cosine_similarity": 0.13508370518684387,
+          "l2_error": 15.5859956741333,
+          "normalized_l2_error": 1.5149944403579492,
+          "mse": 0.15815317630767822,
+          "rmse": 0.39768477002228564,
+          "reference_norm": 10.287823677062988,
+          "candidate_norm": 13.180190086364746,
+          "max_abs_error": 1.5679603815078735
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0051_night_far_S1_K09_R1_PICT6076.jpg",
+          "cosine_similarity": 0.10757794231176376,
+          "l2_error": 15.636685371398926,
+          "normalized_l2_error": 1.6541966217822937,
+          "mse": 0.1591835618019104,
+          "rmse": 0.39897814702300477,
+          "reference_norm": 9.452736854553223,
+          "candidate_norm": 13.514339447021484,
+          "max_abs_error": 1.7942683696746826
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0052_night_far_S2_C03_R3_IMAG3282.jpg",
+          "cosine_similarity": 0.21055647730827332,
+          "l2_error": 13.851380348205566,
+          "normalized_l2_error": 1.4094272180012626,
+          "mse": 0.12490934878587723,
+          "rmse": 0.3534251671653806,
+          "reference_norm": 9.827666282653809,
+          "candidate_norm": 12.0472412109375,
+          "max_abs_error": 1.4897159337997437
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0053_night_far_S2_E02_R2_PICT0960.jpg",
+          "cosine_similarity": 0.10455867648124695,
+          "l2_error": 14.766507148742676,
+          "normalized_l2_error": 1.5526775350783293,
+          "mse": 0.14195947349071503,
+          "rmse": 0.3767750966965771,
+          "reference_norm": 9.510350227355957,
+          "candidate_norm": 12.334223747253418,
+          "max_abs_error": 1.5149974822998047
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0054_night_far_S2_K13_R1_PICT0185.jpg",
+          "cosine_similarity": 0.1434251070022583,
+          "l2_error": 14.807060241699219,
+          "normalized_l2_error": 1.411346564889937,
+          "mse": 0.14274026453495026,
+          "rmse": 0.377809825884598,
+          "reference_norm": 10.49144172668457,
+          "candidate_norm": 12.061394691467285,
+          "max_abs_error": 1.5890073776245117
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0055_night_far_S2_N06_R2_IMAG0068.jpg",
+          "cosine_similarity": 0.4469697177410126,
+          "l2_error": 10.864500045776367,
+          "normalized_l2_error": 1.092794946856932,
+          "mse": 0.07684722542762756,
+          "rmse": 0.27721332115832303,
+          "reference_norm": 9.941938400268555,
+          "candidate_norm": 10.684107780456543,
+          "max_abs_error": 1.4301316738128662
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0056_night_far_S2_P10_R3_IMAG0132.jpg",
+          "cosine_similarity": 0.08540666103363037,
+          "l2_error": 16.278688430786133,
+          "normalized_l2_error": 1.6689089310078653,
+          "mse": 0.17252324521541595,
+          "rmse": 0.41535917615410395,
+          "reference_norm": 9.754090309143066,
+          "candidate_norm": 13.89244556427002,
+          "max_abs_error": 1.6733744144439697
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0057_night_far_S2_S10_R2_IMAG0328.jpg",
+          "cosine_similarity": 0.2544698119163513,
+          "l2_error": 14.165374755859375,
+          "normalized_l2_error": 1.3642216436580406,
+          "mse": 0.13063658773899078,
+          "rmse": 0.3614368378278434,
+          "reference_norm": 10.383484840393066,
+          "candidate_norm": 12.633414268493652,
+          "max_abs_error": 1.5154669284820557
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0058_night_far_S3_F02_R11_IMAG0083.jpg",
+          "cosine_similarity": 0.313853919506073,
+          "l2_error": 12.31537914276123,
+          "normalized_l2_error": 1.2065958135451513,
+          "mse": 0.09874257445335388,
+          "rmse": 0.3142333121318519,
+          "reference_norm": 10.206714630126953,
+          "candidate_norm": 10.802987098693848,
+          "max_abs_error": 1.5688172578811646
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0059_night_far_S3_H02_R11_IMAG0072.jpg",
+          "cosine_similarity": 0.45413076877593994,
+          "l2_error": 10.95004940032959,
+          "normalized_l2_error": 1.121400922087458,
+          "mse": 0.07806222140789032,
+          "rmse": 0.2793961728583452,
+          "reference_norm": 9.764616012573242,
+          "candidate_norm": 11.084216117858887,
+          "max_abs_error": 1.2014766931533813
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0060_night_far_S4_C05_R2_IMAG0005.jpg",
+          "cosine_similarity": 0.17872658371925354,
+          "l2_error": 13.744501113891602,
+          "normalized_l2_error": 1.3645755171143419,
+          "mse": 0.12298909574747086,
+          "rmse": 0.35069801218066643,
+          "reference_norm": 10.07236385345459,
+          "candidate_norm": 11.32382583618164,
+          "max_abs_error": 1.6583577394485474
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0061_night_far_S4_F01_R1_IMAG0739.jpg",
+          "cosine_similarity": 0.28578323125839233,
+          "l2_error": 12.444982528686523,
+          "normalized_l2_error": 1.2083028429887146,
+          "mse": 0.10083174705505371,
+          "rmse": 0.3175401503039477,
+          "reference_norm": 10.299555778503418,
+          "candidate_norm": 10.52371597290039,
+          "max_abs_error": 1.629019021987915
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0062_night_far_S4_J09_R1_IMAG1162.jpg",
+          "cosine_similarity": 0.3591204881668091,
+          "l2_error": 12.006500244140625,
+          "normalized_l2_error": 1.1926010907562514,
+          "mse": 0.09385161846876144,
+          "rmse": 0.30635211516939365,
+          "reference_norm": 10.067490577697754,
+          "candidate_norm": 11.090282440185547,
+          "max_abs_error": 1.7829926013946533
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0063_night_far_S4_R11_R2_IMAG2471.jpg",
+          "cosine_similarity": 0.08656033128499985,
+          "l2_error": 14.12661075592041,
+          "normalized_l2_error": 1.4677911508577757,
+          "mse": 0.12992259860038757,
+          "rmse": 0.3604477751358546,
+          "reference_norm": 9.624401092529297,
+          "candidate_norm": 11.207391738891602,
+          "max_abs_error": 1.4545711278915405
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0064_night_far_S5_B13_R2_IMAG0047.jpg",
+          "cosine_similarity": 0.3921462595462799,
+          "l2_error": 11.021537780761719,
+          "normalized_l2_error": 1.1221840336294384,
+          "mse": 0.07908482104539871,
+          "rmse": 0.28122023583909944,
+          "reference_norm": 9.82150650024414,
+          "candidate_norm": 10.163846015930176,
+          "max_abs_error": 1.4533354043960571
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0065_night_far_S5_C09_R2_IMAG2223.jpg",
+          "cosine_similarity": 0.3599766194820404,
+          "l2_error": 12.161680221557617,
+          "normalized_l2_error": 1.222987681649564,
+          "mse": 0.09629327058792114,
+          "rmse": 0.3103115701805544,
+          "reference_norm": 9.94423770904541,
+          "candidate_norm": 11.443079948425293,
+          "max_abs_error": 1.5181987285614014
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0066_night_far_S5_G03_R1_IMAG1262.jpg",
+          "cosine_similarity": 0.3104974031448364,
+          "l2_error": 13.109312057495117,
+          "normalized_l2_error": 1.324819896388078,
+          "mse": 0.11188417673110962,
+          "rmse": 0.3344909217469282,
+          "reference_norm": 9.89516544342041,
+          "candidate_norm": 12.203666687011719,
+          "max_abs_error": 1.5792536735534668
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0067_night_far_S5_G07_R4_IMAG0717.jpg",
+          "cosine_similarity": 0.1101667582988739,
+          "l2_error": 14.924232482910156,
+          "normalized_l2_error": 1.5509356539567947,
+          "mse": 0.14500832557678223,
+          "rmse": 0.3807995871541646,
+          "reference_norm": 9.62272834777832,
+          "candidate_norm": 12.516969680786133,
+          "max_abs_error": 1.5715712308883667
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0068_night_far_S5_K12_R3_IMAG0357.jpg",
+          "cosine_similarity": 0.42364901304244995,
+          "l2_error": 11.602226257324219,
+          "normalized_l2_error": 1.2125891502228912,
+          "mse": 0.08763781189918518,
+          "rmse": 0.29603684213149073,
+          "reference_norm": 9.568142890930176,
+          "candidate_norm": 11.766736030578613,
+          "max_abs_error": 1.416761875152588
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0069_night_far_S5_O04_R3_IMAG5153.jpg",
+          "cosine_similarity": 0.15766961872577667,
+          "l2_error": 13.69840145111084,
+          "normalized_l2_error": 1.379520294547319,
+          "mse": 0.12216547876596451,
+          "rmse": 0.3495217858245241,
+          "reference_norm": 9.929829597473145,
+          "candidate_norm": 11.130983352661133,
+          "max_abs_error": 1.6787972450256348
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0070_night_far_S5_U12_R4_IMAG1338.jpg",
+          "cosine_similarity": 0.15800683200359344,
+          "l2_error": 14.082219123840332,
+          "normalized_l2_error": 1.4581442633181787,
+          "mse": 0.12910740077495575,
+          "rmse": 0.35931518305654125,
+          "reference_norm": 9.657630920410156,
+          "candidate_norm": 11.887811660766602,
+          "max_abs_error": 1.7264772653579712
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0071_night_far_S5_U13_R3_IMAG0833.jpg",
+          "cosine_similarity": 0.39990872144699097,
+          "l2_error": 11.56665325164795,
+          "normalized_l2_error": 1.1585916411086166,
+          "mse": 0.08710121363401413,
+          "rmse": 0.29512914738130175,
+          "reference_norm": 9.983373641967773,
+          "candidate_norm": 11.067699432373047,
+          "max_abs_error": 1.2638899087905884
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0072_night_far_S6_M02_R2_IMAG0242.jpg",
+          "cosine_similarity": 0.1949705183506012,
+          "l2_error": 13.839284896850586,
+          "normalized_l2_error": 1.3913139271257158,
+          "mse": 0.12469128519296646,
+          "rmse": 0.35311653203010257,
+          "reference_norm": 9.946917533874512,
+          "candidate_norm": 11.75494384765625,
+          "max_abs_error": 1.6784001588821411
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0073_night_far_S6_T12_R2_IMAG1548.jpg",
+          "cosine_similarity": 0.3040339946746826,
+          "l2_error": 12.513349533081055,
+          "normalized_l2_error": 1.2705706161666124,
+          "mse": 0.10194265097379684,
+          "rmse": 0.31928459244660845,
+          "reference_norm": 9.84860610961914,
+          "candidate_norm": 11.274092674255371,
+          "max_abs_error": 1.5044059753417969
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0074_night_far_S6_T13_R1_IMAG0842.jpg",
+          "cosine_similarity": 0.4128013551235199,
+          "l2_error": 11.152263641357422,
+          "normalized_l2_error": 1.0987667011374223,
+          "mse": 0.08097197115421295,
+          "rmse": 0.28455574349187357,
+          "reference_norm": 10.149801254272461,
+          "candidate_norm": 10.427594184875488,
+          "max_abs_error": 1.3401663303375244
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0075_night_near_S2_C04_R3_IMAG1245.jpg",
+          "cosine_similarity": 0.1376146525144577,
+          "l2_error": 14.385662078857422,
+          "normalized_l2_error": 1.531085238774617,
+          "mse": 0.13473130762577057,
+          "rmse": 0.3670576352914765,
+          "reference_norm": 9.395729064941406,
+          "candidate_norm": 12.262925148010254,
+          "max_abs_error": 1.6677007675170898
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0076_night_near_S2_E06_R2_IMAG0347.jpg",
+          "cosine_similarity": 0.4092118442058563,
+          "l2_error": 11.60667896270752,
+          "normalized_l2_error": 1.1590432531609574,
+          "mse": 0.08770507574081421,
+          "rmse": 0.29615042755467064,
+          "reference_norm": 10.014017105102539,
+          "candidate_norm": 11.25515079498291,
+          "max_abs_error": 1.0904667377471924
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0077_night_near_S2_F07_R1_IMAG0047.jpg",
+          "cosine_similarity": 0.38458019495010376,
+          "l2_error": 11.981999397277832,
+          "normalized_l2_error": 1.188557621839805,
+          "mse": 0.09346894174814224,
+          "rmse": 0.3057269071379591,
+          "reference_norm": 10.08112621307373,
+          "candidate_norm": 11.424874305725098,
+          "max_abs_error": 1.428602695465088
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0078_night_near_S2_F12_R1_IMAG0253.jpg",
+          "cosine_similarity": 0.19882804155349731,
+          "l2_error": 13.487010955810547,
+          "normalized_l2_error": 1.4098543565334993,
+          "mse": 0.11842412501573563,
+          "rmse": 0.3441280648475733,
+          "reference_norm": 9.566244125366211,
+          "candidate_norm": 11.597613334655762,
+          "max_abs_error": 1.7481147050857544
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0079_night_near_S2_O10_R1_IMAG0170.jpg",
+          "cosine_similarity": 0.13586969673633575,
+          "l2_error": 14.368103981018066,
+          "normalized_l2_error": 1.455784060752746,
+          "mse": 0.1344025880098343,
+          "rmse": 0.3666095852672626,
+          "reference_norm": 9.869667053222656,
+          "candidate_norm": 11.868587493896484,
+          "max_abs_error": 1.508225440979004
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0080_night_near_S3_I10_R11_IMAG0290.jpg",
+          "cosine_similarity": 0.2655850648880005,
+          "l2_error": 13.458483695983887,
+          "normalized_l2_error": 1.3700660099873685,
+          "mse": 0.11792367696762085,
+          "rmse": 0.3434001703080836,
+          "reference_norm": 9.823237419128418,
+          "candidate_norm": 12.17139720916748,
+          "max_abs_error": 1.6003884077072144
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0081_night_near_S3_R08_R12_IMAG1616.jpg",
+          "cosine_similarity": 0.10043960064649582,
+          "l2_error": 14.620797157287598,
+          "normalized_l2_error": 1.5121474195628912,
+          "mse": 0.13917165994644165,
+          "rmse": 0.3730571805319416,
+          "reference_norm": 9.668896675109863,
+          "candidate_norm": 11.981280326843262,
+          "max_abs_error": 1.5865856409072876
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0082_night_near_S3_R09_R12_IMAG1912.jpg",
+          "cosine_similarity": 0.26740843057632446,
+          "l2_error": 12.390165328979492,
+          "normalized_l2_error": 1.304452901145952,
+          "mse": 0.09994544833898544,
+          "rmse": 0.31614150050093937,
+          "reference_norm": 9.498361587524414,
+          "candidate_norm": 10.891508102416992,
+          "max_abs_error": 1.6157457828521729
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0083_night_near_S3_S07_R12_IMAG0782.jpg",
+          "cosine_similarity": 0.1454329639673233,
+          "l2_error": 14.109421730041504,
+          "normalized_l2_error": 1.470654701138468,
+          "mse": 0.12960660457611084,
+          "rmse": 0.360009172905512,
+          "reference_norm": 9.593973159790039,
+          "candidate_norm": 11.834546089172363,
+          "max_abs_error": 1.743655800819397
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0084_night_near_S4_D09_R2_IMAG1007.jpg",
+          "cosine_similarity": 0.08461616188287735,
+          "l2_error": 14.130205154418945,
+          "normalized_l2_error": 1.5249319360702858,
+          "mse": 0.12998872995376587,
+          "rmse": 0.3605394984655161,
+          "reference_norm": 9.266121864318848,
+          "candidate_norm": 11.480627059936523,
+          "max_abs_error": 1.4768097400665283
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0085_night_near_S4_E02_R1_IMAG0654.jpg",
+          "cosine_similarity": 0.14423251152038574,
+          "l2_error": 14.211629867553711,
+          "normalized_l2_error": 1.4724701842053336,
+          "mse": 0.13149116933345795,
+          "rmse": 0.36261711119782797,
+          "reference_norm": 9.651556968688965,
+          "candidate_norm": 11.91612720489502,
+          "max_abs_error": 1.4047374725341797
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0086_night_near_S5_C06_R1_IMAG0095.jpg",
+          "cosine_similarity": 0.184742733836174,
+          "l2_error": 13.43007755279541,
+          "normalized_l2_error": 1.5299681283280235,
+          "mse": 0.11742638796567917,
+          "rmse": 0.3426753390100886,
+          "reference_norm": 8.778011322021484,
+          "candidate_norm": 11.91455078125,
+          "max_abs_error": 1.5596680641174316
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0087_night_near_S5_C10_R3_IMAG1645.jpg",
+          "cosine_similarity": 0.10259029269218445,
+          "l2_error": 13.835848808288574,
+          "normalized_l2_error": 1.4803548091121996,
+          "mse": 0.12462938576936722,
+          "rmse": 0.3530288738465555,
+          "reference_norm": 9.346305847167969,
+          "candidate_norm": 11.205629348754883,
+          "max_abs_error": 1.6175336837768555
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0088_night_near_S5_D06_R1_IMAG4999.jpg",
+          "cosine_similarity": 0.4856049418449402,
+          "l2_error": 11.309840202331543,
+          "normalized_l2_error": 1.1315001454539972,
+          "mse": 0.08327635377645493,
+          "rmse": 0.28857642623134505,
+          "reference_norm": 9.995438575744629,
+          "candidate_norm": 12.034605979919434,
+          "max_abs_error": 1.2740877866744995
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0089_night_near_S5_H02_R3_IMAG0026.jpg",
+          "cosine_similarity": 0.22935202717781067,
+          "l2_error": 13.017607688903809,
+          "normalized_l2_error": 1.3459059808825449,
+          "mse": 0.11032428592443466,
+          "rmse": 0.3321509986804716,
+          "reference_norm": 9.672003746032715,
+          "candidate_norm": 11.208915710449219,
+          "max_abs_error": 1.5411368608474731
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0090_night_near_S5_K10_R2_IMAG1256.jpg",
+          "cosine_similarity": 0.292719304561615,
+          "l2_error": 12.087714195251465,
+          "normalized_l2_error": 1.2861222970643273,
+          "mse": 0.09512551873922348,
+          "rmse": 0.3084242512177398,
+          "reference_norm": 9.39857292175293,
+          "candidate_norm": 10.83498477935791,
+          "max_abs_error": 1.4898595809936523
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0091_night_near_S5_P04_R3_IMAG3350.jpg",
+          "cosine_similarity": 0.32412469387054443,
+          "l2_error": 11.999471664428711,
+          "normalized_l2_error": 1.224249173835323,
+          "mse": 0.0937417522072792,
+          "rmse": 0.3061727489625411,
+          "reference_norm": 9.801494598388672,
+          "candidate_norm": 10.793389320373535,
+          "max_abs_error": 1.4734243154525757
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0092_night_near_S5_T10_R3_IMAG0152.jpg",
+          "cosine_similarity": 0.14337316155433655,
+          "l2_error": 13.841326713562012,
+          "normalized_l2_error": 1.4506028168935252,
+          "mse": 0.12472806125879288,
+          "rmse": 0.35316860174538856,
+          "reference_norm": 9.541775703430176,
+          "candidate_norm": 11.487737655639648,
+          "max_abs_error": 1.643187165260315
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0093_night_near_S5_V10_R1_IMAG1521.jpg",
+          "cosine_similarity": 0.15777143836021423,
+          "l2_error": 14.059677124023438,
+          "normalized_l2_error": 1.4598279078025316,
+          "mse": 0.1286943405866623,
+          "rmse": 0.3587399344743519,
+          "reference_norm": 9.631051063537598,
+          "candidate_norm": 11.874516487121582,
+          "max_abs_error": 1.5251508951187134
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0094_night_near_S6_F06_R2_IMAG0087.jpg",
+          "cosine_similarity": 0.23390768468379974,
+          "l2_error": 13.347758293151855,
+          "normalized_l2_error": 1.3790799511592198,
+          "mse": 0.11599131673574448,
+          "rmse": 0.3405749796091082,
+          "reference_norm": 9.678741455078125,
+          "candidate_norm": 11.730191230773926,
+          "max_abs_error": 1.5122694969177246
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0095_night_near_S6_F06_R2_IMAG0293.jpg",
+          "cosine_similarity": 0.0966397151350975,
+          "l2_error": 14.484898567199707,
+          "normalized_l2_error": 1.506015926260482,
+          "mse": 0.13659654557704926,
+          "rmse": 0.36958969895960203,
+          "reference_norm": 9.618024826049805,
+          "candidate_norm": 11.800080299377441,
+          "max_abs_error": 1.6011550426483154
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0096_night_near_S6_H07_R2_IMAG2644.jpg",
+          "cosine_similarity": 0.12254777550697327,
+          "l2_error": 13.63697624206543,
+          "normalized_l2_error": 1.4348666406640638,
+          "mse": 0.12107235938310623,
+          "rmse": 0.3479545363738002,
+          "reference_norm": 9.504002571105957,
+          "candidate_norm": 11.01343059539795,
+          "max_abs_error": 1.6000477075576782
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0097_night_near_S6_J08_R1_IMAG0110.jpg",
+          "cosine_similarity": 0.32790428400039673,
+          "l2_error": 12.3405122756958,
+          "normalized_l2_error": 1.2917417647496294,
+          "mse": 0.09914600104093552,
+          "rmse": 0.31487457985829137,
+          "reference_norm": 9.553389549255371,
+          "candidate_norm": 11.54890251159668,
+          "max_abs_error": 1.686924934387207
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0098_night_near_S6_J09_R2_IMAG0133.jpg",
+          "cosine_similarity": 0.19359292089939117,
+          "l2_error": 13.1616792678833,
+          "normalized_l2_error": 1.3972163233008474,
+          "mse": 0.11277981847524643,
+          "rmse": 0.3358270663231992,
+          "reference_norm": 9.419929504394531,
+          "candidate_norm": 11.194884300231934,
+          "max_abs_error": 1.7044975757598877
+        },
+        {
+          "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0099_night_near_S6_L04_R1_IMAG0474.jpg",
+          "cosine_similarity": 0.19268003106117249,
+          "l2_error": 13.993362426757812,
+          "normalized_l2_error": 1.424761881087942,
+          "mse": 0.12748320400714874,
+          "rmse": 0.35704790155824856,
+          "reference_norm": 9.821544647216797,
+          "candidate_norm": 12.037994384765625,
+          "max_abs_error": 1.7297707796096802
+        }
+      ]
+    },
+    "tokens": {
+      "reference": "/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/outputs/ptq_snapshot_balanced_ethosu_eval_refresh/s128_float_baseline_tokens.json",
+      "candidate": "/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/outputs/ptq_snapshot_balanced_ethosu_tmp_refresh/s128_encoder_ptq_eval_tokens.json",
+      "num_images": 100,
+      "token_count_per_image": 128,
       "total_tokens": 12800,
       "total_matches": 60,
       "overall_token_agreement": 0.0046875,
       "num_changed_images": 100,
+      "changed_token_count_stats": {
+        "mean": 127.4,
+        "median": 128.0,
+        "min": 124,
+        "max": 128
+      },
+      "per_position_token_agreement": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.01,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.0,
+        0.01,
+        0.0,
+        0.01,
+        0.0,
+        0.01,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.01,
+        0.0,
+        0.01,
+        0.02,
+        0.01,
+        0.01,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.03,
+        0.0,
+        0.0,
+        0.02,
+        0.01,
+        0.01,
+        0.0,
+        0.01,
+        0.01,
+        0.0,
+        0.01,
+        0.01,
+        0.01,
+        0.01,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.01,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.01,
+        0.0,
+        0.0,
+        0.02,
+        0.02,
+        0.02,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.03,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.02,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.02,
+        0.0,
+        0.02,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.02,
+        0.01,
+        0.0,
+        0.0,
+        0.03,
+        0.02,
+        0.0,
+        0.01,
+        0.01,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.0,
+        0.0,
+        0.01,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.0
+      ],
+      "token_histogram_drift": {
+        "l1_distance": 0.8368750000000141,
+        "total_variation_distance": 0.41843750000000707,
+        "sqrt_js_proxy": 0.646867451646786,
+        "top_token_frequency_drift": [
+          {
+            "token_id": 4033,
+            "reference_frequency": 7.8125e-05,
+            "candidate_frequency": 0.01234375,
+            "absolute_frequency_diff": 0.012265625
+          },
+          {
+            "token_id": 4036,
+            "reference_frequency": 0.0003125,
+            "candidate_frequency": 0.0103125,
+            "absolute_frequency_diff": 0.01
+          },
+          {
+            "token_id": 1702,
+            "reference_frequency": 0.000390625,
+            "candidate_frequency": 0.006015625,
+            "absolute_frequency_diff": 0.005625
+          },
+          {
+            "token_id": 2031,
+            "reference_frequency": 7.8125e-05,
+            "candidate_frequency": 0.00265625,
+            "absolute_frequency_diff": 0.002578125
+          },
+          {
+            "token_id": 348,
+            "reference_frequency": 0.000390625,
+            "candidate_frequency": 0.002890625,
+            "absolute_frequency_diff": 0.0025
+          },
+          {
+            "token_id": 2495,
+            "reference_frequency": 0.00015625,
+            "candidate_frequency": 0.00265625,
+            "absolute_frequency_diff": 0.0025
+          },
+          {
+            "token_id": 1829,
+            "reference_frequency": 0.000234375,
+            "candidate_frequency": 0.0025,
+            "absolute_frequency_diff": 0.0022656250000000003
+          },
+          {
+            "token_id": 1513,
+            "reference_frequency": 0.0,
+            "candidate_frequency": 0.0021875,
+            "absolute_frequency_diff": 0.0021875
+          },
+          {
+            "token_id": 3401,
+            "reference_frequency": 0.00015625,
+            "candidate_frequency": 0.00234375,
+            "absolute_frequency_diff": 0.0021874999999999998
+          },
+          {
+            "token_id": 399,
+            "reference_frequency": 0.0003125,
+            "candidate_frequency": 0.00234375,
+            "absolute_frequency_diff": 0.00203125
+          },
+          {
+            "token_id": 356,
+            "reference_frequency": 0.00015625,
+            "candidate_frequency": 0.00203125,
+            "absolute_frequency_diff": 0.0018750000000000001
+          },
+          {
+            "token_id": 1821,
+            "reference_frequency": 0.000234375,
+            "candidate_frequency": 0.002109375,
+            "absolute_frequency_diff": 0.0018750000000000001
+          },
+          {
+            "token_id": 1998,
+            "reference_frequency": 0.0003125,
+            "candidate_frequency": 0.0021875,
+            "absolute_frequency_diff": 0.0018750000000000001
+          },
+          {
+            "token_id": 265,
+            "reference_frequency": 7.8125e-05,
+            "candidate_frequency": 0.001953125,
+            "absolute_frequency_diff": 0.001875
+          },
+          {
+            "token_id": 3726,
+            "reference_frequency": 0.000390625,
+            "candidate_frequency": 0.002109375,
+            "absolute_frequency_diff": 0.0017187500000000002
+          },
+          {
+            "token_id": 5,
+            "reference_frequency": 0.00015625,
+            "candidate_frequency": 0.001875,
+            "absolute_frequency_diff": 0.00171875
+          },
+          {
+            "token_id": 3566,
+            "reference_frequency": 7.8125e-05,
+            "candidate_frequency": 0.001796875,
+            "absolute_frequency_diff": 0.00171875
+          },
+          {
+            "token_id": 1849,
+            "reference_frequency": 0.000234375,
+            "candidate_frequency": 0.001875,
+            "absolute_frequency_diff": 0.001640625
+          },
+          {
+            "token_id": 2691,
+            "reference_frequency": 0.000625,
+            "candidate_frequency": 0.002265625,
+            "absolute_frequency_diff": 0.0016406249999999997
+          },
+          {
+            "token_id": 1008,
+            "reference_frequency": 0.00015625,
+            "candidate_frequency": 0.00171875,
+            "absolute_frequency_diff": 0.0015625
+          },
+          {
+            "token_id": 825,
+            "reference_frequency": 0.0003125,
+            "candidate_frequency": 0.001875,
+            "absolute_frequency_diff": 0.0015624999999999999
+          },
+          {
+            "token_id": 1760,
+            "reference_frequency": 0.000234375,
+            "candidate_frequency": 0.00171875,
+            "absolute_frequency_diff": 0.001484375
+          },
+          {
+            "token_id": 2924,
+            "reference_frequency": 0.00015625,
+            "candidate_frequency": 0.001640625,
+            "absolute_frequency_diff": 0.001484375
+          },
+          {
+            "token_id": 121,
+            "reference_frequency": 0.000234375,
+            "candidate_frequency": 0.001640625,
+            "absolute_frequency_diff": 0.00140625
+          },
+          {
+            "token_id": 831,
+            "reference_frequency": 0.00015625,
+            "candidate_frequency": 0.001484375,
+            "absolute_frequency_diff": 0.001328125
+          }
+        ]
+      },
       "changed_images": [
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0000_day_far_S1_I02_R1_PICT0417.jpg",
@@ -13862,510 +15299,511 @@
       ]
     },
     "reconstructions": {
-      "split": "eval",
+      "reference": "/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/outputs/ptq_snapshot_balanced_ethosu_eval_refresh/s128_float_baseline_tokens.json",
+      "candidate": "/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/outputs/ptq_snapshot_balanced_ethosu_tmp_refresh/s128_encoder_ptq_eval_tokens.json",
       "num_images": 100,
       "mean_mse": 0.03309523614589125,
-      "mean_psnr": 15.429412161836524,
+      "mean_psnr": 15.429412055015565,
       "results": [
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0000_day_far_S1_I02_R1_PICT0417.jpg",
           "mse": 0.025455966591835022,
-          "psnr": 15.942104076610079
+          "psnr": 15.942103862762451
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0001_day_far_S1_I13_R1_PICT1695.jpg",
           "mse": 0.03648887574672699,
-          "psnr": 14.378395174113031
+          "psnr": 14.378395080566406
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0002_day_far_S1_O10_R2_PICT5046.jpg",
           "mse": 0.037263091653585434,
-          "psnr": 14.287211152908142
+          "psnr": 14.287210702896118
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0003_day_far_S1_R09_R1_PICT1181.jpg",
           "mse": 0.012866313569247723,
-          "psnr": 18.90545868470043
+          "psnr": 18.905458450317383
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0004_day_far_S2_B07_R2_PICT0527.jpg",
           "mse": 0.08062262088060379,
-          "psnr": 10.935430879060775
+          "psnr": 10.935430526733398
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0005_day_far_S2_E13_R1_IMAG0195.jpg",
           "mse": 0.022781262174248695,
-          "psnr": 16.42422217916
+          "psnr": 16.424221992492676
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0006_day_far_S2_S11_R3_PICT1556.jpg",
           "mse": 0.04138929024338722,
-          "psnr": 13.831120209542373
+          "psnr": 13.831119537353516
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0007_day_far_S2_S13_R2_PICT2077.jpg",
           "mse": 0.017154837027192116,
-          "psnr": 17.656134034327778
+          "psnr": 17.656134366989136
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0008_day_far_S3_J09_R12_IMAG2032.jpg",
           "mse": 0.03095378912985325,
-          "psnr": 15.092861803284674
+          "psnr": 15.092861652374268
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0009_day_far_S4_O13_R2_IMAG3099.jpg",
           "mse": 0.025260768830776215,
-          "psnr": 15.975534354955599
+          "psnr": 15.975534915924072
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0010_day_far_S5_I01_R3_IMAG0053.jpg",
           "mse": 0.03443962335586548,
-          "psnr": 14.629416067934036
+          "psnr": 14.629416465759277
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0011_day_far_S5_I08_R3_IMAG1149.jpg",
           "mse": 0.058516938239336014,
-          "psnr": 12.327184053858849
+          "psnr": 12.327184677124023
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0012_day_far_S5_I13_R3_IMAG0373.jpg",
           "mse": 0.019131680950522423,
-          "psnr": 17.182468702516164
+          "psnr": 17.18246817588806
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0013_day_far_S5_U09_R2_IMAG0471.jpg",
           "mse": 0.03836970776319504,
-          "psnr": 14.160115085242566
+          "psnr": 14.160114526748657
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0014_day_far_S5_U10_R2_IMAG0644.jpg",
           "mse": 0.02004246972501278,
-          "psnr": 16.98048763750024
+          "psnr": 16.98048710823059
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0015_day_far_S5_U13_R3_IMAG1561.jpg",
           "mse": 0.038417454808950424,
-          "psnr": 14.154714109226083
+          "psnr": 14.154714345932007
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0016_day_far_S6_B06_R2_IMAG0715.jpg",
           "mse": 0.034262608736753464,
-          "psnr": 14.651795731613959
+          "psnr": 14.651795625686646
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0017_day_far_S6_C01_R1_IMAG1820.jpg",
           "mse": 0.01597920060157776,
-          "psnr": 17.964449511176216
+          "psnr": 17.964448928833008
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0018_day_far_S6_C04_R1_IMAG0286.jpg",
           "mse": 0.027002401649951935,
-          "psnr": 15.685976070656098
+          "psnr": 15.685975551605225
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0019_day_far_S6_G10_R2_IMAG0723.jpg",
           "mse": 0.05174072086811066,
-          "psnr": 12.861675248490513
+          "psnr": 12.861675024032593
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0020_day_far_S6_J13_R2_IMAG0974.jpg",
           "mse": 0.00740685174241662,
-          "psnr": 21.303663482193052
+          "psnr": 21.30366325378418
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0021_day_far_S6_L04_R1_IMAG0060.jpg",
           "mse": 0.025893136858940125,
-          "psnr": 15.868153331879633
+          "psnr": 15.86815357208252
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0022_day_far_S6_Q12_R1_IMAG3382.jpg",
           "mse": 0.03268192708492279,
-          "psnr": 14.85692343275695
+          "psnr": 14.856923818588257
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0023_day_far_S6_Q13_R1_IMAG4043.jpg",
           "mse": 0.036709245294332504,
-          "psnr": 14.352245440679578
+          "psnr": 14.352245330810547
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0024_day_far_S6_T12_R1_IMAG0230.jpg",
           "mse": 0.056926507502794266,
-          "psnr": 12.446854597646213
+          "psnr": 12.44685411453247
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0025_day_near_S2_C03_R2_IMAG0114.jpg",
           "mse": 0.03699549660086632,
-          "psnr": 14.318511386472464
+          "psnr": 14.318511486053467
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0026_day_near_S2_H08_R3_IMAG0666.jpg",
           "mse": 0.06978486478328705,
-          "psnr": 11.562387586641412
+          "psnr": 11.562387943267822
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0027_day_near_S2_L09_R1_IMAG0288.jpg",
           "mse": 0.037777628749608994,
-          "psnr": 14.227653056328082
+          "psnr": 14.227653741836548
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0028_day_near_S2_O08_R3_IMAG0284.jpg",
           "mse": 0.036383748054504395,
-          "psnr": 14.390925643284776
+          "psnr": 14.390925168991089
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0029_day_near_S3_H13_R12_IMAG0589.jpg",
           "mse": 0.029190247878432274,
-          "psnr": 15.34762217044249
+          "psnr": 15.347622632980347
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0030_day_near_S3_I08_R12_IMAG0248.jpg",
           "mse": 0.029424652457237244,
-          "psnr": 15.31288658027279
+          "psnr": 15.312886238098145
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0031_day_near_S3_J03_R11_IMAG0363.jpg",
           "mse": 0.020915957167744637,
-          "psnr": 16.79522256201303
+          "psnr": 16.795222759246826
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0032_day_near_S3_N06_R12_IMAG1442.jpg",
           "mse": 0.016041120514273643,
-          "psnr": 17.94765298385444
+          "psnr": 17.9476535320282
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0033_day_near_S3_P07_R12_IMAG0980.jpg",
           "mse": 0.04012680798768997,
-          "psnr": 13.965653862035815
+          "psnr": 13.965654373168945
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0034_day_near_S4_B04_R2_IMAG0082.jpg",
           "mse": 0.02696908824145794,
-          "psnr": 15.691337357271973
+          "psnr": 15.691337585449219
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0035_day_near_S4_C13_R1_IMAG1667.jpg",
           "mse": 0.06487084925174713,
-          "psnr": 11.879504164996595
+          "psnr": 11.879503726959229
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0036_day_near_S4_D02_R1_IMAG2351.jpg",
           "mse": 0.015821775421500206,
-          "psnr": 18.00744784270869
+          "psnr": 18.007447719573975
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0037_day_near_S4_H09_R1_IMAG0120.jpg",
           "mse": 0.0332808755338192,
-          "psnr": 14.778052570656648
+          "psnr": 14.778052568435669
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0038_day_near_S4_I13_R1_IMAG0161.jpg",
           "mse": 0.01764230988919735,
-          "psnr": 17.53444553758779
+          "psnr": 17.5344455242157
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0039_day_near_S4_L10_R1_IMAG0250.jpg",
           "mse": 0.04299360513687134,
-          "psnr": 13.665961365204888
+          "psnr": 13.665961027145386
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0040_day_near_S5_D13_R3_IMAG4437.jpg",
           "mse": 0.0462203323841095,
-          "psnr": 13.35166935705339
+          "psnr": 13.351669311523438
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0041_day_near_S5_E09_R2_IMAG1689.jpg",
           "mse": 0.03618475794792175,
-          "psnr": 14.414743281708146
+          "psnr": 14.414743185043335
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0042_day_near_S5_I12_R3_IMAG0739.jpg",
           "mse": 0.035074472427368164,
-          "psnr": 14.550088526903641
+          "psnr": 14.55008864402771
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0043_day_near_S5_K03_R1_IMAG0289.jpg",
           "mse": 0.04290801286697388,
-          "psnr": 13.674615978162251
+          "psnr": 13.674615621566772
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0044_day_near_S5_K03_R1_IMAG0290.jpg",
           "mse": 0.03796781226992607,
-          "psnr": 14.205844264702032
+          "psnr": 14.205844402313232
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0045_day_near_S5_V10_R2_IMAG0133.jpg",
           "mse": 0.03756647929549217,
-          "psnr": 14.251995048085181
+          "psnr": 14.251995086669922
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0046_day_near_S6_G12_R1_IMAG2383.jpg",
           "mse": 0.04433457925915718,
-          "psnr": 13.532574086900151
+          "psnr": 13.53257417678833
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0047_day_near_S6_I03_R2_IMAG0644.jpg",
           "mse": 0.028396567329764366,
-          "psnr": 15.46734155722106
+          "psnr": 15.46734094619751
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0048_day_near_S6_T13_R2_IMAG3181.jpg",
           "mse": 0.025577081367373466,
-          "psnr": 15.921490149145301
+          "psnr": 15.92149019241333
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0049_day_near_S6_T13_R2_IMAG3182.jpg",
           "mse": 0.029758192598819733,
-          "psnr": 15.263934497456477
+          "psnr": 15.263934135437012
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0050_night_far_S1_G04_R1_PICT0208.jpg",
           "mse": 0.013742555864155293,
-          "psnr": 18.619324889305368
+          "psnr": 18.619325160980225
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0051_night_far_S1_K09_R1_PICT6076.jpg",
           "mse": 0.031556036323308945,
-          "psnr": 15.009175527066304
+          "psnr": 15.009175539016724
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0052_night_far_S2_C03_R3_IMAG3282.jpg",
           "mse": 0.07024260610342026,
-          "psnr": 11.533993838425802
+          "psnr": 11.533993482589722
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0053_night_far_S2_E02_R2_PICT0960.jpg",
           "mse": 0.0042666117660701275,
-          "psnr": 23.699168733169962
+          "psnr": 23.699169158935547
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0054_night_far_S2_K13_R1_PICT0185.jpg",
           "mse": 0.0061907391063869,
-          "psnr": 22.08257497884038
+          "psnr": 22.082574367523193
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0055_night_far_S2_N06_R2_IMAG0068.jpg",
           "mse": 0.03961530700325966,
-          "psnr": 14.021369741106128
+          "psnr": 14.021369218826294
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0056_night_far_S2_P10_R3_IMAG0132.jpg",
           "mse": 0.007021020632237196,
-          "psnr": 21.535997507292336
+          "psnr": 21.53599739074707
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0057_night_far_S2_S10_R2_IMAG0328.jpg",
           "mse": 0.01155261229723692,
-          "psnr": 19.37319801226631
+          "psnr": 19.373197555541992
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0058_night_far_S3_F02_R11_IMAG0083.jpg",
           "mse": 0.009615804068744183,
-          "psnr": 20.170143944189295
+          "psnr": 20.170142650604248
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0059_night_far_S3_H02_R11_IMAG0072.jpg",
           "mse": 0.02696928381919861,
-          "psnr": 15.691305862686463
+          "psnr": 15.69130539894104
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0060_night_far_S4_C05_R2_IMAG0005.jpg",
           "mse": 0.07248782366514206,
-          "psnr": 11.39734939072542
+          "psnr": 11.397349834442139
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0061_night_far_S4_F01_R1_IMAG0739.jpg",
           "mse": 0.014086414128541946,
-          "psnr": 18.511995478692327
+          "psnr": 18.51199507713318
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0062_night_far_S4_J09_R1_IMAG1162.jpg",
           "mse": 0.039914559572935104,
-          "psnr": 13.988686584785931
+          "psnr": 13.988686800003052
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0063_night_far_S4_R11_R2_IMAG2471.jpg",
           "mse": 0.09020481258630753,
-          "psnr": 10.44770291461148
+          "psnr": 10.447702407836914
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0064_night_far_S5_B13_R2_IMAG0047.jpg",
           "mse": 0.019357115030288696,
-          "psnr": 17.131593691241665
+          "psnr": 17.131593227386475
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0065_night_far_S5_C09_R2_IMAG2223.jpg",
           "mse": 0.06425759196281433,
-          "psnr": 11.920755535566327
+          "psnr": 11.920756101608276
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0066_night_far_S5_G03_R1_IMAG1262.jpg",
           "mse": 0.06287086755037308,
-          "psnr": 12.015505468115709
+          "psnr": 12.015504837036133
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0067_night_far_S5_G07_R4_IMAG0717.jpg",
           "mse": 0.028663918375968933,
-          "psnr": 15.426644415471076
+          "psnr": 15.426644086837769
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0068_night_far_S5_K12_R3_IMAG0357.jpg",
           "mse": 0.0319986417889595,
-          "psnr": 14.948684553075505
+          "psnr": 14.948683977127075
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0069_night_far_S5_O04_R3_IMAG5153.jpg",
           "mse": 0.00553101347759366,
-          "psnr": 22.571952832705875
+          "psnr": 22.57195234298706
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0070_night_far_S5_U12_R4_IMAG1338.jpg",
           "mse": 0.020982706919312477,
-          "psnr": 16.78138485432895
+          "psnr": 16.78138494491577
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0071_night_far_S5_U13_R3_IMAG0833.jpg",
           "mse": 0.01393150445073843,
-          "psnr": 18.56001981969859
+          "psnr": 18.560019731521606
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0072_night_far_S6_M02_R2_IMAG0242.jpg",
           "mse": 0.048462823033332825,
-          "psnr": 13.145912911459128
+          "psnr": 13.145912885665894
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0073_night_far_S6_T12_R2_IMAG1548.jpg",
           "mse": 0.03131529316306114,
-          "psnr": 15.042435182272818
+          "psnr": 15.042434930801392
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0074_night_far_S6_T13_R1_IMAG0842.jpg",
           "mse": 0.03384804353117943,
-          "psnr": 14.704664291403976
+          "psnr": 14.704663753509521
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0075_night_near_S2_C04_R3_IMAG1245.jpg",
           "mse": 0.035055410116910934,
-          "psnr": 14.552449476657852
+          "psnr": 14.552448987960815
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0076_night_near_S2_E06_R2_IMAG0347.jpg",
           "mse": 0.04959003999829292,
-          "psnr": 13.046055414158692
+          "psnr": 13.046056032180786
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0077_night_near_S2_F07_R1_IMAG0047.jpg",
           "mse": 0.04958741366863251,
-          "psnr": 13.046285426210279
+          "psnr": 13.04628610610962
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0078_night_near_S2_F12_R1_IMAG0253.jpg",
           "mse": 0.04175640642642975,
-          "psnr": 13.792768839599576
+          "psnr": 13.792768716812134
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0079_night_near_S2_O10_R1_IMAG0170.jpg",
           "mse": 0.015424269251525402,
-          "psnr": 18.117954021762618
+          "psnr": 18.117953538894653
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0080_night_near_S3_I10_R11_IMAG0290.jpg",
           "mse": 0.041558634489774704,
-          "psnr": 13.813387306841216
+          "psnr": 13.813387155532837
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0081_night_near_S3_R08_R12_IMAG1616.jpg",
           "mse": 0.01410222053527832,
-          "psnr": 18.507124979623704
+          "psnr": 18.50712537765503
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0082_night_near_S3_R09_R12_IMAG1912.jpg",
           "mse": 0.04603111371397972,
-          "psnr": 13.369485173071013
+          "psnr": 13.369485139846802
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0083_night_near_S3_S07_R12_IMAG0782.jpg",
           "mse": 0.03336193040013313,
-          "psnr": 14.767488280022123
+          "psnr": 14.767488241195679
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0084_night_near_S4_D09_R2_IMAG1007.jpg",
           "mse": 0.05115104839205742,
-          "psnr": 12.911454605594583
+          "psnr": 12.911454439163208
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0085_night_near_S4_E02_R1_IMAG0654.jpg",
           "mse": 0.032534465193748474,
-          "psnr": 14.87656327867052
+          "psnr": 14.876563549041748
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0086_night_near_S5_C06_R1_IMAG0095.jpg",
           "mse": 0.039628367871046066,
-          "psnr": 14.019938140951576
+          "psnr": 14.019937515258789
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0087_night_near_S5_C10_R3_IMAG1645.jpg",
           "mse": 0.01317648496478796,
-          "psnr": 18.802004291953637
+          "psnr": 18.802003860473633
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0088_night_near_S5_D06_R1_IMAG4999.jpg",
           "mse": 0.03250518813729286,
-          "psnr": 14.880473159573214
+          "psnr": 14.880473613739014
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0089_night_near_S5_H02_R3_IMAG0026.jpg",
           "mse": 0.031004974618554115,
-          "psnr": 15.085686198411848
+          "psnr": 15.085686445236206
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0090_night_near_S5_K10_R2_IMAG1256.jpg",
           "mse": 0.01950438879430294,
-          "psnr": 17.098676545508862
+          "psnr": 17.098675966262817
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0091_night_near_S5_P04_R3_IMAG3350.jpg",
           "mse": 0.0284101739525795,
-          "psnr": 15.465261071283802
+          "psnr": 15.465260744094849
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0092_night_near_S5_T10_R3_IMAG0152.jpg",
           "mse": 0.02851969748735428,
-          "psnr": 15.448550854214878
+          "psnr": 15.448551177978516
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0093_night_near_S5_V10_R1_IMAG1521.jpg",
           "mse": 0.01773752085864544,
-          "psnr": 17.51107080820486
+          "psnr": 17.51107096672058
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0094_night_near_S6_F06_R2_IMAG0087.jpg",
           "mse": 0.017872093245387077,
-          "psnr": 17.478245783460004
+          "psnr": 17.478245496749878
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0095_night_near_S6_F06_R2_IMAG0293.jpg",
           "mse": 0.048035960644483566,
-          "psnr": 13.18433519661464
+          "psnr": 13.184335231781006
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0096_night_near_S6_H07_R2_IMAG2644.jpg",
           "mse": 0.035025421530008316,
-          "psnr": 14.55616629288299
+          "psnr": 14.556165933609009
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0097_night_near_S6_J08_R1_IMAG0110.jpg",
           "mse": 0.0288680586963892,
-          "psnr": 15.395824203379604
+          "psnr": 15.39582371711731
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0098_night_near_S6_J09_R2_IMAG0133.jpg",
           "mse": 0.024703191593289375,
-          "psnr": 16.07246933306717
+          "psnr": 16.072468757629395
         },
         {
           "image": "/Volumes/Media/snapshot_serengeti_balanced_ptq_dataset/crops/eval/0099_night_near_S6_L04_R1_IMAG0474.jpg",
           "mse": 0.025728827342391014,
-          "psnr": 15.895800074287678
+          "psnr": 15.895800590515137
         }
       ]
     }

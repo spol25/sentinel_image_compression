@@ -1,4 +1,5 @@
 import json
+import math
 from pathlib import Path
 
 import torch
@@ -47,9 +48,11 @@ def build_ethosu_ptq_quantizer(
     memory_mode: str | None = None,
     config_ini: str | None = "Arm/vela.ini",
     is_per_channel: bool = True,
+    quantization_profile: str = "int8",
 ):
     from executorch.backends.arm.quantizer import (
         EthosUQuantizer,
+        get_symmetric_a16w8_quantization_config,
         get_symmetric_quantization_config as get_arm_symmetric_quantization_config,
     )
 
@@ -60,10 +63,18 @@ def build_ethosu_ptq_quantizer(
         config_ini=config_ini,
     )
     quantizer = EthosUQuantizer(compile_spec)
-    quantizer.set_global(
-        get_arm_symmetric_quantization_config(
+    if quantization_profile == "int8":
+        quantization_config = get_arm_symmetric_quantization_config(
             is_per_channel=is_per_channel,
         )
+    elif quantization_profile == "a16w8":
+        quantization_config = get_symmetric_a16w8_quantization_config(
+            is_per_channel=is_per_channel,
+        )
+    else:
+        raise ValueError(f"Unsupported Ethos-U quantization profile: {quantization_profile}")
+    quantizer.set_global(
+        quantization_config
     )
     return quantizer, compile_spec
 
@@ -77,12 +88,15 @@ def prepare_exported_encoder_for_ptq(
     *,
     backend: str = "ethosu",
     is_per_channel: bool = True,
+    quantization_profile: str = "int8",
     ethos_target: str = "ethos-u65-256",
     ethos_system_config: str | None = None,
     ethos_memory_mode: str | None = None,
     ethos_config_ini: str | None = "Arm/vela.ini",
 ):
     if backend == "xnnpack":
+        if quantization_profile != "int8":
+            raise ValueError("XNNPACK PTQ only supports the int8 quantization profile.")
         quantizer = build_xnnpack_ptq_quantizer(is_per_channel=is_per_channel)
         compile_spec = None
         graph_module = exported_program.module()
@@ -94,6 +108,7 @@ def prepare_exported_encoder_for_ptq(
             memory_mode=ethos_memory_mode,
             config_ini=ethos_config_ini,
             is_per_channel=is_per_channel,
+            quantization_profile=quantization_profile,
         )
         # Arm PT2E passes do not tolerate the _guards_fn call_module inserted by
         # ExportedProgram.module() with default settings.
@@ -133,6 +148,58 @@ def run_encoder_with_float_quantizer(
     return latents_to_tokens(latent)
 
 
+def compare_latent_tensors(reference_latent: torch.Tensor, candidate_latent: torch.Tensor) -> dict:
+    reference = reference_latent.detach().to("cpu", dtype=torch.float32).reshape(-1)
+    candidate = candidate_latent.detach().to("cpu", dtype=torch.float32).reshape(-1)
+    if reference.numel() != candidate.numel():
+        raise ValueError(
+            f"Latent tensors must have the same number of elements, got {reference.numel()} and {candidate.numel()}."
+        )
+
+    diff = candidate - reference
+    reference_norm = torch.linalg.vector_norm(reference).item()
+    candidate_norm = torch.linalg.vector_norm(candidate).item()
+    l2_error = torch.linalg.vector_norm(diff).item()
+    mse = torch.mean(diff * diff).item()
+    rmse = math.sqrt(mse)
+    cosine_similarity = torch.nn.functional.cosine_similarity(reference.unsqueeze(0), candidate.unsqueeze(0)).item()
+    normalized_l2_error = l2_error / max(reference_norm, 1e-12)
+    return {
+        "cosine_similarity": cosine_similarity,
+        "l2_error": l2_error,
+        "normalized_l2_error": normalized_l2_error,
+        "mse": mse,
+        "rmse": rmse,
+        "reference_norm": reference_norm,
+        "candidate_norm": candidate_norm,
+        "max_abs_error": torch.max(torch.abs(diff)).item(),
+    }
+
+
+def summarize_scalar_metric_records(records: list[dict], metric_names: list[str]) -> dict:
+    if not records:
+        return {
+            metric_name: {"mean": None, "median": None, "min": None, "max": None}
+            for metric_name in metric_names
+        }
+
+    summary = {}
+    for metric_name in metric_names:
+        values = sorted(float(record[metric_name]) for record in records)
+        midpoint = len(values) // 2
+        if len(values) % 2:
+            median = values[midpoint]
+        else:
+            median = 0.5 * (values[midpoint - 1] + values[midpoint])
+        summary[metric_name] = {
+            "mean": sum(values) / len(values),
+            "median": median,
+            "min": values[0],
+            "max": values[-1],
+        }
+    return summary
+
+
 def save_token_records(
     output_path: Path,
     records: list[dict],
@@ -142,6 +209,7 @@ def save_token_records(
     token_shape: list[int] | None = None,
     metadata: dict | None = None,
     summary: dict | None = None,
+    comparisons: dict | None = None,
 ):
     payload = {
         "repo_id": repo_id,
@@ -153,6 +221,8 @@ def save_token_records(
         payload["metadata"] = metadata
     if summary is not None:
         payload["summary"] = summary
+    if comparisons is not None:
+        payload["comparisons"] = comparisons
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, indent=2))
 

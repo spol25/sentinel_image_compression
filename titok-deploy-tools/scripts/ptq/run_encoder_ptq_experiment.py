@@ -14,12 +14,13 @@ if str(SRC_ROOT) not in sys.path:
 from titok_deploy_tools.ptq import (
     build_encoder_quantizer_split,
     calibrate_prepared_encoder,
+    compare_latent_tensors,
     convert_encoder_after_ptq,
     export_encoder_program,
     load_manifest_records,
     prepare_exported_encoder_for_ptq,
-    run_encoder_with_float_quantizer,
     save_token_records,
+    summarize_scalar_metric_records,
     summarize_token_records,
 )
 from titok_deploy_tools.titok_env import add_titok_root_to_path
@@ -66,6 +67,12 @@ def parse_args():
         choices=("xnnpack", "ethosu"),
         default="ethosu",
         help="PTQ backend to use for prepare/convert.",
+    )
+    parser.add_argument(
+        "--quantization-profile",
+        choices=("int8", "a16w8"),
+        default="int8",
+        help="Quantization profile to use. A16W8 is currently only supported for Ethos-U.",
     )
     parser.add_argument(
         "--ethos-target",
@@ -155,6 +162,7 @@ def main():
         exported_program,
         backend=args.quantizer_backend,
         is_per_channel=args.per_channel,
+        quantization_profile=args.quantization_profile,
         ethos_target=args.ethos_target,
         ethos_system_config=args.ethos_system_config,
         ethos_memory_mode=args.ethos_memory_mode,
@@ -172,6 +180,7 @@ def main():
         "image_size": image_size,
         "per_channel": args.per_channel,
         "quantizer_backend": args.quantizer_backend,
+        "quantization_profile": args.quantization_profile,
         "skip_convert": args.skip_convert,
         "prepared_encoder_type": type(prepared_encoder).__name__,
         "quantizer_boundary": "encoder_only_quantized_vq_float",
@@ -194,11 +203,20 @@ def main():
 
     print("[6/6] Running quantized encoder + float VQ on the calibration set")
     records = []
+    latent_metric_records = []
     token_shape = None
     with torch.no_grad():
         for image_path in image_paths:
             image = load_image(image_path, image_size).to("cpu")
-            tokens = run_encoder_with_float_quantizer(quantized_encoder, latents_to_tokens, image)
+            float_latent = encoder_only(image)
+            quantized_latent = quantized_encoder(image)
+            latent_metric_records.append(
+                {
+                    "image": str(image_path),
+                    **compare_latent_tensors(float_latent, quantized_latent),
+                }
+            )
+            tokens = latents_to_tokens(quantized_latent)
             tokens = tokens.to("cpu", dtype=torch.int64)
             token_shape = list(tokens.shape)
             records.append(
@@ -214,6 +232,23 @@ def main():
         "quantizer_boundary": "encoder_only_quantized_vq_float",
         "per_channel": args.per_channel,
         "quantizer_backend": args.quantizer_backend,
+        "quantization_profile": args.quantization_profile,
+    }
+    latent_summary = {
+        "split": "calibration",
+        "num_images": len(latent_metric_records),
+        "metrics": summarize_scalar_metric_records(
+            latent_metric_records,
+            [
+                "cosine_similarity",
+                "l2_error",
+                "normalized_l2_error",
+                "mse",
+                "rmse",
+                "max_abs_error",
+            ],
+        ),
+        "per_image": latent_metric_records,
     }
     save_token_records(
         converted_tokens_path,
@@ -226,9 +261,11 @@ def main():
             "source": "encoder_ptq_float_vq",
             "per_channel": args.per_channel,
             "quantizer_backend": args.quantizer_backend,
+            "quantization_profile": args.quantization_profile,
             "prepare": prepare_summary,
         },
         summary=converted_summary,
+        comparisons={"latents": latent_summary},
     )
     print(f"Saved PTQ token outputs to {converted_tokens_path}")
 
@@ -237,11 +274,20 @@ def main():
 
     print(f"[7/7] Running quantized encoder + float VQ on {len(eval_image_paths)} eval image(s)")
     eval_records = []
+    eval_latent_metric_records = []
     eval_token_shape = None
     with torch.no_grad():
         for image_path in eval_image_paths:
             image = load_image(image_path, image_size).to("cpu")
-            tokens = run_encoder_with_float_quantizer(quantized_encoder, latents_to_tokens, image)
+            float_latent = encoder_only(image)
+            quantized_latent = quantized_encoder(image)
+            eval_latent_metric_records.append(
+                {
+                    "image": str(image_path),
+                    **compare_latent_tensors(float_latent, quantized_latent),
+                }
+            )
+            tokens = latents_to_tokens(quantized_latent)
             tokens = tokens.to("cpu", dtype=torch.int64)
             eval_token_shape = list(tokens.shape)
             eval_records.append(
@@ -258,6 +304,23 @@ def main():
         "quantizer_boundary": "encoder_only_quantized_vq_float",
         "per_channel": args.per_channel,
         "quantizer_backend": args.quantizer_backend,
+        "quantization_profile": args.quantization_profile,
+    }
+    eval_latent_summary = {
+        "split": "eval",
+        "num_images": len(eval_latent_metric_records),
+        "metrics": summarize_scalar_metric_records(
+            eval_latent_metric_records,
+            [
+                "cosine_similarity",
+                "l2_error",
+                "normalized_l2_error",
+                "mse",
+                "rmse",
+                "max_abs_error",
+            ],
+        ),
+        "per_image": eval_latent_metric_records,
     }
     save_token_records(
         eval_tokens_path,
@@ -270,10 +333,12 @@ def main():
             "source": "encoder_ptq_float_vq_eval",
             "per_channel": args.per_channel,
             "quantizer_backend": args.quantizer_backend,
+            "quantization_profile": args.quantization_profile,
             "calibration_manifest_path": str(manifest_path),
             "prepare": prepare_summary,
         },
         summary=eval_summary,
+        comparisons={"latents": eval_latent_summary},
     )
     print(f"Saved PTQ eval token outputs to {eval_tokens_path}")
 

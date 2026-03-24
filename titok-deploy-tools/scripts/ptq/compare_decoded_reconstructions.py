@@ -28,13 +28,13 @@ def parse_args():
     parser.add_argument("--candidate", required=True, help="Candidate token JSON path.")
     parser.add_argument(
         "--output-dir",
-        default="outputs/ptq",
-        help="Directory where decoded images and metrics will be written.",
+        default=None,
+        help="Optional directory where decoded images or a standalone summary will be written.",
     )
     parser.add_argument(
         "--summary-name",
-        default="decoded_reconstruction_comparison.json",
-        help="Filename for the reconstruction comparison summary JSON.",
+        default=None,
+        help="Optional filename for a standalone reconstruction comparison JSON.",
     )
     parser.add_argument(
         "--save-images",
@@ -44,11 +44,15 @@ def parse_args():
     return parser.parse_args()
 
 
+def load_payload(path: Path):
+    return json.loads(path.read_text())
+
+
 def load_records(path: Path):
-    payload = json.loads(path.read_text())
+    payload = load_payload(path)
     if "records" not in payload:
         raise ValueError(f"Expected record-based token payload in {path}")
-    return payload["records"]
+    return payload, payload["records"]
 
 
 def psnr_from_mse(mse: float) -> float:
@@ -64,13 +68,13 @@ def main():
 
     reference_path = resolve_input_path(args.reference, REPO_ROOT)
     candidate_path = resolve_input_path(args.candidate, REPO_ROOT)
-    reference_records = load_records(reference_path)
-    candidate_records = load_records(candidate_path)
+    _, reference_records = load_records(reference_path)
+    candidate_payload, candidate_records = load_records(candidate_path)
     if len(reference_records) != len(candidate_records):
         raise ValueError("Reference and candidate token files have different record counts.")
 
     tokenizer = TiTok.from_pretrained(args.repo_id).eval().to("cpu")
-    output_dir = resolve_output_dir(REPO_ROOT, args.output_dir)
+    output_dir = resolve_output_dir(REPO_ROOT, args.output_dir) if args.output_dir else None
 
     results = []
     for index, (ref_record, cand_record) in enumerate(zip(reference_records, candidate_records)):
@@ -87,6 +91,8 @@ def main():
             "psnr": psnr,
         }
         if args.save_images:
+            if output_dir is None:
+                raise ValueError("--save-images requires --output-dir")
             ref_out = resolve_named_output(output_dir, f"reference_decode_{index:03d}.png")
             cand_out = resolve_named_output(output_dir, f"candidate_decode_{index:03d}.png")
             save_reconstruction(ref_image, ref_out)
@@ -103,9 +109,22 @@ def main():
         "mean_psnr": sum(item["psnr"] for item in results) / len(results),
         "results": results,
     }
-    summary_path = resolve_named_output(output_dir, args.summary_name)
-    summary_path.write_text(json.dumps(summary, indent=2))
-    print(f"Saved reconstruction comparison summary to {summary_path}")
+    comparisons = candidate_payload.get("comparisons", {})
+    if not isinstance(comparisons, dict):
+        comparisons = {}
+    comparisons["reconstructions"] = summary
+    candidate_payload["comparisons"] = comparisons
+    candidate_path.write_text(json.dumps(candidate_payload, indent=2))
+
+    if args.output_dir and args.summary_name:
+        summary_path = resolve_named_output(output_dir, args.summary_name)
+        summary_path.write_text(json.dumps(summary, indent=2))
+        print(f"Saved reconstruction comparison summary to {summary_path}")
+    else:
+        print(
+            "Embedded reconstruction comparison in "
+            f"{candidate_path} with mean PSNR {summary['mean_psnr']:.6f}"
+        )
 
 
 if __name__ == "__main__":
