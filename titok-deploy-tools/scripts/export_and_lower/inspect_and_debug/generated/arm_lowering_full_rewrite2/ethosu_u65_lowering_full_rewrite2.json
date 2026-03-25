@@ -1,0 +1,23 @@
+{
+  "repo_id": "yucornetto/tokenizer_titok_s128_imagenet",
+  "manifest_path": "/Volumes/Media/snapshot_serengeti_ptq_quickstart/manifests/calibration_manifest.json",
+  "num_calibration_images": 4,
+  "quantizer_backend": "ethosu",
+  "ethos_target": "ethos-u65-256",
+  "ethos_system_config": null,
+  "ethos_memory_mode": null,
+  "ethos_config_ini": "Arm/vela.ini",
+  "per_channel": true,
+  "status": "lowering_succeeded",
+  "compile_spec_flags": [
+    "--accelerator-config=ethos-u65-256",
+    "--config=Arm/vela.ini",
+    "--output-format=raw",
+    "--debug-force-regor",
+    "--system-config=Ethos_U65_High_End",
+    "--memory-mode=Sram_Only"
+  ],
+  "edge_methods": [
+    "forward"
+  ]
+}

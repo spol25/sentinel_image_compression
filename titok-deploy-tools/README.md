@@ -13,7 +13,7 @@ This project expects the upstream TiTok repository to be cloned separately. Pass
 - `scripts/reconstruct_titok_example.py`: reconstruct an image and save tokens
 - `scripts/validate_titok_s128_wrapper.py`: validate the token-only wrapper against the original TiTok encode path
 - `scripts/validate_decode_titok_tokens.py`: validate `decode.py` using saved wrapper tokens
-- `scripts/export/`: export-only scripts
+- `scripts/export_and_lower/`: export and lowering scripts
 - `scripts/ptq/`: PTQ preparation scripts
 
 ## Setup
@@ -50,21 +50,21 @@ python scripts/validate_decode_titok_tokens.py \
 ```
 
 ```bash
-python scripts/export/export_titok_s128_wrapper.py \
+python scripts/export_and_lower/export_titok_s128_wrapper.py \
   --titok-root /path/to/1d-tokenizer
 ```
 
 ```bash
-python scripts/export/export_executorch_titok_s128_wrapper.py
+python scripts/export_and_lower/export_executorch_titok_s128_wrapper.py
 ```
 
 ```bash
-python scripts/export/validate_pte_titok_s128_wrapper.py \
+python scripts/export_and_lower/validate_pte_titok_s128_wrapper.py \
   --titok-root /path/to/1d-tokenizer
 ```
 
 ```bash
-python scripts/export/lower_ethosu_titok_s128_encoder.py \
+python scripts/export_and_lower/lower_ethosu_titok_s128_encoder.py \
   --titok-root /path/to/1d-tokenizer \
   --manifest /path/to/calibration_manifest.json \
   --per-channel

@@ -163,8 +163,13 @@ def main():
             )
         )
         edge_manager = to_edge_transform_and_lower(final_export, partitioner=[partitioner])
+        methods = edge_manager.methods
+        if hasattr(methods, "keys"):
+            edge_methods = list(methods.keys())
+        else:
+            edge_methods = list(methods)
         summary["status"] = "lowering_succeeded"
-        summary["edge_methods"] = list(edge_manager.methods.keys())
+        summary["edge_methods"] = edge_methods
         print(f"Lowering succeeded; summary written to {summary_path}")
     except Exception as exc:
         summary["status"] = "lowering_failed"

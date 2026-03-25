@@ -13,7 +13,7 @@ from tosa.TosaGraph import TosaGraph
 from tosa.TransposeAttribute import TransposeAttribute
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parents[1]
+REPO_ROOT = SCRIPT_DIR.parents[2]
 SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
@@ -39,7 +39,10 @@ def parse_args():
     parser.add_argument("--manifest", required=True, help="Calibration manifest used for the quick PTQ prep.")
     parser.add_argument("--repo-id", default="yucornetto/tokenizer_titok_s128_imagenet")
     parser.add_argument("--calibration-count", type=int, default=4)
-    parser.add_argument("--output-dir", default="outputs/arm_lowering_inspect")
+    parser.add_argument(
+        "--output-dir",
+        default="scripts/export_and_lower/inspect_and_debug/generated/arm_lowering_inspect",
+    )
     parser.add_argument("--summary-name", default="ethosu_u65_transpose_inspection.json")
     parser.add_argument("--ethos-target", default="ethos-u65-256")
     parser.add_argument("--ethos-config-ini", default="Arm/vela.ini")

@@ -1,0 +1,39 @@
+{
+  "repo_id": "yucornetto/tokenizer_titok_s128_imagenet",
+  "manifest_path": "/Volumes/Media/snapshot_serengeti_ptq_quickstart/manifests/calibration_manifest.json",
+  "num_calibration_images": 4,
+  "ethos_target": "ethos-u65-256",
+  "per_channel": true,
+  "total_blocks": 8,
+  "results": [
+    {
+      "num_blocks": 0,
+      "status": "lowering_succeeded",
+      "compile_spec_flags": [
+        "--accelerator-config=ethos-u65-256",
+        "--config=Arm/vela.ini",
+        "--output-format=raw",
+        "--debug-force-regor",
+        "--system-config=Ethos_U65_High_End",
+        "--memory-mode=Sram_Only"
+      ],
+      "edge_methods": [
+        "forward"
+      ]
+    },
+    {
+      "num_blocks": 1,
+      "status": "lowering_failed",
+      "error_type": "RuntimeError",
+      "error_message": "Non-passthrough operation (Transpose) could not run on NPU",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/scripts/export_and_lower/inspect_and_debug/bisect_ethosu_titok_s128_blocks.py\", line 163, in main\n    attempt_lowering(\n  File \"/Users/sruthipolali/Documents/Playground/sentinel_image_compression/titok-deploy-tools/scripts/export_and_lower/inspect_and_debug/bisect_ethosu_titok_s128_blocks.py\", line 119, in attempt_lowering\n    edge_manager = to_edge_transform_and_lower(final_export, partitioner=[partitioner])\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/exir/program/_program.py\", line 115, in wrapper\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/exir/program/_program.py\", line 1379, in to_edge_transform_and_lower\n    edge_manager = edge_manager.to_backend(method_to_partitioner)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/exir/program/_program.py\", line 115, in wrapper\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/exir/program/_program.py\", line 1681, in to_backend\n    new_edge_programs = to_backend(method_to_programs_and_partitioners)\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/functools.py\", line 909, in wrapper\n    return dispatch(args[0].__class__)(*args, **kw)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/exir/backend/backend_api.py\", line 762, in _\n    lower_all_submodules_to_backend(\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/exir/backend/backend_api.py\", line 591, in lower_all_submodules_to_backend\n    backend_name_to_subclass[backend_id].preprocess_multimethod(\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/exir/backend/backend_details.py\", line 145, in preprocess_multimethod\n    preprocess_result = cls.preprocess(program, compile_spec_for_program)\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/backends/arm/ethosu/backend.py\", line 111, in preprocess\n    binary = EthosUBackend._compile_tosa_flatbuffer(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/backends/arm/ethosu/backend.py\", line 73, in _compile_tosa_flatbuffer\n    binary = vela_compile(\n             ^^^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/backends/arm/arm_vela.py\", line 137, in vela_compile\n    return run(tmpdir)\n           ^^^^^^^^^^^\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/executorch/backends/arm/arm_vela.py\", line 77, in run\n    vela.main(\" \".join(args).split(\" \"))\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/ethosu/vela/vela.py\", line 933, in main\n    process_regor(\n  File \"/Users/sruthipolali/Documents/Playground/1d-tokenizer/.venv/lib/python3.11/site-packages/ethosu/vela/vela.py\", line 142, in process_regor\n    compiled_model = regor.compile(accelerator, network, fmt, system_config, options=options, verbose=True)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Non-passthrough operation (Transpose) could not run on NPU\n"
+    }
+  ],
+  "first_failure_block": 1,
+  "successful_blocks": [
+    0
+  ],
+  "failed_blocks": [
+    1
+  ]
+}

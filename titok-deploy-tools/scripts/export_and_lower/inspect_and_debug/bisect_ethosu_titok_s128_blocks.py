@@ -9,7 +9,7 @@ from executorch.backends.arm.ethosu import EthosUPartitioner
 from executorch.exir import to_edge_transform_and_lower
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parents[1]
+REPO_ROOT = SCRIPT_DIR.parents[2]
 SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
@@ -46,7 +46,7 @@ def parse_args():
     )
     parser.add_argument(
         "--output-dir",
-        default="outputs/arm_block_bisect",
+        default="scripts/export_and_lower/inspect_and_debug/generated/arm_block_bisect",
         help="Directory where the bisect summary will be written.",
     )
     parser.add_argument(
