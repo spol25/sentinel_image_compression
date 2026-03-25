@@ -4,6 +4,14 @@ Standalone utilities for working with pretrained TiTok tokenizers without vendor
 
 This project expects the upstream TiTok repository to be cloned separately. Pass its path with `--titok-root`.
 
+## TiTok Fork Requirement
+
+For the Ethos-U65 encoder lowering flow under `scripts/export_and_lower/`, use the patched TiTok fork at:
+
+- `https://github.com/spol25/1d-tokenizer`
+
+Use commit `9b2b9ca` or a descendant commit that retains the encoder attention layout rewrite in `modeling/modules/blocks.py`. The upstream `bytedance/1d-tokenizer` repository does not include that rewrite, so the rewritten lowering path is not reproducible against upstream alone.
+
 ## Layout
 
 - `src/titok_deploy_tools/wrappers.py`: deployment-oriented wrapper modules
