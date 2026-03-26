@@ -84,6 +84,12 @@ def parse_args():
         help="Use per-channel symmetric quantization for supported weights.",
     )
     parser.add_argument(
+        "--quantization-profile",
+        choices=("int8", "a16w8"),
+        default="a16w8",
+        help="Quantization profile to use for the encoder PTQ flow.",
+    )
+    parser.add_argument(
         "--strict-failure",
         action="store_true",
         help="Exit non-zero if lowering fails after writing the summary.",
@@ -115,6 +121,7 @@ def main():
         "ethos_memory_mode": args.ethos_memory_mode,
         "ethos_config_ini": args.ethos_config_ini,
         "per_channel": args.per_channel,
+        "quantization_profile": args.quantization_profile,
         "status": "started",
     }
 
@@ -139,6 +146,7 @@ def main():
             exported_program,
             backend="ethosu",
             is_per_channel=args.per_channel,
+            quantization_profile=args.quantization_profile,
             ethos_target=args.ethos_target,
             ethos_system_config=args.ethos_system_config,
             ethos_memory_mode=args.ethos_memory_mode,
