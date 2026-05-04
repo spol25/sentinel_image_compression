@@ -10,7 +10,7 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.iwildcam2022 import (
+from titok_deploy_tools.dataset_tools.iwildcam2022 import (
     export_crop,
     load_crop_index,
     manifest_from_paths,

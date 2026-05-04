@@ -11,9 +11,9 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.decode import decode_token_ids
-from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.utils import resolve_input_path, resolve_named_output, resolve_output_dir, save_reconstruction
+from titok_deploy_tools.wrapper_tools.decode import decode_token_ids
+from titok_deploy_tools.wrapper_tools.titok_env import add_titok_root_to_path
+from titok_deploy_tools.wrapper_tools.utils import resolve_input_path, resolve_named_output, resolve_output_dir, save_reconstruction
 
 
 def parse_args():

@@ -11,7 +11,7 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.ptq import (
+from titok_deploy_tools.ptq_tools.ptq import (
     build_encoder_quantizer_split,
     calibrate_prepared_encoder,
     compare_latent_tensors,
@@ -23,8 +23,8 @@ from titok_deploy_tools.ptq import (
     summarize_scalar_metric_records,
     summarize_token_records,
 )
-from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.utils import load_image, resolve_input_path, resolve_output_dir
+from titok_deploy_tools.wrapper_tools.titok_env import add_titok_root_to_path
+from titok_deploy_tools.wrapper_tools.utils import load_image, resolve_input_path, resolve_output_dir
 
 
 def parse_args():
@@ -36,6 +36,12 @@ def parse_args():
         "--repo-id",
         default="yucornetto/tokenizer_titok_s128_imagenet",
         help="Hugging Face repo for the pretrained TiTok-S-128 tokenizer.",
+    )
+    parser.add_argument(
+        "--encoder-variant",
+        choices=("baseline", "reshape_batch", "bmm_attention", "source_matmul_attention"),
+        default="baseline",
+        help="Which encoder-only wrapper variant to export and quantize.",
     )
     parser.add_argument(
         "--manifest",
@@ -99,6 +105,11 @@ def parse_args():
         action="store_true",
         help="Stop after prepare+calibration without converting the encoder graph.",
     )
+    parser.add_argument(
+        "--quantize-matmul",
+        action="store_true",
+        help="Request explicit PTQ annotation for aten.matmul nodes using the Arm composable quantizer.",
+    )
     return parser.parse_args()
 
 
@@ -134,7 +145,10 @@ def main():
     titok.requires_grad_(False)
 
     print("[2/6] Building encoder-only and float-VQ wrappers")
-    encoder_only, latents_to_tokens, _ = build_encoder_quantizer_split(titok)
+    encoder_only, latents_to_tokens, _ = build_encoder_quantizer_split(
+        titok,
+        encoder_variant=args.encoder_variant,
+    )
     encoder_only = encoder_only.eval().to("cpu")
     latents_to_tokens = latents_to_tokens.eval().to("cpu")
     encoder_only.requires_grad_(False)
@@ -156,6 +170,8 @@ def main():
         "output_shape": list(exported_latent.shape),
         "output_dtype": str(exported_latent.dtype),
         "quantizer_boundary": "encoder_only_quantized_vq_float",
+        "encoder_variant": args.encoder_variant,
+        "quantize_matmul": args.quantize_matmul,
     }
     encoder_metadata_path.write_text(json.dumps(encoder_metadata, indent=2))
     prepared_encoder, compile_spec = prepare_exported_encoder_for_ptq(
@@ -167,6 +183,7 @@ def main():
         ethos_system_config=args.ethos_system_config,
         ethos_memory_mode=args.ethos_memory_mode,
         ethos_config_ini=args.ethos_config_ini,
+        quantize_matmul=args.quantize_matmul,
     )
 
     print(f"[4/6] Calibrating encoder observers on {len(image_paths)} image(s)")
@@ -184,6 +201,8 @@ def main():
         "skip_convert": args.skip_convert,
         "prepared_encoder_type": type(prepared_encoder).__name__,
         "quantizer_boundary": "encoder_only_quantized_vq_float",
+        "encoder_variant": args.encoder_variant,
+        "quantize_matmul": args.quantize_matmul,
     }
     if compile_spec is not None:
         prepare_summary["compile_spec_target"] = compile_spec.target
@@ -233,6 +252,8 @@ def main():
         "per_channel": args.per_channel,
         "quantizer_backend": args.quantizer_backend,
         "quantization_profile": args.quantization_profile,
+        "encoder_variant": args.encoder_variant,
+        "quantize_matmul": args.quantize_matmul,
     }
     latent_summary = {
         "split": "calibration",
@@ -262,6 +283,8 @@ def main():
             "per_channel": args.per_channel,
             "quantizer_backend": args.quantizer_backend,
             "quantization_profile": args.quantization_profile,
+            "encoder_variant": args.encoder_variant,
+            "quantize_matmul": args.quantize_matmul,
             "prepare": prepare_summary,
         },
         summary=converted_summary,
@@ -305,6 +328,8 @@ def main():
         "per_channel": args.per_channel,
         "quantizer_backend": args.quantizer_backend,
         "quantization_profile": args.quantization_profile,
+        "encoder_variant": args.encoder_variant,
+        "quantize_matmul": args.quantize_matmul,
     }
     eval_latent_summary = {
         "split": "eval",
@@ -334,6 +359,8 @@ def main():
             "per_channel": args.per_channel,
             "quantizer_backend": args.quantizer_backend,
             "quantization_profile": args.quantization_profile,
+            "encoder_variant": args.encoder_variant,
+            "quantize_matmul": args.quantize_matmul,
             "calibration_manifest_path": str(manifest_path),
             "prepare": prepare_summary,
         },

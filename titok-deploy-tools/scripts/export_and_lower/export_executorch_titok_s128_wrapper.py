@@ -11,7 +11,7 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.utils import resolve_input_path, resolve_named_output, resolve_output_dir
+from titok_deploy_tools.wrapper_tools.utils import resolve_input_path, resolve_named_output, resolve_output_dir
 
 
 def parse_args():

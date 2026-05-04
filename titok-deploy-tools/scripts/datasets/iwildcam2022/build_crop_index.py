@@ -9,7 +9,7 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.iwildcam2022 import iter_crop_candidates, write_crop_index
+from titok_deploy_tools.dataset_tools.iwildcam2022 import iter_crop_candidates, write_crop_index
 
 
 def parse_args():

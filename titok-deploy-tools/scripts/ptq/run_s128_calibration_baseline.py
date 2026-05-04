@@ -10,14 +10,14 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.ptq import (
+from titok_deploy_tools.wrapper_tools.titok_env import add_titok_root_to_path
+from titok_deploy_tools.ptq_tools.ptq import (
     build_encoder_quantizer_split,
     load_manifest_records,
     save_token_records,
     summarize_token_records,
 )
-from titok_deploy_tools.utils import load_image, resolve_input_path, resolve_output_dir
+from titok_deploy_tools.wrapper_tools.utils import load_image, resolve_input_path, resolve_output_dir
 
 
 def parse_args():
@@ -27,6 +27,12 @@ def parse_args():
         "--repo-id",
         default="yucornetto/tokenizer_titok_s128_imagenet",
         help="Hugging Face repo for the pretrained TiTok-S-128 tokenizer.",
+    )
+    parser.add_argument(
+        "--encoder-variant",
+        choices=("baseline", "reshape_batch", "bmm_attention", "source_matmul_attention"),
+        default="baseline",
+        help="Which encoder-only wrapper variant to use for the float baseline.",
     )
     parser.add_argument(
         "--manifest",
@@ -62,7 +68,10 @@ def main():
     titok = titok.to("cpu")
 
     print("[2/4] Building token-only wrapper on CPU")
-    _, _, wrapper = build_encoder_quantizer_split(titok)
+    _, _, wrapper = build_encoder_quantizer_split(
+        titok,
+        encoder_variant=args.encoder_variant,
+    )
     wrapper.eval()
     wrapper.requires_grad_(False)
     wrapper = wrapper.to("cpu")
@@ -85,6 +94,7 @@ def main():
         "repo_id": args.repo_id,
         "manifest_path": str(manifest_path),
         "source": "float_wrapper_baseline",
+        "encoder_variant": args.encoder_variant,
     }
 
     print(f"[4/4] Saving baseline outputs to {baseline_path}")
@@ -97,6 +107,7 @@ def main():
         metadata={
             "manifest_path": str(manifest_path),
             "source": "float_wrapper_baseline",
+            "encoder_variant": args.encoder_variant,
         },
         summary=summary,
     )

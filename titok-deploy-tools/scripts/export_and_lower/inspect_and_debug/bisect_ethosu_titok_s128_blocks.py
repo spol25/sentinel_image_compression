@@ -14,17 +14,17 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.ethosu_compat import EthosUCompatCompileSpec
-from titok_deploy_tools.ptq import (
+from titok_deploy_tools.lowering_tools.ethosu_compat import EthosUCompatCompileSpec
+from titok_deploy_tools.ptq_tools.ptq import (
     calibrate_prepared_encoder,
     convert_encoder_after_ptq,
     export_encoder_program,
     load_manifest_records,
     prepare_exported_encoder_for_ptq,
 )
-from titok_deploy_tools.titok_env import add_titok_root_to_path
-from titok_deploy_tools.utils import load_image, resolve_input_path, resolve_output_dir
-from titok_deploy_tools.wrappers import TiTokEncoderPrefix
+from titok_deploy_tools.wrapper_tools.titok_env import add_titok_root_to_path
+from titok_deploy_tools.wrapper_tools.utils import load_image, resolve_input_path, resolve_output_dir
+from titok_deploy_tools.wrapper_tools.wrappers import TiTokEncoderPrefix
 
 
 def parse_args():

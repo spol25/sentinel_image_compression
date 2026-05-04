@@ -14,7 +14,7 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.snapshot_serengeti import (
+from titok_deploy_tools.dataset_tools.snapshot_serengeti import (
     AZURE_BASE_URL,
     build_remote_image_url,
     choose_best_box_per_image,

@@ -9,7 +9,7 @@ SRC_ROOT = REPO_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from titok_deploy_tools.snapshot_serengeti import iter_bbox_candidates, write_candidate_index
+from titok_deploy_tools.dataset_tools.snapshot_serengeti import iter_bbox_candidates, write_candidate_index
 
 
 def parse_args():
