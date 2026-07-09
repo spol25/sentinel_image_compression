@@ -16,6 +16,7 @@ from titok_deploy_tools.ptq_tools.ptq import (
     calibrate_prepared_encoder,
     compare_latent_tensors,
     convert_encoder_after_ptq,
+    describe_ethosu_quantization_profile,
     export_encoder_program,
     load_manifest_records,
     prepare_exported_encoder_for_ptq,
@@ -76,9 +77,19 @@ def parse_args():
     )
     parser.add_argument(
         "--quantization-profile",
-        choices=("int8", "a16w8"),
+        choices=(
+            "int8",
+            "a16w8",
+            "int8_surface_a16w8",
+            "int8_surface_transformer_norm_a16w8",
+            "int8_surface_transformer_norm_residual_a16w8",
+            "int8_surface_transformer_norm_residual_mlp_output_a16w8",
+            "int8_surface_transformer_norm_residual_mlp_output_boundary_a16w8",
+            "int8_surface_transformer_norm_residual_mlp_gelu_a16w8",
+            "int8_surface_transformer_norm_residual_post_gelu_boundary_a16w8",
+        ),
         default="int8",
-        help="Quantization profile to use. A16W8 is currently only supported for Ethos-U.",
+        help="Quantization profile to use. int8_surface_a16w8 keeps the graph int8 except encoder surface modules.",
     )
     parser.add_argument(
         "--ethos-target",
@@ -171,6 +182,10 @@ def main():
         "output_dtype": str(exported_latent.dtype),
         "quantizer_boundary": "encoder_only_quantized_vq_float",
         "encoder_variant": args.encoder_variant,
+        "quantization_profile": args.quantization_profile,
+        "quantization_profile_detail": describe_ethosu_quantization_profile(
+            quantization_profile=args.quantization_profile,
+        ),
         "quantize_matmul": args.quantize_matmul,
     }
     encoder_metadata_path.write_text(json.dumps(encoder_metadata, indent=2))
@@ -198,6 +213,9 @@ def main():
         "per_channel": args.per_channel,
         "quantizer_backend": args.quantizer_backend,
         "quantization_profile": args.quantization_profile,
+        "quantization_profile_detail": describe_ethosu_quantization_profile(
+            quantization_profile=args.quantization_profile,
+        ),
         "skip_convert": args.skip_convert,
         "prepared_encoder_type": type(prepared_encoder).__name__,
         "quantizer_boundary": "encoder_only_quantized_vq_float",

@@ -22,9 +22,82 @@ from titok_deploy_tools.wrapper_tools.wrappers import (
     TiTokEncoderOnlyEinsumAttention,
     TiTokEncoderOnlyReshapeBatch,
     TiTokEncoderOnlySourceMatmulAttention,
+    TiTokEncoderOnlySourceQueryChunkedMatmulAttention,
     TiTokEncoderOnlySourceSdpaAttention,
+    TiTokEncoderPrefix,
+    TiTokEncoderPrefixSourceMatmulAttention,
+    TiTokEncoderPrefixSourceSdpaAttention,
     TiTokTokenEncoderFromModules,
     TiTokVectorQuantizerTokens,
+)
+
+SURFACE_A16W8_ENCODER_MODULE_NAMES = (
+    "encoder.patch_embed",
+    "encoder.ln_pre",
+    "encoder.ln_post",
+    "encoder.conv_out",
+)
+
+TRANSFORMER_NORM_A16W8_ENCODER_MODULE_NAMES = tuple(
+    f"encoder.transformer.{block_index}.{norm_name}"
+    for block_index in range(8)
+    for norm_name in ("ln_1", "ln_2")
+)
+
+SURFACE_AND_TRANSFORMER_NORM_A16W8_ENCODER_MODULE_NAMES = (
+    SURFACE_A16W8_ENCODER_MODULE_NAMES
+    + TRANSFORMER_NORM_A16W8_ENCODER_MODULE_NAMES
+)
+
+TRANSFORMER_RESIDUAL_ADD_A16W8_MODULE_NAMES = tuple(
+    f"{module_list_name}.{block_index}"
+    for block_index in range(8)
+    for module_list_name in ("attn_residual_adds", "mlp_residual_adds")
+)
+
+SURFACE_TRANSFORMER_NORM_AND_RESIDUAL_A16W8_MODULE_NAMES = (
+    SURFACE_AND_TRANSFORMER_NORM_A16W8_ENCODER_MODULE_NAMES
+    + TRANSFORMER_RESIDUAL_ADD_A16W8_MODULE_NAMES
+)
+
+TRANSFORMER_MLP_OUTPUT_A16W8_ENCODER_MODULE_NAMES = tuple(
+    f"encoder.transformer.{block_index}.mlp.c_proj"
+    for block_index in range(8)
+)
+
+SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_OUTPUT_A16W8_MODULE_NAMES = (
+    SURFACE_TRANSFORMER_NORM_AND_RESIDUAL_A16W8_MODULE_NAMES
+    + TRANSFORMER_MLP_OUTPUT_A16W8_ENCODER_MODULE_NAMES
+)
+
+TRANSFORMER_MLP_OUTPUT_BOUNDARY_A16W8_ENCODER_MODULE_NAMES = tuple(
+    f"encoder.transformer.{block_index}.mlp_output_boundary"
+    for block_index in range(8)
+)
+
+SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_OUTPUT_BOUNDARY_A16W8_MODULE_NAMES = (
+    SURFACE_TRANSFORMER_NORM_AND_RESIDUAL_A16W8_MODULE_NAMES
+    + TRANSFORMER_MLP_OUTPUT_BOUNDARY_A16W8_ENCODER_MODULE_NAMES
+)
+
+TRANSFORMER_MLP_GELU_A16W8_ENCODER_MODULE_NAMES = tuple(
+    f"encoder.transformer.{block_index}.mlp.gelu"
+    for block_index in range(8)
+)
+
+SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_GELU_A16W8_MODULE_NAMES = (
+    SURFACE_TRANSFORMER_NORM_AND_RESIDUAL_A16W8_MODULE_NAMES
+    + TRANSFORMER_MLP_GELU_A16W8_ENCODER_MODULE_NAMES
+)
+
+TRANSFORMER_POST_GELU_BOUNDARY_A16W8_ENCODER_MODULE_NAMES = tuple(
+    f"encoder.transformer.{block_index}.post_gelu_boundary"
+    for block_index in range(8)
+)
+
+SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_POST_GELU_BOUNDARY_A16W8_MODULE_NAMES = (
+    SURFACE_TRANSFORMER_NORM_AND_RESIDUAL_A16W8_MODULE_NAMES
+    + TRANSFORMER_POST_GELU_BOUNDARY_A16W8_ENCODER_MODULE_NAMES
 )
 
 
@@ -46,7 +119,29 @@ def load_manifest_records(manifest_path: Path) -> list[Path]:
     return [Path(image_path) for image_path in manifest["images"]]
 
 
-def build_encoder_only_wrapper(titok, encoder_variant: str = "baseline"):
+def build_encoder_only_wrapper(
+    titok,
+    encoder_variant: str = "baseline",
+    *,
+    prefix_num_blocks: int | None = None,
+    query_chunk_size: int = 128,
+):
+    if prefix_num_blocks is not None:
+        if encoder_variant == "baseline":
+            return TiTokEncoderPrefix(titok, num_blocks=prefix_num_blocks)
+        if encoder_variant == "source_sdpa_attention":
+            return TiTokEncoderPrefixSourceSdpaAttention(
+                titok,
+                num_blocks=prefix_num_blocks,
+            )
+        if encoder_variant == "source_matmul_attention":
+            return TiTokEncoderPrefixSourceMatmulAttention(
+                titok,
+                num_blocks=prefix_num_blocks,
+            )
+        raise ValueError(
+            f"Prefix lowering is not implemented for encoder variant: {encoder_variant}"
+        )
     if encoder_variant == "baseline":
         return TiTokEncoderOnly(titok)
     if encoder_variant == "reshape_batch":
@@ -55,6 +150,11 @@ def build_encoder_only_wrapper(titok, encoder_variant: str = "baseline"):
         return TiTokEncoderOnlyBmmAttention(titok)
     if encoder_variant == "source_matmul_attention":
         return TiTokEncoderOnlySourceMatmulAttention(titok)
+    if encoder_variant == "source_query_chunked_matmul_attention":
+        return TiTokEncoderOnlySourceQueryChunkedMatmulAttention(
+            titok,
+            query_chunk_size=query_chunk_size,
+        )
     if encoder_variant == "source_sdpa_attention":
         return TiTokEncoderOnlySourceSdpaAttention(titok)
     if encoder_variant == "einsum_attention":
@@ -66,8 +166,15 @@ def build_encoder_quantizer_split(
     titok,
     flatten_output: bool = True,
     encoder_variant: str = "baseline",
+    prefix_num_blocks: int | None = None,
+    query_chunk_size: int = 128,
 ):
-    encoder_only = build_encoder_only_wrapper(titok, encoder_variant=encoder_variant)
+    encoder_only = build_encoder_only_wrapper(
+        titok,
+        encoder_variant=encoder_variant,
+        prefix_num_blocks=prefix_num_blocks,
+        query_chunk_size=query_chunk_size,
+    )
     latents_to_tokens = TiTokVectorQuantizerTokens(titok, flatten_output=flatten_output)
     full_wrapper = TiTokTokenEncoderFromModules(encoder_only, latents_to_tokens)
     return encoder_only, latents_to_tokens, full_wrapper
@@ -93,6 +200,7 @@ def build_ethosu_ptq_quantizer(
     extra_flags: list[str] | None = None,
     is_per_channel: bool = True,
     quantization_profile: str = "int8",
+    a16w8_module_names: tuple[str, ...] | list[str] | None = None,
     quantize_matmul: bool = False,
 ):
     _prefer_local_executorch_checkout()
@@ -128,25 +236,143 @@ def build_ethosu_ptq_quantizer(
         compile_spec,
         **quantizer_kwargs,
     )
+    int8_quantization_config = get_arm_symmetric_quantization_config(
+        is_per_channel=is_per_channel,
+    )
+    a16w8_quantization_config = get_symmetric_a16w8_quantization_config(
+        is_per_channel=is_per_channel,
+    )
     if quantization_profile == "int8":
-        quantization_config = get_arm_symmetric_quantization_config(
-            is_per_channel=is_per_channel,
-        )
+        quantization_config = int8_quantization_config
     elif quantization_profile == "a16w8":
-        quantization_config = get_symmetric_a16w8_quantization_config(
-            is_per_channel=is_per_channel,
-        )
+        quantization_config = a16w8_quantization_config
+    elif quantization_profile == "int8_surface_a16w8":
+        quantization_config = int8_quantization_config
+        if a16w8_module_names is None:
+            a16w8_module_names = SURFACE_A16W8_ENCODER_MODULE_NAMES
+    elif quantization_profile == "int8_surface_transformer_norm_a16w8":
+        quantization_config = int8_quantization_config
+        if a16w8_module_names is None:
+            a16w8_module_names = SURFACE_AND_TRANSFORMER_NORM_A16W8_ENCODER_MODULE_NAMES
+    elif quantization_profile == "int8_surface_transformer_norm_residual_a16w8":
+        quantization_config = int8_quantization_config
+        if a16w8_module_names is None:
+            a16w8_module_names = (
+                SURFACE_TRANSFORMER_NORM_AND_RESIDUAL_A16W8_MODULE_NAMES
+            )
+    elif quantization_profile == "int8_surface_transformer_norm_residual_mlp_output_a16w8":
+        quantization_config = int8_quantization_config
+        if a16w8_module_names is None:
+            a16w8_module_names = (
+                SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_OUTPUT_A16W8_MODULE_NAMES
+            )
+    elif (
+        quantization_profile
+        == "int8_surface_transformer_norm_residual_mlp_output_boundary_a16w8"
+    ):
+        quantization_config = int8_quantization_config
+        if a16w8_module_names is None:
+            a16w8_module_names = (
+                SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_OUTPUT_BOUNDARY_A16W8_MODULE_NAMES
+            )
+    elif quantization_profile == "int8_surface_transformer_norm_residual_mlp_gelu_a16w8":
+        quantization_config = int8_quantization_config
+        if a16w8_module_names is None:
+            a16w8_module_names = (
+                SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_GELU_A16W8_MODULE_NAMES
+            )
+    elif (
+        quantization_profile
+        == "int8_surface_transformer_norm_residual_post_gelu_boundary_a16w8"
+    ):
+        quantization_config = int8_quantization_config
+        if a16w8_module_names is None:
+            a16w8_module_names = (
+                SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_POST_GELU_BOUNDARY_A16W8_MODULE_NAMES
+            )
     else:
         raise ValueError(f"Unsupported Ethos-U quantization profile: {quantization_profile}")
     quantizer.set_global(
         quantization_config
     )
+    for module_name in a16w8_module_names or ():
+        quantizer.set_module_name(
+            module_name,
+            a16w8_quantization_config,
+        )
     if quantize_matmul:
         quantizer.set_node_target(
             torch.ops.aten.matmul.default,
             quantization_config,
         )
     return quantizer, compile_spec
+
+
+def describe_ethosu_quantization_profile(
+    *,
+    quantization_profile: str,
+    a16w8_module_names: tuple[str, ...] | list[str] | None = None,
+) -> dict:
+    if quantization_profile == "int8_surface_a16w8" and a16w8_module_names is None:
+        a16w8_module_names = SURFACE_A16W8_ENCODER_MODULE_NAMES
+    elif (
+        quantization_profile == "int8_surface_transformer_norm_a16w8"
+        and a16w8_module_names is None
+    ):
+        a16w8_module_names = SURFACE_AND_TRANSFORMER_NORM_A16W8_ENCODER_MODULE_NAMES
+    elif (
+        quantization_profile == "int8_surface_transformer_norm_residual_a16w8"
+        and a16w8_module_names is None
+    ):
+        a16w8_module_names = SURFACE_TRANSFORMER_NORM_AND_RESIDUAL_A16W8_MODULE_NAMES
+    elif (
+        quantization_profile == "int8_surface_transformer_norm_residual_mlp_output_a16w8"
+        and a16w8_module_names is None
+    ):
+        a16w8_module_names = (
+            SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_OUTPUT_A16W8_MODULE_NAMES
+        )
+    elif (
+        quantization_profile
+        == "int8_surface_transformer_norm_residual_mlp_output_boundary_a16w8"
+        and a16w8_module_names is None
+    ):
+        a16w8_module_names = (
+            SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_OUTPUT_BOUNDARY_A16W8_MODULE_NAMES
+        )
+    elif (
+        quantization_profile == "int8_surface_transformer_norm_residual_mlp_gelu_a16w8"
+        and a16w8_module_names is None
+    ):
+        a16w8_module_names = (
+            SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_MLP_GELU_A16W8_MODULE_NAMES
+        )
+    elif (
+        quantization_profile
+        == "int8_surface_transformer_norm_residual_post_gelu_boundary_a16w8"
+        and a16w8_module_names is None
+    ):
+        a16w8_module_names = (
+            SURFACE_TRANSFORMER_NORM_RESIDUAL_AND_POST_GELU_BOUNDARY_A16W8_MODULE_NAMES
+        )
+    return {
+        "quantization_profile": quantization_profile,
+        "global_profile": (
+            "int8"
+            if quantization_profile
+            in (
+                "int8_surface_a16w8",
+                "int8_surface_transformer_norm_a16w8",
+                "int8_surface_transformer_norm_residual_a16w8",
+                "int8_surface_transformer_norm_residual_mlp_output_a16w8",
+                "int8_surface_transformer_norm_residual_mlp_output_boundary_a16w8",
+                "int8_surface_transformer_norm_residual_mlp_gelu_a16w8",
+                "int8_surface_transformer_norm_residual_post_gelu_boundary_a16w8",
+            )
+            else quantization_profile
+        ),
+        "a16w8_module_names": list(a16w8_module_names or ()),
+    }
 
 
 def export_encoder_program(encoder_only: torch.nn.Module, example_input: torch.Tensor):
@@ -218,6 +444,7 @@ def prepare_exported_encoder_for_ptq(
     ethos_memory_mode: str | None = None,
     ethos_config_ini: str | None = "Arm/vela.ini",
     ethos_extra_flags: list[str] | None = None,
+    a16w8_module_names: tuple[str, ...] | list[str] | None = None,
     quantize_matmul: bool = False,
 ):
     if backend == "xnnpack":
@@ -236,6 +463,7 @@ def prepare_exported_encoder_for_ptq(
             extra_flags=ethos_extra_flags,
             is_per_channel=is_per_channel,
             quantization_profile=quantization_profile,
+            a16w8_module_names=a16w8_module_names,
             quantize_matmul=quantize_matmul,
         )
         # Arm PT2E passes do not tolerate the _guards_fn call_module inserted by
