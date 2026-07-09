@@ -583,3 +583,158 @@ What `system_config` and `memory_mode` should Vela use for UCM-i.MX93, and how
 should Vela memory areas map to the physical memory passed by the CM33 runner
 (`0xC0000000` model/weights and `0xC8000000` scratch)?
 
+## Follow-Up Finding: Dedicated SRAM Fast Memory Was Not Wired
+
+After reviewing the CM33 runner, we found a concrete runtime mismatch for the
+`Dedicated_Sram_384KB` build:
+
+```cpp
+ethosu_init(&ethosu_drv, (void*)0x4A900000, NULL, 0, 0, 0)
+```
+
+This explains the previous runtime trace:
+
+```text
+fast_mem=0x00000000 fast_mem_size=0
+base[2]=0x00000000 size=0
+```
+
+For `Dedicated_Sram_384KB`, Vela's config uses:
+
+```text
+const_mem_area=Axi1
+arena_mem_area=Axi1
+cache_mem_area=Axi0
+arena_cache_size=393216
+```
+
+So the runtime must provide the Axi0 cache/fast-memory region to the Ethos-U
+core driver. The runner has now been patched locally to pass:
+
+```text
+fast_memory=0x204C0000
+fast_memory_size=393216
+```
+
+into `ethosu_init`. This address is intended to represent the rear 384KB OCRAM
+window commonly described for i.MX93 Ethos-U cache usage, but it should still be
+confirmed against the exact UCM-i.MX93 BSP device tree/memory map before treating
+it as final.
+
+The patched firmware rebuilds successfully. The next board test should confirm
+that the trace now shows nonzero fast memory and that `base[2]` is rewritten by
+the Ethos-U driver to the OCRAM address before running the command stream.
+
+## Follow-Up Board Test: Fast Memory Nonzero, Fault Persists
+
+The rebuilt firmware was copied to the board:
+
+```text
+Local ELF SHA256:
+3ea36ede33fe7b07eac3a5675cda7b57f3699061af71e2aaa316f66b638c20a5
+
+Board ELF SHA256:
+3ea36ede33fe7b07eac3a5675cda7b57f3699061af71e2aaa316f66b638c20a5
+```
+
+The board PTE matched the local `Dedicated_Sram_384KB` PTE:
+
+```text
+ae934be84eccab8a9feee3254aed4d35c054407b1294913777b66ef8017dbee5
+```
+
+The board was rebooted with:
+
+```text
+bootcmd=fatload mmc 0:1 0xc0000000 titok_ded384.pte; run bsp_bootcmd; run distro_bootcmd
+```
+
+After starting `remoteproc0`, the trace confirmed that fast memory was now
+nonzero and that the core driver rewrote `base[2]`:
+
+```text
+CM33: inference_begin base_addrs=3 fast_mem=0x204c0000 fast_mem_size=393216
+CM33:   base[0]=0xc0638b40 size=24021408
+CM33:   base[1]=0xc8000000 size=7157840
+CM33:   base[2]=0x204c0000 size=0
+```
+
+The failure still occurs at the same command stream point:
+
+```text
+CM33: irq_enter: STATUS=0x00008006 CMD=0x00000001 QREAD=7348 CURRENT_QREAD=7580 CURRENT_OP=0x00000003 CURRENT_CMD=0x00010005 DEBUG_MISC=0x00000000
+CM33: irq_enter: state=0 irq=1 bus=1 reset=0 parse=0 cmd_end=0 wd=0 ecc=0 fault_if=0 fault_ch=8 irq_hist=0x0000
+I: Test Case 10: bus_status_error 0x1, status 0x8004
+I: Test Case 10: faulting_inference 0x0
+I: Test Case 10: faulting_channel 0x8
+I: Test Case 14: cmd_end_reached 0x0
+I: Test Case 14: get read offset of command stream 7348
+```
+
+Interpretation: the original zero-fast-memory bug is fixed, but the selected
+fast-memory address may still be wrong for UCM-i.MX93, may not be reserved or
+NPU-accessible in this BSP, or the Vela memory configuration may still not match
+the SoC AXI mapping.
+
+`/proc/iomem` on the live board does not show an obvious OCRAM/SRAM reservation
+around `0x204c0000`; it does show:
+
+```text
+c0000000-cfffffff : reserved
+```
+
+for the 256MB Ethos-U DDR region, but no matching `0x204c0000-0x2051ffff`
+reserved-memory line. That makes the exact OCRAM/SRAM address a key remaining
+question for UCM/NXP/Arm.
+
+After the test, the board was restored to:
+
+```text
+bootcmd=run bsp_bootcmd; run distro_bootcmd
+remoteproc0 state=offline
+```
+
+## Follow-Up Finding: Live UCM DTB Does Not Define OCRAM Fast Memory
+
+After SSH was restored, the live UCM-i.MX93 device tree and `/proc/iomem` were
+checked for the correct fast-memory/OCRAM window.
+
+The live Ethos-U node is:
+
+```text
+/sys/firmware/devicetree/base/ethosu
+compatible = "arm,ethosu"
+status = "okay"
+memory-region = <&ethosu_mem>
+```
+
+The `ethosu_mem` symbol resolves only to:
+
+```text
+/reserved-memory/ethosu_region@C0000000
+```
+
+The reserved Ethos-U memory region is:
+
+```text
+reg = <0x0 0xC0000000 0x0 0x10000000>
+```
+
+That is the 256MB DDR/CMA region:
+
+```text
+c0000000-cfffffff : reserved
+```
+
+No live device-tree node or `/proc/iomem` range was found for `sram`, `ocram`,
+`0x20480000`, `0x204c0000`, or `0x20500000`. The copied boot DTB
+`ucm-imx93-ethosu.dtb` also contains the `0xC0000000/0x10000000` Ethos-U DDR
+reservation, but does not contain a `0x204c0000/0x60000` reservation.
+
+Conclusion: `0x204C0000` is a plausible rear-384KB i.MX93 OCRAM address based
+on the generic i.MX93 memory description, but it is **not confirmed or exposed
+by this UCM BSP's live device tree**. For this board image, the only confirmed
+Ethos-U memory window from Linux DT is the 256MB DDR region at `0xC0000000`.
+The correct NPU-visible OCRAM/cache address still needs confirmation from the
+UCM/NXP BSP memory map or by adding an explicit reserved SRAM/OCRAM node that
+the firmware and Vela memory mode agree on.

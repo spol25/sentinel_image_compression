@@ -14,10 +14,15 @@ Use commit `9b2b9ca` or a descendant commit that retains the encoder attention l
 
 ## Layout
 
-- `src/titok_deploy_tools/wrappers.py`: deployment-oriented wrapper modules
-- `src/titok_deploy_tools/decode.py`: cloud-side token decode helpers
-- `src/titok_deploy_tools/titok_env.py`: helper to load TiTok from an external checkout
-- `src/titok_deploy_tools/utils.py`: shared utility helpers
+- `src/titok_deploy_tools/wrapper_tools/wrappers.py`: deployment-oriented wrapper modules
+- `src/titok_deploy_tools/wrapper_tools/decode.py`: cloud-side token decode helpers
+- `src/titok_deploy_tools/wrapper_tools/titok_env.py`: helper to load TiTok from an external checkout
+- `src/titok_deploy_tools/wrapper_tools/utils.py`: shared utility helpers
+- `src/titok_deploy_tools/ptq_tools/`: PTQ helpers
+- `src/titok_deploy_tools/lowering_tools/`: ExecuTorch and Ethos-U lowering helpers
+- `src/titok_deploy_tools/board_tools/`: CM33 input/output and board artifact helpers
+- `docs/RUNBOOK.md`: end-to-end PTQ, lowering, board loading, remoteproc, fallback, and patch handoff
+- `docs/cm33_legacy.md`: legacy CM33/UCM-i.MX93 bring-up log and historical context
 - `scripts/reconstruct_titok_example.py`: reconstruct an image and save tokens
 - `scripts/validate_titok_s128_wrapper.py`: validate the token-only wrapper against the original TiTok encode path
 - `scripts/validate_decode_titok_tokens.py`: validate `decode.py` using saved wrapper tokens
