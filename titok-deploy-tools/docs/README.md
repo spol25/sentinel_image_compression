@@ -2,15 +2,22 @@
 
 Standalone utilities for working with pretrained TiTok tokenizers without vendoring the upstream TiTok repository.
 
-This project expects the upstream TiTok repository to be cloned separately. Pass its path with `--titok-root`.
+This project expects its model and deployment dependencies to be cloned
+separately. Pass the TiTok checkout with `--titok-root`.
 
-## TiTok Fork Requirement
+## Required Repositories
 
-For the Ethos-U65 encoder lowering flow under `scripts/export_and_lower/`, use the patched TiTok fork at:
+Use these forks and pinned commits for the reproducible UCM-i.MX93 + Ethos-U65
+workflow. The upstream repositories do not contain all required changes.
 
-- `https://github.com/spol25/1d-tokenizer`
+| Purpose | Repository | Branch | Pinned commit |
+| --- | --- | --- | --- |
+| TiTok model and patched attention helpers | [`spol25/1d-tokenizer`](https://github.com/spol25/1d-tokenizer) | `main` | `ba028d08fbce1c7a03f3661b7f1e17b54c03548f` |
+| ExecuTorch portable kernel-only build support | [`spol25/executorch`](https://github.com/spol25/executorch) | `main` | `dd873c3e8ccd1d5b0af5693a583d69b8d9ab5bc3` |
+| UCM-i.MX93 CM33 runner | [`spol25/Executorch_runner_cm33`](https://github.com/spol25/Executorch_runner_cm33) | `main` | `1842b9b28d014e8fcaf780f7fab193cc4dabe247` |
 
-Use commit `9b2b9ca` or a descendant commit that retains the encoder attention layout rewrite in `modeling/modules/blocks.py`. The upstream `bytedance/1d-tokenizer` repository does not include that rewrite, so the rewritten lowering path is not reproducible against upstream alone.
+The pinned TiTok commit includes both the encoder attention-layout rewrite and
+the chunked BHLD attention helpers in `modeling/modules/blocks.py`.
 
 ## Layout
 
@@ -31,10 +38,17 @@ Use commit `9b2b9ca` or a descendant commit that retains the encoder attention l
 
 ## Setup
 
-1. Clone TiTok separately:
+1. Clone and pin the required repositories:
 
 ```bash
-git clone https://github.com/bytedance/1d-tokenizer.git
+git clone https://github.com/spol25/1d-tokenizer.git
+git -C 1d-tokenizer checkout ba028d08fbce1c7a03f3661b7f1e17b54c03548f
+
+git clone https://github.com/spol25/executorch.git executorch-main
+git -C executorch-main checkout dd873c3e8ccd1d5b0af5693a583d69b8d9ab5bc3
+
+git clone https://github.com/spol25/Executorch_runner_cm33.git
+git -C Executorch_runner_cm33 checkout 1842b9b28d014e8fcaf780f7fab193cc4dabe247
 ```
 
 2. Install TiTok dependencies in your environment.

@@ -15,7 +15,34 @@ It covers:
 8. Local changes made to TiTok deploy tooling, the CM33 runner, and
    ExecuTorch.
 
-## Current Paths
+## Required Repositories
+
+Use these forks and pinned commits. Upstream checkouts do not include every
+change required by this workflow.
+
+| Purpose | Repository | Branch | Pinned commit |
+| --- | --- | --- | --- |
+| TiTok model and patched attention helpers | [`spol25/1d-tokenizer`](https://github.com/spol25/1d-tokenizer) | `main` | `ba028d08fbce1c7a03f3661b7f1e17b54c03548f` |
+| ExecuTorch portable kernel-only build support | [`spol25/executorch`](https://github.com/spol25/executorch) | `main` | `dd873c3e8ccd1d5b0af5693a583d69b8d9ab5bc3` |
+| UCM-i.MX93 CM33 runner | [`spol25/Executorch_runner_cm33`](https://github.com/spol25/Executorch_runner_cm33) | `main` | `1842b9b28d014e8fcaf780f7fab193cc4dabe247` |
+
+Clone and pin them before following the commands below:
+
+```bash
+git clone https://github.com/spol25/1d-tokenizer.git
+git -C 1d-tokenizer checkout ba028d08fbce1c7a03f3661b7f1e17b54c03548f
+
+git clone https://github.com/spol25/executorch.git executorch-main
+git -C executorch-main checkout dd873c3e8ccd1d5b0af5693a583d69b8d9ab5bc3
+
+git clone https://github.com/spol25/Executorch_runner_cm33.git
+git -C Executorch_runner_cm33 checkout 1842b9b28d014e8fcaf780f7fab193cc4dabe247
+```
+
+## Known-Good Local Paths
+
+The paths below record the host used during bring-up. They are examples, not
+required installation locations; substitute the paths to your own clones.
 
 Host workspace:
 
@@ -111,9 +138,9 @@ ucm-imx93=>
 
 ## PTQ Prep and Calibration
 
-Use the patched TiTok fork. The lowering flow depends on attention-layout
-changes in the fork; upstream `bytedance/1d-tokenizer` is not enough for the
-rewritten encoder variants.
+Use the pinned TiTok fork listed in **Required Repositories**. The lowering
+flow depends on attention-layout changes and chunked BHLD helpers that are not
+available from the upstream repository.
 
 ### Build Image Manifests
 
@@ -709,10 +736,12 @@ scripts/export_and_lower/lower_ethosu_titok_s128_encoder.py
 
 ## What Changed in the CM33 Runner
 
-Runner repo:
+Runner dependency:
 
 ```text
-/Users/sruthipolali/Documents/Playground/Executorch_runner_cm33
+repository: https://github.com/spol25/Executorch_runner_cm33
+branch: main
+commit: 1842b9b28d014e8fcaf780f7fab193cc4dabe247
 ```
 
 Key changes:
