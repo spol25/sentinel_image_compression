@@ -1,0 +1,40 @@
+INFO: [{'config': '{"algs":[{"alg_id":"resnet","version":1,"alg_name":"ResNet fallback tokenizer","framework":"ResNetTokenizer","is_intermediate":false,"save_bb_images":false,"save_cropped_images":false,"downstream_configs":[]}]}'}]
+INFO: {'alg_id': 'resnet', 'version': 1, 'alg_name': 'ResNet fallback tokenizer', 'framework': 'ResNetTokenizer', 'is_intermediate': False, 'save_bb_images': False, 'save_cropped_images': False, 'downstream_configs': []}
+INFO: Ethosu delegate: device_name set to /dev/ethosu0.
+INFO: Ethosu delegate: cache_file_path set to .
+INFO: Ethosu delegate: timeout set to 60000000000.
+INFO: Ethosu delegate: enable_cycle_counter set to 0.
+INFO: Ethosu delegate: enable_profiling set to 0.
+INFO: Ethosu delegate: profiling_buffer_size set to 2048.
+INFO: Ethosu delegate: pmu_event0 set to 0.
+INFO: Ethosu delegate: pmu_event1 set to 0.
+INFO: Ethosu delegate: pmu_event2 set to 0.
+INFO: Ethosu delegate: pmu_event3 set to 0.
+INFO: EthosuDelegate: 1 nodes delegated out of 1 nodes with 1 partitions.
+INFO: resnet ready: Ethos-U delegate, model=561ecd5aa6408fb72f48ae556654ad4a5b111b0e0a9d1979e1e17bc2e8cff25b
+INFO: Entry Model: Model: ResNet fallback tokenizer v1 (ID: resnet, Framework: ResNetTokenizer) @ None confidence
+INFO: (1/6) Processing
+INFO: Token result saved: image=imageai-test-1.png id=910ee8fb9f568ff1f234f768f10b2667b24d33d6dd734c0c1e16745b8f27d139 tokens=128 bytes=256 delivery=pending
+INFO: Entry Model: Model: ResNet fallback tokenizer v1 (ID: resnet, Framework: ResNetTokenizer) @ None confidence
+INFO: (2/6) Processing
+INFO: Token result saved: image=imageai-test-2.png id=bdbea421ae6dab194a8ebc2c60d133fdcfb6d461da647a2925b0ba68225748e2 tokens=128 bytes=256 delivery=pending
+INFO: Entry Model: Model: ResNet fallback tokenizer v1 (ID: resnet, Framework: ResNetTokenizer) @ None confidence
+INFO: (3/6) Processing
+INFO: Token result saved: image=imageai-test-3.png id=da3e9a17ce8834dcfef8a522712de29cea9004aab12d059ee25cf99fa95fddfe tokens=128 bytes=256 delivery=pending
+INFO: Entry Model: Model: ResNet fallback tokenizer v1 (ID: resnet, Framework: ResNetTokenizer) @ None confidence
+INFO: (4/6) Processing
+INFO: Token result saved: image=imageai-test-4.png id=50234c003fde7e546fb3674c0beeab6fd2ad0d84a347534dc5218386e4794433 tokens=128 bytes=256 delivery=pending
+INFO: Entry Model: Model: ResNet fallback tokenizer v1 (ID: resnet, Framework: ResNetTokenizer) @ None confidence
+INFO: (5/6) Processing
+INFO: Token result saved: image=imageai-test-5.png id=5baf3ab73a56597446cad92df53092a6917dce5daec1c512db08559c71d6d873 tokens=128 bytes=256 delivery=pending
+INFO: Entry Model: Model: ResNet fallback tokenizer v1 (ID: resnet, Framework: ResNetTokenizer) @ None confidence
+INFO: (6/6) Processing
+INFO: Token result saved: image=imageai-test-6.png id=1b3e72df0ef7ab7d9a7f55a98cf9bd8580931d64b0279c2bf8e55d713513ab88 tokens=128 bytes=256 delivery=pending
+INFO: ----------------------------------------------------------------------
+INFO: Stage                       Total(ms)  Avg/img(ms)    Count    Share
+INFO: file-find                         0.6          0.1        1     0.0%
+INFO: resnet-preprocess               157.3         26.2        6     6.3%
+INFO: resnet-inference                521.1         86.8        6    20.8%
+INFO: per-image                       806.2        134.4        6    32.2%
+INFO: total pipeline                 1018.7        169.8        1    40.7%
+INFO: ----------------------------------------------------------------------

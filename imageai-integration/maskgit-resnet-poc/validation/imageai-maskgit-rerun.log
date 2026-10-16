@@ -1,0 +1,40 @@
+INFO: [{'config': '{"algs":[{"alg_id":"maskgit","version":1,"alg_name":"MaskGIT image tokenizer","framework":"MaskGIT","is_intermediate":false,"save_bb_images":false,"save_cropped_images":false,"downstream_configs":[]}]}'}]
+INFO: {'alg_id': 'maskgit', 'version': 1, 'alg_name': 'MaskGIT image tokenizer', 'framework': 'MaskGIT', 'is_intermediate': False, 'save_bb_images': False, 'save_cropped_images': False, 'downstream_configs': []}
+INFO: Ethosu delegate: device_name set to /dev/ethosu0.
+INFO: Ethosu delegate: cache_file_path set to .
+INFO: Ethosu delegate: timeout set to 60000000000.
+INFO: Ethosu delegate: enable_cycle_counter set to 0.
+INFO: Ethosu delegate: enable_profiling set to 0.
+INFO: Ethosu delegate: profiling_buffer_size set to 2048.
+INFO: Ethosu delegate: pmu_event0 set to 0.
+INFO: Ethosu delegate: pmu_event1 set to 0.
+INFO: Ethosu delegate: pmu_event2 set to 0.
+INFO: Ethosu delegate: pmu_event3 set to 0.
+INFO: EthosuDelegate: 76 nodes delegated out of 154 nodes with 76 partitions.
+INFO: MaskGIT ready: Ethos-U delegate, model=0a418626321b95b96125d7aa61a07ce27f453cb06d042f23f146b9f59a3c4b2b
+INFO: Entry Model: Model: MaskGIT image tokenizer v1 (ID: maskgit, Framework: MaskGIT) @ None confidence
+INFO: (1/6) Processing
+INFO: Token result saved: image=imageai-test-1.png id=46dfd8cec079528a5457ae419e5565745b1adef2f3091495316560120a480e69 tokens=256 bytes=512 delivery=pending
+INFO: Entry Model: Model: MaskGIT image tokenizer v1 (ID: maskgit, Framework: MaskGIT) @ None confidence
+INFO: (2/6) Processing
+INFO: Token result saved: image=imageai-test-2.png id=c282b99bfd4c7effea048baae5b6ab136f5d55e13588165a98b6d5c39321946e tokens=256 bytes=512 delivery=pending
+INFO: Entry Model: Model: MaskGIT image tokenizer v1 (ID: maskgit, Framework: MaskGIT) @ None confidence
+INFO: (3/6) Processing
+INFO: Token result saved: image=imageai-test-3.png id=8530aa93562dbf19f58f06574347ac2dda04c652d866ae93ecee19a57803fd21 tokens=256 bytes=512 delivery=pending
+INFO: Entry Model: Model: MaskGIT image tokenizer v1 (ID: maskgit, Framework: MaskGIT) @ None confidence
+INFO: (4/6) Processing
+INFO: Token result saved: image=imageai-test-4.png id=91c62950544427e49eaf431c3e7af825a057fe8bee9c2deb86095c240f15cd68 tokens=256 bytes=512 delivery=pending
+INFO: Entry Model: Model: MaskGIT image tokenizer v1 (ID: maskgit, Framework: MaskGIT) @ None confidence
+INFO: (5/6) Processing
+INFO: Token result saved: image=imageai-test-5.png id=b23db81791e0fcd1595abdd5fb7060a1667c8b1539f4f10d64f4d0cc087139fc tokens=256 bytes=512 delivery=pending
+INFO: Entry Model: Model: MaskGIT image tokenizer v1 (ID: maskgit, Framework: MaskGIT) @ None confidence
+INFO: (6/6) Processing
+INFO: Token result saved: image=imageai-test-6.png id=a9cd863d921947bb5812cf7c048c37222429e0a9e34dbcd93b549f78d5566eac tokens=256 bytes=512 delivery=pending
+INFO: ----------------------------------------------------------------------
+INFO: Stage                       Total(ms)  Avg/img(ms)    Count    Share
+INFO: file-find                         0.7          0.1        1     0.0%
+INFO: maskgit-preprocess              146.6         24.4        6     0.8%
+INFO: maskgit-inference              5926.9        987.8        6    31.5%
+INFO: per-image                      6125.7       1021.0        6    32.5%
+INFO: total pipeline                 6620.9       1103.5        1    35.2%
+INFO: ----------------------------------------------------------------------

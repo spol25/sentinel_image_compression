@@ -1,0 +1,68 @@
+{
+  "source": "native ImageAI local.db token_outputs; normal installed ImageAI launcher",
+  "decoder": "existing OriginalMaskGIT, Mac CPU",
+  "decoder_checkpoint_sha256": "424e7f2b11d1d63691ae3fbab74cf6c417ecbe0d8f86187b71f3538c7b56f6d2",
+  "metrics_input": "actual 8-bit input PNG, not original float archive",
+  "per_image": [
+    {
+      "image": 1,
+      "token_count": 256,
+      "payload_bytes": 512,
+      "invoke_ms": 988.1542989999161,
+      "psnr_db": 17.744914421709094,
+      "ssim": 0.4549048840999603,
+      "previous_reconstruction_max_abs_diff": 1.7940998077392578e-05,
+      "previous_reconstruction_pixels_equal": false
+    },
+    {
+      "image": 2,
+      "token_count": 256,
+      "payload_bytes": 512,
+      "invoke_ms": 986.5216769999279,
+      "psnr_db": 19.796782224029958,
+      "ssim": 0.5468758940696716,
+      "previous_reconstruction_max_abs_diff": 1.0311603546142578e-05,
+      "previous_reconstruction_pixels_equal": false
+    },
+    {
+      "image": 3,
+      "token_count": 256,
+      "payload_bytes": 512,
+      "invoke_ms": 987.4999749999915,
+      "psnr_db": 20.675780441534833,
+      "ssim": 0.5458117127418518,
+      "previous_reconstruction_max_abs_diff": 1.3276934623718262e-05,
+      "previous_reconstruction_pixels_equal": false
+    },
+    {
+      "image": 4,
+      "token_count": 256,
+      "payload_bytes": 512,
+      "invoke_ms": 985.8771859999251,
+      "psnr_db": 15.800633193230894,
+      "ssim": 0.26850661635398865,
+      "previous_reconstruction_max_abs_diff": 4.947185516357422e-06,
+      "previous_reconstruction_pixels_equal": false
+    },
+    {
+      "image": 5,
+      "token_count": 256,
+      "payload_bytes": 512,
+      "invoke_ms": 986.3567929999135,
+      "psnr_db": 19.273669980858223,
+      "ssim": 0.565366804599762,
+      "previous_reconstruction_max_abs_diff": 2.2649765014648438e-06,
+      "previous_reconstruction_pixels_equal": false
+    },
+    {
+      "image": 6,
+      "token_count": 256,
+      "payload_bytes": 512,
+      "invoke_ms": 986.3580439998714,
+      "psnr_db": 14.674287328251605,
+      "ssim": 0.35079625248908997,
+      "previous_reconstruction_max_abs_diff": 2.866983413696289e-05,
+      "previous_reconstruction_pixels_equal": false
+    }
+  ]
+}

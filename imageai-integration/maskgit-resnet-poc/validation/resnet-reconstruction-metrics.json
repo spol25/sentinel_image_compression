@@ -1,0 +1,68 @@
+{
+  "source": "native ImageAI local.db token_outputs",
+  "decoder": "existing quant_dec_jit.pt on Mac CPU",
+  "decoder_sha256": "a24292666718bbcf123a66b28188f1039634fdeb9e130488e72013a9bc94d7f1",
+  "metrics_input": "actual8bit PNG",
+  "per_image": [
+    {
+      "image": 1,
+      "token_matches": 128,
+      "token_count": 128,
+      "payload_bytes": 256,
+      "invoke_ms": 76.7548539879499,
+      "psnr_db": 19.50638913098173,
+      "ssim": 0.5149002075195312,
+      "previous_reconstruction_max_abs_diff": 5.364418029785156e-06
+    },
+    {
+      "image": 2,
+      "token_matches": 128,
+      "token_count": 128,
+      "payload_bytes": 256,
+      "invoke_ms": 76.95335100288503,
+      "psnr_db": 22.657629663104824,
+      "ssim": 0.6484003663063049,
+      "previous_reconstruction_max_abs_diff": 4.410743713378906e-06
+    },
+    {
+      "image": 3,
+      "token_matches": 128,
+      "token_count": 128,
+      "payload_bytes": 256,
+      "invoke_ms": 76.7745199991623,
+      "psnr_db": 21.091317672818125,
+      "ssim": 0.632116973400116,
+      "previous_reconstruction_max_abs_diff": 3.337860107421875e-06
+    },
+    {
+      "image": 4,
+      "token_matches": 128,
+      "token_count": 128,
+      "payload_bytes": 256,
+      "invoke_ms": 76.79485400149133,
+      "psnr_db": 17.828276256477487,
+      "ssim": 0.38735663890838623,
+      "previous_reconstruction_max_abs_diff": 2.5033950805664062e-06
+    },
+    {
+      "image": 5,
+      "token_matches": 128,
+      "token_count": 128,
+      "payload_bytes": 256,
+      "invoke_ms": 76.73989600152709,
+      "psnr_db": 20.797499209516438,
+      "ssim": 0.6084030270576477,
+      "previous_reconstruction_max_abs_diff": 1.6689300537109375e-06
+    },
+    {
+      "image": 6,
+      "token_matches": 128,
+      "token_count": 128,
+      "payload_bytes": 256,
+      "invoke_ms": 76.77918700210284,
+      "psnr_db": 16.399251933044372,
+      "ssim": 0.3799911439418793,
+      "previous_reconstruction_max_abs_diff": 5.0067901611328125e-06
+    }
+  ]
+}
